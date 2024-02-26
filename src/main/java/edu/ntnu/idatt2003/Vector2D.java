@@ -38,9 +38,10 @@ public class Vector2D {
    *
    * @param vector2 the vector to add to this vector.
    */
-  public void add(Vector2D vector2) {
+  public Vector2D add(Vector2D vector2) {
     x0 += vector2.getX0();
     x1 += vector2.getX1();
+    return new Vector2D(x0, x1);
   }
 
   /**
@@ -48,8 +49,9 @@ public class Vector2D {
    *
    * @param vector2 the vector to subtract from this vector.
    */
-  public void subtract(Vector2D vector2) {
+  public Vector2D subtract(Vector2D vector2) {
     x0 -= vector2.getX0();
     x1 -= vector2.getX1();
+    return new Vector2D(x0, x1);
   }
 }
