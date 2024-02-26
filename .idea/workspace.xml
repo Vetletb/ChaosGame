@@ -5,15 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd9b31a3-d0ad-4337-84ac-ea7ea1b6b81a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/ntnu/idatt2003/AffineTransform2D.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/java/edu/ntnu/idatt2003/Complex.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/ntnu/idatt2003/JuliaTransform.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/ntnu/idatt2003/Matrix2x2.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/ntnu/idatt2003/Transform2D.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/ntnu/idatt2003/Vector2D.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/edu/ntnu/idatt2003/Matrix2x2Test.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/edu/ntnu/idatt2003/Vector2DTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -25,8 +17,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Class" />
         <option value="JUnit5 Test Class" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -40,6 +32,9 @@
   &quot;associatedIndex&quot;: 5
 }</component>
   <component name="ProjectId" id="2cggNoXvjri5cZ9W4t6fo74z0NY" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -73,6 +68,13 @@
       <recent name="edu.ntnu.idatt2003" />
     </key>
   </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-21.0.1-openjdk-21.0.1-4caba194b151-9b16c6e2" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -96,5 +98,16 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
