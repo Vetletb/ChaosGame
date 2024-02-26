@@ -54,4 +54,15 @@ public class Vector2D {
     x1 -= vector2.getX1();
     return new Vector2D(x0, x1);
   }
+
+  /**
+   * Scales the vector by the given scalar.
+   *
+   * @param scalar the scalar to scale the vector by.
+   */
+  public Vector2D scale(int scalar) {
+    x0 = x0 * scalar;
+    x1 = x1 * scalar;
+    return new Vector2D(x0, x1);
+  }
 }
