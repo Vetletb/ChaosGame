@@ -13,13 +13,18 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JUnit5 Test Class" />
         <option value="Interface" />
         <option value="Class" />
+        <option value="JUnit5 Test Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitLabMergeRequestFiltersHistory">{
@@ -45,9 +50,6 @@
   &quot;associatedIndex&quot;: 5
 }</component>
   <component name="ProjectId" id="2cggNoXvjri5cZ9W4t6fo74z0NY" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -113,45 +115,40 @@
       <workItem from="1709034872041" duration="1465000" />
       <workItem from="1709036348601" duration="309000" />
     </task>
-    <task id="LOCAL-00001" summary="created complex class">
+    <task id="LOCAL−00001" summary="Created Vector2D class and test">
       <option name="closed" value="true" />
-      <created>1708954060982</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1708954060982</updated>
+      <created>1708952994163</created>
+      <option name="number" value="LOCAL−00001" />
+      <option name="presentableId" value="LOCAL−00001" />
+      <updated>1708952994163</updated>
     </task>
-    <task id="LOCAL-00002" summary="edited methods in Vector2D">
+    <task id="LOCAL−00002" summary="created methods for Vector2D">
       <option name="closed" value="true" />
-      <created>1708954310912</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1708954310912</updated>
+      <created>1708953067389</created>
+      <option name="number" value="LOCAL−00002" />
+      <option name="presentableId" value="LOCAL−00002" />
+      <updated>1708953067389</updated>
     </task>
-    <task id="LOCAL-00003" summary="Added sqrt in Complex">
+    <task id="LOCAL−00003" summary="Created Matrix2x2 class and test">
       <option name="closed" value="true" />
-      <created>1708955293012</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1708955293012</updated>
+      <created>1708953126746</created>
+      <option name="number" value="LOCAL−00003" />
+      <option name="presentableId" value="LOCAL−00003" />
+      <updated>1708953126746</updated>
     </task>
-    <task id="LOCAL-00004" summary="Vector added scale Method">
+    <task id="LOCAL−00004" summary="Created multiply method for Matrix2x2">
       <option name="closed" value="true" />
-      <created>1708958859835</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1708958859835</updated>
+      <created>1708953168253</created>
+      <option name="number" value="LOCAL−00004" />
+      <option name="presentableId" value="LOCAL−00004" />
+      <updated>1708953168253</updated>
     </task>
-    <task id="LOCAL-00005" summary="Added Transform2D interface">
+    <task id="LOCAL−00005" summary="Created positive tests for Vector2D add()">
       <option name="closed" value="true" />
-      <created>1708959017483</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1708959017483</updated>
+      <created>1709037382911</created>
+      <option name="number" value="LOCAL−00005" />
+      <option name="presentableId" value="LOCAL−00005" />
+      <updated>1709037382911</updated>
     </task>
     <task id="LOCAL-00006" summary="Added AffineTransform2D">
       <option name="closed" value="true" />
@@ -198,17 +195,6 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="created complex class" />
