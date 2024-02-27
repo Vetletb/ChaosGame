@@ -11,34 +11,39 @@ class Matrix2x2Test {
   @Nested
   @DisplayName("Positive tests for the multiply method")
   class PositiveTests {
-    @Test
-    @DisplayName("Test multiply method with a 2x2 matrix and a 2D vector")
-    public void testMultiply() {
-      Matrix2x2 matrix = new Matrix2x2(1, 2, 3, 4);
-      Vector2D vector = new Vector2D(1, 2);
-      Vector2D result = matrix.multiply(vector);
-      assertEquals(5, result.getX0());
-      assertEquals(11, result.getX1());
-    }
 
-    @Test
-    @DisplayName("Test multiply method with a 2x2 matrix and a 2D vector")
-    public void testMultiply2() {
-      Matrix2x2 matrix = new Matrix2x2(1, 2, 3, 4);
-      Vector2D vector = new Vector2D(3, 4);
-      Vector2D result = matrix.multiply(vector);
-      assertEquals(11, result.getX0());
-      assertEquals(25, result.getX1());
-    }
+    @Nested
+    @DisplayName("Positive tests for the multiply method")
+    public class PositiveTestsForMultiply {
+      @Test
+      @DisplayName("Test multiply method with a 2x2 matrix and a 2D vector")
+      public void testMultiply() {
+        Matrix2x2 matrix = new Matrix2x2(1, 2, 3, 4);
+        Vector2D vector = new Vector2D(1, 2);
+        Vector2D result = matrix.multiply(vector);
+        assertEquals(5, result.getX0());
+        assertEquals(11, result.getX1());
+      }
 
-    @Test
-    @DisplayName("Test multiply method with a 2x2 matrix and a 2D vector")
-    public void testMultiply3() {
-      Matrix2x2 matrix = new Matrix2x2(1, 3, 3, 8);
-      Vector2D vector = new Vector2D(1, 2);
-      Vector2D result = matrix.multiply(vector);
-      assertEquals(7, result.getX0());
-      assertEquals(19, result.getX1());
+      @Test
+      @DisplayName("Test multiply method with a 2x2 matrix and a 2D vector")
+      public void testMultiply2() {
+        Matrix2x2 matrix = new Matrix2x2(1, 2, 3, 4);
+        Vector2D vector = new Vector2D(3, 4);
+        Vector2D result = matrix.multiply(vector);
+        assertEquals(11, result.getX0());
+        assertEquals(25, result.getX1());
+      }
+
+      @Test
+      @DisplayName("Test multiply method with a 2x2 matrix and a 2D vector")
+      public void testMultiply3() {
+        Matrix2x2 matrix = new Matrix2x2(1, 3, 3, 8);
+        Vector2D vector = new Vector2D(1, 2);
+        Vector2D result = matrix.multiply(vector);
+        assertEquals(7, result.getX0());
+        assertEquals(19, result.getX1());
+      }
     }
   }
 
