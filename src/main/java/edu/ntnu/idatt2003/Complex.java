@@ -18,8 +18,11 @@ public class Complex extends Vector2D {
    * @return the square of the complex number as a new complex number.
    */
   public Complex sqrt() {
-    double realPart = Math.sqrt((Math.sqrt(Math.pow(getX0(), 2) + Math.pow(getX1(), 2) + getX0())) / 2);
-    double imaginaryPart = Math.signum(getX1()) * Math.sqrt((Math.sqrt(Math.pow(getX0(), 2) + Math.pow(getX1(), 2) - getX0())) / 2);
+    double realPart =
+        Math.sqrt((Math.sqrt(Math.pow(getX0(), 2) + Math.pow(getX1(), 2)) + getX0()) / 2);
+    double imaginaryPart =
+        Math.signum(getX1()) * Math.sqrt((Math.sqrt(Math.pow(getX0(), 2)
+            + Math.pow(getX1(), 2)) - getX0()) / 2);
     return new Complex(realPart, imaginaryPart);
   }
 }
