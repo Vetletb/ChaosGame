@@ -20,8 +20,14 @@ public class Complex extends Vector2D {
   public Complex sqrt() {
     double realPart =
         Math.sqrt((Math.sqrt(Math.pow(getX0(), 2) + Math.pow(getX1(), 2)) + getX0()) / 2);
+    double sign;
+    if (getX1() == 0) {
+      sign = 1;
+    } else {
+      sign = Math.signum(getX1());
+    }
     double imaginaryPart =
-        Math.signum(getX1()) * Math.sqrt((Math.sqrt(Math.pow(getX0(), 2)
+        sign * Math.sqrt((Math.sqrt(Math.pow(getX0(), 2)
             + Math.pow(getX1(), 2)) - getX0()) / 2);
     return new Complex(realPart, imaginaryPart);
   }

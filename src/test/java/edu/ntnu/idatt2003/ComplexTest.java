@@ -37,10 +37,10 @@ class ComplexTest {
       @Test
       @DisplayName("Test sqrt method with a complex number, Test 3")
       public void testSqrtMethod3() {
-        Complex complex = new Complex(7, 10);
+        Complex complex = new Complex(7, 0);
         Complex result = complex.sqrt();
-        assertEquals(3.099, result.getX0(), 1e-3);
-        assertEquals(1.613, result.getX1(), 1e-3);
+        assertEquals(2.646, result.getX0(), 1e-3);
+        assertEquals(0, result.getX1(), 1e-3);
       }
     }
   }
