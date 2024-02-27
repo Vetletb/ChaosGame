@@ -46,5 +46,39 @@ class Vector2DTest {
       }
     }
 
+    @Nested
+    @DisplayName("Negative tests for subtract, returns correct values")
+    public class SubtractReturnsCorrectValues {
+      @Test
+      @DisplayName("Subtract returns correct values, test 1")
+      void subtractReturnsCorrectValues1() {
+        Vector2D vector1 = new Vector2D(5, 2);
+        Vector2D vector2 = new Vector2D(4, 1);
+        Vector2D vector3 = vector1.subtract(vector2);
+        assertEquals(1, vector3.getX0());
+        assertEquals(1, vector3.getX1());
+      }
+
+      @Test
+      @DisplayName("Subtract returns correct values, test 2")
+      void subtractReturnsCorrectValues2() {
+        Vector2D vector1 = new Vector2D(-1, -2);
+        Vector2D vector2 = new Vector2D(-3, 4);
+        Vector2D vector3 = vector1.subtract(vector2);
+        assertEquals(2, vector3.getX0());
+        assertEquals(-6, vector3.getX1());
+      }
+
+      @Test
+      @DisplayName("Subtract returns correct values, test 3")
+      void subtractReturnsCorrectValues3() {
+        Vector2D vector1 = new Vector2D(0, 0);
+        Vector2D vector2 = new Vector2D(3, 0);
+        Vector2D vector3 = vector1.subtract(vector2);
+        assertEquals(-3, vector3.getX0());
+        assertEquals(0, vector3.getX1());
+      }
+    }
+
   }
 }

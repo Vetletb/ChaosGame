@@ -4,8 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fd9b31a3-d0ad-4337-84ac-ea7ea1b6b81a" name="Changes" comment="Created multiply method for Matrix2x2">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="fd9b31a3-d0ad-4337-84ac-ea7ea1b6b81a" name="Changes" comment="Created positive tests for Vector2D add()">
       <change beforePath="$PROJECT_DIR$/src/test/java/edu/ntnu/idatt2003/Vector2DTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/edu/ntnu/idatt2003/Vector2DTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -113,7 +112,7 @@
       <workItem from="1708951807270" duration="657000" />
       <workItem from="1709024980095" duration="2125000" />
       <workItem from="1709034849088" duration="406000" />
-      <workItem from="1709035303490" duration="1765000" />
+      <workItem from="1709035303490" duration="2078000" />
     </task>
     <task id="LOCAL−00001" summary="Created Vector2D class and test">
       <option name="closed" value="true" />
@@ -143,7 +142,14 @@
       <option name="presentableId" value="LOCAL−00004" />
       <updated>1708953168253</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL−00005" summary="Created positive tests for Vector2D add()">
+      <option name="closed" value="true" />
+      <created>1709037382911</created>
+      <option name="number" value="LOCAL−00005" />
+      <option name="presentableId" value="LOCAL−00005" />
+      <updated>1709037382911</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -154,6 +160,12 @@
     <MESSAGE value="created methods for Vector2D" />
     <MESSAGE value="Created Matrix2x2 class and test" />
     <MESSAGE value="Created multiply method for Matrix2x2" />
-    <option name="LAST_COMMIT_MESSAGE" value="Created multiply method for Matrix2x2" />
+    <MESSAGE value="Created positive tests for Vector2D add()" />
+    <option name="LAST_COMMIT_MESSAGE" value="Created positive tests for Vector2D add()" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/ChaosGame$Vector2DTest.ic" NAME="Vector2DTest Coverage Results" MODIFIED="1709037226865" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>edu.ntnu.idatt2003.*</FILTER>
+    </SUITE>
   </component>
 </project>
