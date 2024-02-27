@@ -10,13 +10,14 @@ class Matrix2x2Test {
 
   @Nested
   @DisplayName("Positive tests for the multiply method")
-  class PositiveTests {
+  class MethodsReturnsCorrectValues {
 
     @Nested
     @DisplayName("Positive tests for the multiply method")
-    public class PositiveTestsForMultiply {
+    public class PositiveTestsForMultiplyMethod {
+
       @Test
-      @DisplayName("Test multiply method with a 2x2 matrix and a 2D vector")
+      @DisplayName("Test multiply method with a 2x2 matrix and a 2D vector, Test 1")
       public void testMultiply() {
         Matrix2x2 matrix = new Matrix2x2(1, 2, 3, 4);
         Vector2D vector = new Vector2D(1, 2);
@@ -26,7 +27,7 @@ class Matrix2x2Test {
       }
 
       @Test
-      @DisplayName("Test multiply method with a 2x2 matrix and a 2D vector")
+      @DisplayName("Test multiply method with a 2x2 matrix and a 2D vector, Test 2")
       public void testMultiply2() {
         Matrix2x2 matrix = new Matrix2x2(1, 2, 3, 4);
         Vector2D vector = new Vector2D(3, 4);
@@ -36,7 +37,7 @@ class Matrix2x2Test {
       }
 
       @Test
-      @DisplayName("Test multiply method with a 2x2 matrix and a 2D vector")
+      @DisplayName("Test multiply method with a 2x2 matrix and a 2D vector, Test 3")
       public void testMultiply3() {
         Matrix2x2 matrix = new Matrix2x2(1, 3, 3, 8);
         Vector2D vector = new Vector2D(1, 2);
