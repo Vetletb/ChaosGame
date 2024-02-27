@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fd9b31a3-d0ad-4337-84ac-ea7ea1b6b81a" name="Changes" comment="Added JuliaTransform" />
+    <list default="true" id="fd9b31a3-d0ad-4337-84ac-ea7ea1b6b81a" name="Changes" comment="Created multiply method for Matrix2x2">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/edu/ntnu/idatt2003/Vector2DTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/edu/ntnu/idatt2003/Vector2DTest.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,13 +16,18 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JUnit5 Test Class" />
         <option value="Interface" />
         <option value="Class" />
+        <option value="JUnit5 Test Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -29,9 +37,6 @@
   &quot;associatedIndex&quot;: 5
 }</component>
   <component name="ProjectId" id="2cggNoXvjri5cZ9W4t6fo74z0NY" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -43,7 +48,7 @@
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;#1-Vector2D-Tests&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/Vetle/Documents/Koding/Skole/Programmering 1/google_checks.xml&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -65,12 +70,27 @@
       <recent name="edu.ntnu.idatt2003" />
     </key>
   </component>
-  <component name="SharedIndexes">
-    <attachedChunks>
-      <set>
-        <option value="jdk-21.0.1-openjdk-21.0.1-4caba194b151-9b16c6e2" />
-      </set>
-    </attachedChunks>
+  <component name="RunManager">
+    <configuration name="Vector2DTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ChaosGame" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="edu.ntnu.idatt2003.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="edu.ntnu.idatt2003" />
+      <option name="MAIN_CLASS_NAME" value="edu.ntnu.idatt2003.Vector2DTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.Vector2DTest" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -90,88 +110,50 @@
       <workItem from="1708933346403" duration="1022000" />
       <workItem from="1708939648341" duration="9000" />
       <workItem from="1708944787598" duration="123000" />
+      <workItem from="1708951807270" duration="657000" />
+      <workItem from="1709024980095" duration="2125000" />
+      <workItem from="1709034849088" duration="406000" />
+      <workItem from="1709035303490" duration="1765000" />
     </task>
-    <task id="LOCAL-00001" summary="created complex class">
+    <task id="LOCAL−00001" summary="Created Vector2D class and test">
       <option name="closed" value="true" />
-      <created>1708954060982</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1708954060982</updated>
+      <created>1708952994163</created>
+      <option name="number" value="LOCAL−00001" />
+      <option name="presentableId" value="LOCAL−00001" />
+      <updated>1708952994163</updated>
     </task>
-    <task id="LOCAL-00002" summary="edited methods in Vector2D">
+    <task id="LOCAL−00002" summary="created methods for Vector2D">
       <option name="closed" value="true" />
-      <created>1708954310912</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1708954310912</updated>
+      <created>1708953067389</created>
+      <option name="number" value="LOCAL−00002" />
+      <option name="presentableId" value="LOCAL−00002" />
+      <updated>1708953067389</updated>
     </task>
-    <task id="LOCAL-00003" summary="Added sqrt in Complex">
+    <task id="LOCAL−00003" summary="Created Matrix2x2 class and test">
       <option name="closed" value="true" />
-      <created>1708955293012</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1708955293012</updated>
+      <created>1708953126746</created>
+      <option name="number" value="LOCAL−00003" />
+      <option name="presentableId" value="LOCAL−00003" />
+      <updated>1708953126746</updated>
     </task>
-    <task id="LOCAL-00004" summary="Vector added scale Method">
+    <task id="LOCAL−00004" summary="Created multiply method for Matrix2x2">
       <option name="closed" value="true" />
-      <created>1708958859835</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1708958859835</updated>
+      <created>1708953168253</created>
+      <option name="number" value="LOCAL−00004" />
+      <option name="presentableId" value="LOCAL−00004" />
+      <updated>1708953168253</updated>
     </task>
-    <task id="LOCAL-00005" summary="Added Transform2D interface">
-      <option name="closed" value="true" />
-      <created>1708959017483</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1708959017483</updated>
-    </task>
-    <task id="LOCAL-00006" summary="Added AffineTransform2D">
-      <option name="closed" value="true" />
-      <created>1708959039843</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1708959039843</updated>
-    </task>
-    <task id="LOCAL-00007" summary="Added JuliaTransform">
-      <option name="closed" value="true" />
-      <created>1708959054434</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1708959054434</updated>
-    </task>
-    <option name="localTasksCounter" value="8" />
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="created complex class" />
-    <MESSAGE value="edited methods in Vector2D" />
-    <MESSAGE value="Added sqrt in Complex" />
-    <MESSAGE value="Vector added scale Method" />
-    <MESSAGE value="Added Transform2D interface" />
-    <MESSAGE value="Added AffineTransform2D" />
-    <MESSAGE value="Added JuliaTransform" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added JuliaTransform" />
+    <MESSAGE value="Created Vector2D class and test" />
+    <MESSAGE value="created methods for Vector2D" />
+    <MESSAGE value="Created Matrix2x2 class and test" />
+    <MESSAGE value="Created multiply method for Matrix2x2" />
+    <option name="LAST_COMMIT_MESSAGE" value="Created multiply method for Matrix2x2" />
   </component>
 </project>
