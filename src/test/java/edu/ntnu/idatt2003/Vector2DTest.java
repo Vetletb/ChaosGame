@@ -47,7 +47,7 @@ class Vector2DTest {
     }
 
     @Nested
-    @DisplayName("Negative tests for subtract, returns correct values")
+    @DisplayName("Positive tests for subtract, returns correct values")
     public class SubtractReturnsCorrectValues {
       @Test
       @DisplayName("Subtract returns correct values, test 1")
