@@ -29,7 +29,7 @@ class JuliaTransformTest {
       @Test
       @DisplayName("Transform returns correct values, test 2")
       void transformReturnsCorrectValues2() {
-        JuliaTransform juliaTransform = new JuliaTransform(new Complex(-2, 3), 1);
+        JuliaTransform juliaTransform = new JuliaTransform(new Complex(-2, 3), -1);
         Vector2D vector = new Vector2D(0, 3);
         Vector2D vector2 = juliaTransform.transform(vector);
         assertEquals(0, vector2.getX0(), 1e-3);
