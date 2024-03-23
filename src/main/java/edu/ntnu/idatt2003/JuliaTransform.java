@@ -9,11 +9,18 @@ public class JuliaTransform  implements Transform2D {
 
   /**
    * Constructor for the JuliaTransform class.
-   *
    * sign should be 1 or -1.
+   *
+   * @param point the point to transform around.
+   * @param sign the sign of the transformation.
+   *
+   * @throws IllegalArgumentException if sign is not 1 or -1.
    */
   public JuliaTransform(Complex point, int sign) {
     this.point = point;
+    if (sign != 1 && sign != -1) {
+      throw new IllegalArgumentException("Sign must be 1 or -1");
+    }
     this.sign = sign;
   }
 
