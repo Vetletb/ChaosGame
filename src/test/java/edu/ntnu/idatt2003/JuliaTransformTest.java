@@ -47,4 +47,15 @@ class JuliaTransformTest {
       }
     }
   }
+
+    @Nested
+    @DisplayName("Negative tests for JuliaTransform, throws exceptions")
+    public class MethodsThrowsExceptions {
+
+      @Test
+      @DisplayName("Constructor throws IllegalArgumentException if sign is not 1 or -1")
+        void constructorThrowsIllegalArgumentException() {
+          assertThrows(IllegalArgumentException.class, () -> new JuliaTransform(new Complex(3, 2), 0));
+        }
+    }
 }
