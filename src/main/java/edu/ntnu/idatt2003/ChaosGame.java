@@ -25,7 +25,6 @@ public class ChaosGame {
     for (int i = 0; i < steps; i++) {
       Transform2D currentTransformation = transforms.get(random.nextInt(transforms.size()));
       currentPoint = currentTransformation.transform(currentPoint);
-      System.out.println(currentPoint.getX0() + " " + currentPoint.getX1());
       canvas.putPixel(currentPoint);
     }
   }

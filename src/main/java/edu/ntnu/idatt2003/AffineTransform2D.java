@@ -28,4 +28,22 @@ public class AffineTransform2D implements Transform2D {
     Vector2D vector = new Vector2D(this.vector.getX0(), this.vector.getX1());
     return vector.add(ax);
   }
+
+  /**
+   * Gets the matrix.
+   *
+   * @return the matrix.
+   */
+  public Matrix2x2 getMatrix() {
+    return matrix;
+  }
+
+  /**
+   * Gets the vector.
+   *
+   * @return the vector.
+   */
+  public Vector2D getVector() {
+    return vector;
+  }
 }
