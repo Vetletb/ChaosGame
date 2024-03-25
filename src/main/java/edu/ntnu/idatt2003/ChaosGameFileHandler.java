@@ -5,13 +5,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Stream;
 
 /**
  * This class handles reading and writing of files for the ChaosGameDescription class.
@@ -24,7 +20,7 @@ public class ChaosGameFileHandler {
    * @param path the path to the file.
    * @return the ChaosGameDescription read from the file.
    */
-  public ChaosGameDescription readFromFile(String path) throws FileNotFoundException {
+  public ChaosGameDescription readFromFile(String path) {
     File file = new File(path);
     try (Scanner scanner = new Scanner(file)) {
       scanner.useDelimiter("#.*|\n");
@@ -66,7 +62,7 @@ public class ChaosGameFileHandler {
         return new ChaosGameDescription(List.of(juliaTransformNegative, juliaTransformPositive), new Vector2D(minX, minY), new Vector2D(maxX, maxY));
       }
     } catch (FileNotFoundException e) {
-      throw new FileNotFoundException("File not found");
+      e.printStackTrace();
     }
     return null;
   }
@@ -77,7 +73,7 @@ public class ChaosGameFileHandler {
    * @param chaosGameDescription the ChaosGameDescription to write.
    * @param path the path to the file.
    */
-  public void writeToFile(ChaosGameDescription chaosGameDescription, String path) throws IOException {
+  public void writeToFile(ChaosGameDescription chaosGameDescription, String path) {
     try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {
       String type = chaosGameDescription.getTransforms().get(0) instanceof AffineTransform2D ? "Affine2D" : "Julia";
       String minCoords = chaosGameDescription.getMinCoords().getX0() + ", " + chaosGameDescription.getMinCoords().getX1();
@@ -112,27 +108,7 @@ public class ChaosGameFileHandler {
       }
 
     } catch (IOException e) {
-      throw new IOException("Could not write to file");
-    }
-  }
-
-  /**
-   * Lists all files in the resources directory.
-   *
-   * @return a list of all files in the resources directory.
-   */
-  public List<String> listFiles() {
-    List<String> fileList = new ArrayList<>();
-    try {
-      Path resourceDirectory = Paths.get("src/main/resources");
-      try (Stream<Path> paths = Files.walk(resourceDirectory)) {
-        paths
-            .filter(Files::isRegularFile)
-            .forEach(path -> fileList.add(path.toString()));
-      }
-    } catch (IOException e) {
       e.printStackTrace();
     }
-    return fileList;
   }
 }
