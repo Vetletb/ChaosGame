@@ -27,4 +27,40 @@ public class Matrix2x2 {
     double x1 = a10 * vector.getX0() + a11 * vector.getX1();
     return new Vector2D(x0, x1);
   }
+
+  /**
+   * gets the a00 value of the matrix.
+   *
+   * @return the a00 value of the matrix.
+   */
+  public double getA00() {
+    return a00;
+  }
+
+  /**
+   * gets the a01 value of the matrix.
+   *
+   * @return the a01 value of the matrix.
+   */
+  public double getA01() {
+    return a01;
+  }
+
+  /**
+   * gets the a10 value of the matrix.
+   *
+   * @return the a10 value of the matrix.
+   */
+  public double getA10() {
+    return a10;
+  }
+
+  /**
+   * gets the a11 value of the matrix.
+   *
+   * @return the a11 value of the matrix.
+   */
+  public double getA11() {
+    return a11;
+  }
 }
