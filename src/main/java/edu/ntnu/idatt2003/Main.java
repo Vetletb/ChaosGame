@@ -9,5 +9,7 @@ public class Main {
    * The main method of the program.
    */
   public static void main(String[] args) {
+    CommandLineInterface cli = new CommandLineInterface();
+    cli.start();
   }
 }
