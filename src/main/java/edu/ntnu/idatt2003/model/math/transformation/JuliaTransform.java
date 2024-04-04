@@ -1,4 +1,7 @@
-package edu.ntnu.idatt2003;
+package edu.ntnu.idatt2003.model.math.transformation;
+
+import edu.ntnu.idatt2003.model.math.mathModel.Complex;
+import edu.ntnu.idatt2003.model.math.mathModel.Vector2D;
 
 /**
  * A class representing a julia transformation.

@@ -1,4 +1,7 @@
-package edu.ntnu.idatt2003;
+package edu.ntnu.idatt2003.model.math.transformation;
+
+import edu.ntnu.idatt2003.model.math.mathModel.Matrix2x2;
+import edu.ntnu.idatt2003.model.math.mathModel.Vector2D;
 
 /**
  * A class representing an affine transformation in 2D.

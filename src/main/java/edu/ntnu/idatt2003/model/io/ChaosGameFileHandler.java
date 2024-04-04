@@ -1,5 +1,12 @@
-package edu.ntnu.idatt2003;
+package edu.ntnu.idatt2003.model.io;
 
+import edu.ntnu.idatt2003.model.game.ChaosGameDescription;
+import edu.ntnu.idatt2003.model.math.mathModel.Complex;
+import edu.ntnu.idatt2003.model.math.mathModel.Matrix2x2;
+import edu.ntnu.idatt2003.model.math.mathModel.Vector2D;
+import edu.ntnu.idatt2003.model.math.transformation.AffineTransform2D;
+import edu.ntnu.idatt2003.model.math.transformation.JuliaTransform;
+import edu.ntnu.idatt2003.model.math.transformation.Transform2D;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -70,6 +77,7 @@ public class ChaosGameFileHandler {
     }
     return null;
   }
+
 
   /**
    * Writes a ChaosGameDescription to a file.

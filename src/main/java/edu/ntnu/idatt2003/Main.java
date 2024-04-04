@@ -1,5 +1,7 @@
 package edu.ntnu.idatt2003;
 
+import edu.ntnu.idatt2003.view.CommandLineInterface;
+
 /**
  * The main class of the program.
  */
