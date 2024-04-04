@@ -1,4 +1,4 @@
-package edu.ntnu.idatt2003;
+package edu.ntnu.idatt2003.model.math.mathModel;
 
 /**
  * A class representing a complex number.

@@ -1,4 +1,6 @@
-package edu.ntnu.idatt2003;
+package edu.ntnu.idatt2003.model.math.transformation;
+
+import edu.ntnu.idatt2003.model.math.mathModel.Vector2D;
 
 /**
  * An interface for transforming 2D vectors.

@@ -1,5 +1,7 @@
-package edu.ntnu.idatt2003;
+package edu.ntnu.idatt2003.model.game;
 
+import edu.ntnu.idatt2003.model.math.mathModel.Vector2D;
+import edu.ntnu.idatt2003.model.math.transformation.Transform2D;
 import java.util.List;
 
 /**

@@ -1,5 +1,8 @@
-package edu.ntnu.idatt2003;
+package edu.ntnu.idatt2003.view;
 
+import edu.ntnu.idatt2003.model.game.ChaosGame;
+import edu.ntnu.idatt2003.model.game.ChaosGameDescription;
+import edu.ntnu.idatt2003.model.io.ChaosGameFileHandler;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
