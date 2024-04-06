@@ -15,6 +15,16 @@ public class ChaosGameDescription {
 
   /**
    * Constructor for the ChaosGameDescription class.
+   *
+   * @param transforms the list of transforms.
+   * @param minCoords the minimum coordinates.
+   * @param maxCoords the maximum coordinates.
+   *
+   * @throws IllegalArgumentException if the list of transforms is null,
+   *                                  if the list of transforms is empty,
+   *                                  if minCoords is null,
+   *                                  if maxCoords is null,
+   *                                  if minCoords is greater than or equal to maxCoords
    */
   public ChaosGameDescription(List<Transform2D> transforms, Vector2D minCoords, Vector2D maxCoords)
       throws IllegalArgumentException {
@@ -55,6 +65,14 @@ public class ChaosGameDescription {
     return maxCoords;
   }
 
+  /**
+   * Validates if the minimum coordinates are less than the maximum coordinates.
+   *
+   * @param minCoords the minimum coordinates.
+   * @param maxCoords the maximum coordinates.
+   *
+   * @throws IllegalArgumentException if minCoords is greater than or equal to maxCoords
+   */
   private void validateCoordinates(Vector2D minCoords, Vector2D maxCoords) {
     if (minCoords.getX0() >= maxCoords.getX0() || minCoords.getX1() >= maxCoords.getX1()) {
       throw new IllegalArgumentException("minCoords must be less than maxCoords");
