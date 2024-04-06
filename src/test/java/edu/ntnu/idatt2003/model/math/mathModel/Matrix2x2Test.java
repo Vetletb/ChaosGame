@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class Matrix2x2Test {
 
   @Nested
-  @DisplayName("Positive tests for the multiply method")
+  @DisplayName("Positive tests")
   class MethodsReturnsCorrectValues {
 
     @Nested
