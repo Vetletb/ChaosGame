@@ -2,6 +2,7 @@ package edu.ntnu.idatt2003.model.game;
 
 import edu.ntnu.idatt2003.model.math.mathModel.Vector2D;
 import edu.ntnu.idatt2003.model.math.transformation.Transform2D;
+import edu.ntnu.idatt2003.util.InputValidation;
 import java.util.List;
 
 /**
@@ -15,7 +16,12 @@ public class ChaosGameDescription {
   /**
    * Constructor for the ChaosGameDescription class.
    */
-  public ChaosGameDescription(List<Transform2D> transforms, Vector2D minCoords, Vector2D maxCoords) {
+  public ChaosGameDescription(List<Transform2D> transforms, Vector2D minCoords, Vector2D maxCoords)
+      throws IllegalArgumentException {
+    InputValidation.validateNotNull(transforms, "transforms");
+    InputValidation.validateListNotEmpty(transforms, "transforms");
+    InputValidation.validateNotNull(minCoords, "minCoords");
+    InputValidation.validateNotNull(maxCoords, "maxCoords");
     validateCoordinates(minCoords, maxCoords);
     this.transforms = transforms;
     this.minCoords = minCoords;
@@ -28,8 +34,8 @@ public class ChaosGameDescription {
    * @return the list of transforms.
    */
   public List<Transform2D> getTransforms() {
-      return transforms;
-    }
+    return transforms;
+  }
 
   /**
    * Returns the minimum coordinates.
@@ -37,8 +43,8 @@ public class ChaosGameDescription {
    * @return the minimum coordinates.
    */
   public Vector2D getMinCoords() {
-      return minCoords;
-    }
+    return minCoords;
+  }
 
   /**
    * Returns the maximum coordinates.
@@ -46,8 +52,8 @@ public class ChaosGameDescription {
    * @return the maximum coordinates.
    */
   public Vector2D getMaxCoords() {
-      return maxCoords;
-    }
+    return maxCoords;
+  }
 
   private void validateCoordinates(Vector2D minCoords, Vector2D maxCoords) {
     if (minCoords.getX0() >= maxCoords.getX0() || minCoords.getX1() >= maxCoords.getX1()) {
