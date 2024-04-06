@@ -1,4 +1,4 @@
-package edu.ntnu.idatt2003;
+package edu.ntnu.idatt2003.model.math.transfromation;
 
 import static org.junit.jupiter.api.Assertions.*;
 
