@@ -2,6 +2,7 @@ package edu.ntnu.idatt2003.model.game;
 
 import edu.ntnu.idatt2003.model.math.mathModel.Vector2D;
 import edu.ntnu.idatt2003.model.math.transformation.Transform2D;
+import edu.ntnu.idatt2003.model.util.InputValidation;
 import java.util.List;
 
 /**
@@ -15,7 +16,11 @@ public class ChaosGameDescription {
   /**
    * Constructor for the ChaosGameDescription class.
    */
-  public ChaosGameDescription(List<Transform2D> transforms, Vector2D minCoords, Vector2D maxCoords) {
+  public ChaosGameDescription(List<Transform2D> transforms, Vector2D minCoords, Vector2D maxCoords) throws IllegalArgumentException{
+    InputValidation.validateNotNull(transforms, "transforms");
+    InputValidation.validateListNotEmpty(transforms, "transforms");
+    InputValidation.validateNotNull(minCoords, "minCoords");
+    InputValidation.validateNotNull(maxCoords, "maxCoords");
     validateCoordinates(minCoords, maxCoords);
     this.transforms = transforms;
     this.minCoords = minCoords;
