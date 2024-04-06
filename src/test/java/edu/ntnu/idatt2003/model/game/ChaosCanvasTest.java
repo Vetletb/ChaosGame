@@ -8,6 +8,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Test for ChaosCanvas. Has both positive and negative tests.
+ */
 class ChaosCanvasTest {
 
   @Nested
@@ -33,9 +36,9 @@ class ChaosCanvasTest {
       @Test
       @DisplayName("getCanvasArray returns an array empty array")
       public void getCanvasArrayReturnsEmptyArray() {
-        for (int i = 0; i < canvasArray.length; i++) {
-          for (int j = 0; j < canvasArray[i].length; j++) {
-            assertEquals(0, canvasArray[i][j]);
+        for (int[] ints : canvasArray) {
+          for (int anInt : ints) {
+            assertEquals(0, anInt);
           }
         }
       }
@@ -86,11 +89,41 @@ class ChaosCanvasTest {
       public void clearSetsAllPixelsToZero() {
         canvas.clear();
         int[][] canvasArray = canvas.getCanvasArray();
-        for (int i = 0; i < canvasArray.length; i++) {
-          for (int j = 0; j < canvasArray[i].length; j++) {
-            assertEquals(0, canvasArray[i][j]);
+        for (int[] ints : canvasArray) {
+          for (int anInt : ints) {
+            assertEquals(0, anInt);
           }
         }
+      }
+    }
+  }
+
+  @Nested
+  @DisplayName("Negative tests")
+  class MethodsThrowsException {
+
+    @Test
+    @DisplayName("Negative tests for setMinMaxCoords")
+    public void setMinMaxCoordsThrowsExceptionOnNull() {
+      ChaosCanvas canvas = new ChaosCanvas(100, 100, new Vector2D(0, 0), new Vector2D(200, 200));
+      assertThrows(IllegalArgumentException.class, () -> canvas.setMinMaxCoords(null, new Vector2D(200, 200)));
+      assertThrows(IllegalArgumentException.class, () -> canvas.setMinMaxCoords(new Vector2D(0, 0), null));
+    }
+
+    @Nested
+    @DisplayName("Constructor throws exception on invalid parameter")
+    class ConstructorThrowsExceptions {
+
+      @Test
+      @DisplayName("Constructor throws exception on negative width")
+      public void constructorThrowsExceptionOnNegativeWidth() {
+        assertThrows(IllegalArgumentException.class, () -> new ChaosCanvas(-100, 100, new Vector2D(0, 0), new Vector2D(200, 200)));
+      }
+
+      @Test
+      @DisplayName("Constructor throws exception on negative height")
+      public void constructorThrowsExceptionOnNegativeHeight() {
+        assertThrows(IllegalArgumentException.class, () -> new ChaosCanvas(100, -100, new Vector2D(0, 0), new Vector2D(200, 200)));
       }
     }
   }
