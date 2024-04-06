@@ -3,6 +3,7 @@ package edu.ntnu.idatt2003.model.game;
 import edu.ntnu.idatt2003.model.math.mathModel.Matrix2x2;
 import edu.ntnu.idatt2003.model.math.mathModel.Vector2D;
 import edu.ntnu.idatt2003.model.math.transformation.AffineTransform2D;
+import edu.ntnu.idatt2003.util.InputValidation;
 
 /**
  * A class representing a canvas for drawing chaos games.
@@ -12,8 +13,8 @@ public class ChaosCanvas {
   private int[][] canvas;
   private final int width;
   private final int height;
-  private final Vector2D maxCoords;
-  private final Vector2D minCoords;
+  private Vector2D maxCoords;
+  private Vector2D minCoords;
   private AffineTransform2D transformCoordsToIndices;
 
   /**
@@ -25,29 +26,19 @@ public class ChaosCanvas {
    * @param minCoords the minimum coordinates of the canvas.
    * @param maxCoords the maximum coordinates of the canvas.
    *
-   * @throws IllegalArgumentException if width or height is not positive.
+   * @throws IllegalArgumentException if width is not positive,
+   *                                  if height is not positive,
+   *                                  if minCoords is null,
+   *                                  if maxCoords is null
    */
   public ChaosCanvas(int width, int height, Vector2D minCoords, Vector2D maxCoords) {
-    validatePositive(width, "width");
-    validatePositive(height, "height");
+    InputValidation.validatePositiveInt(width, "width");
+    InputValidation.validatePositiveInt(height, "height");
+    setMinMaxCoords(minCoords, maxCoords);
     this.width = width;
     this.height = height;
-    this.minCoords = minCoords;
-    this.maxCoords = maxCoords;
     this.canvas = new int[width][height];
     setTransformCoordsToIndices();
-  }
-
-  /**
-   * Validates that the given value is positive.
-   *
-   * @param value the value to validate.
-   * @param name the name of the value.
-   */
-  private void validatePositive(int value, String name) {
-    if (value <= 0) {
-      throw new IllegalArgumentException(name + " must be positive");
-    }
   }
 
   /**
@@ -65,6 +56,41 @@ public class ChaosCanvas {
         (width - 1) * minCoords.getX0() / (minCoords.getX0() - maxCoords.getX0()));
 
     transformCoordsToIndices = new AffineTransform2D(matrix, vector);
+  }
+
+  /**
+   * Sets the minimum coordinates of the canvas.
+   *
+   * @param minCoords the minimum coordinates of the canvas.
+   */
+  private void setMinCoords(Vector2D minCoords) {
+    InputValidation.validateNotNull(minCoords, "minCoords");
+    this.minCoords = minCoords;
+  }
+
+  /**
+   * Sets the maximum coordinates of the canvas.
+   *
+   * @param maxCoords the maximum coordinates of the canvas.
+   */
+  private void setMaxCoords(Vector2D maxCoords) {
+    InputValidation.validateNotNull(maxCoords, "maxCoords");
+    this.maxCoords = maxCoords;
+  }
+
+  /**
+   * Sets the minimum and maximum coordinates of the canvas.
+   *
+   * @param minCoords the minimum coordinates of the canvas.
+   * @param maxCoords the maximum coordinates of the canvas.
+   *
+   * @throws IllegalArgumentException if minCoords is null,
+   *                                  if maxCoords is null
+   */
+  public void setMinMaxCoords(Vector2D minCoords, Vector2D maxCoords) {
+    setMinCoords(minCoords);
+    setMaxCoords(maxCoords);
+    setTransformCoordsToIndices();
   }
 
   /**
