@@ -1,6 +1,5 @@
 package edu.ntnu.idatt2003.model.game;
 
-import edu.ntnu.idatt2003.controller.Observer;
 import java.util.ArrayList;
 import java.util.List;
 
