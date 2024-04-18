@@ -9,13 +9,13 @@ import edu.ntnu.idatt2003.util.InputValidation;
  * A class representing a canvas for drawing chaos games.
  */
 public class ChaosCanvas {
-
   private int[][] canvas;
   private final int width;
   private final int height;
   private Vector2D maxCoords;
   private Vector2D minCoords;
   private AffineTransform2D transformCoordsToIndices;
+  private int[] newPixel;
 
   /**
    * Constructor for the ChaosCanvas class.
@@ -116,7 +116,9 @@ public class ChaosCanvas {
     Vector2D pixel = transformCoordsToIndices.transform(point);
     int x = (int) pixel.getX0();
     int y = (int) pixel.getX1();
-    canvas[x][y] = 1;
+    canvas[x][y] += 1;
+    int value = canvas[x][y];
+    newPixel = new int[]{x, y, value};
   }
 
   /**
@@ -133,5 +135,14 @@ public class ChaosCanvas {
    */
   public void clear() {
     canvas = new int[width][height];
+  }
+
+  /**
+   * Returns the new pixel.
+   *
+   * @return the new pixel.
+   */
+  public int[] getNewPixel() {
+    return newPixel;
   }
 }
