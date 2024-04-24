@@ -1,6 +1,7 @@
 package edu.ntnu.idatt2003.controller;
 
 import edu.ntnu.idatt2003.model.game.ChaosGame;
+import edu.ntnu.idatt2003.model.game.ChaosGameDescription;
 import edu.ntnu.idatt2003.model.game.ChaosGameDescriptionFactory;
 import edu.ntnu.idatt2003.model.game.Observer;
 import edu.ntnu.idatt2003.view.components.ViewCanvas;
@@ -23,6 +24,11 @@ public class ChaosGameController implements Observer {
     this.viewCanvas = viewCanvas;
     chaosGame = new ChaosGame(ChaosGameDescriptionFactory.get("Julia Set"), width, height);
     chaosGame.attach(this);
+  }
+
+  public void resetChaosGame(String description) {
+    ChaosGameDescription newDescription = ChaosGameDescriptionFactory.get(description);
+    chaosGame.resetGameWithDescription(newDescription);
   }
 
   /**
