@@ -40,6 +40,14 @@ public class ViewCanvas {
     gc.fillOval(x, y, 2, 2);
   }
 
+  /**
+   * Resets the canvas. Fills the canvas with black color.
+   */
+  public void reset() {
+    gc.setFill(Color.BLACK);
+    gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+  }
+
   public Canvas getCanvas() {
     return canvas;
   }
