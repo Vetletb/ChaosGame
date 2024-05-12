@@ -5,6 +5,9 @@ import edu.ntnu.idatt2003.model.game.ChaosGameDescription;
 import edu.ntnu.idatt2003.model.game.ChaosGameDescriptionFactory;
 import edu.ntnu.idatt2003.model.game.Observer;
 import edu.ntnu.idatt2003.view.components.ViewCanvas;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 
 /**
  * The controller class for the chaos game.
@@ -12,6 +15,7 @@ import edu.ntnu.idatt2003.view.components.ViewCanvas;
 public class ChaosGameController implements Observer {
   ChaosGame chaosGame;
   ViewCanvas viewCanvas;
+  Timeline timeline;
 
   /**
    * Constructor for the ChaosGameController class.
@@ -26,9 +30,17 @@ public class ChaosGameController implements Observer {
     chaosGame.attach(this);
   }
 
-  public void resetChaosGame(String description) {
+  public void resetChaosGameWithDescription(String description) {
     ChaosGameDescription newDescription = ChaosGameDescriptionFactory.get(description);
     chaosGame.resetGameWithDescription(newDescription);
+  }
+
+  public void resetChaosGame() {
+    chaosGame.resetGame();
+  }
+
+  public void resetViewCanvas() {
+    viewCanvas.reset();
   }
 
   /**
@@ -57,6 +69,18 @@ public class ChaosGameController implements Observer {
     }
     int[] rgbColor = {red, green, blue};
     viewCanvas.drawPoint(x, y, rgbColor);
+  }
+
+  public void animateIterations(int iterations) {
+    int runSeconds = 1;
+    int fps = 60;
+    timeline = new Timeline();
+    KeyFrame keyFrame = new KeyFrame(Duration.millis(1000.0 / fps), e -> {
+      chaosGame.runSteps(iterations / (fps * runSeconds));
+    });
+    timeline.getKeyFrames().add(keyFrame);
+    timeline.setCycleCount(fps * runSeconds);
+    timeline.play();
   }
 
   /**
