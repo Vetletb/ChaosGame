@@ -12,7 +12,9 @@ import javafx.concurrent.Worker;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Screen;
@@ -27,18 +29,16 @@ public class ChaosGameApp extends Application {
 
   @Override
   public void start(Stage stage) throws Exception {
-
-
     Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
     VBox root = new VBox();
     viewCanvas = new ViewCanvas(800, 800);
     controller = new ChaosGameController(viewCanvas, 800, 800);
-    HBox topBar = new TopBar(controller);
+    StackPane topBar = new TopBar(controller);
     root.getChildren().addAll(
         topBar,
         viewCanvas.getCanvas());
 
-    Scene scene = new Scene(root, screenBounds.getWidth(), screenBounds.getHeight());
+    Scene scene = new Scene(root, 1000, 860);
 
     stage.setTitle("Chaos Game");
     stage.setScene(scene);
