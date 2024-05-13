@@ -13,15 +13,10 @@ public class ViewCanvas {
 
   /**
    * Constructor for the ViewCanvas class.
-   *
-   * @param width the width of the canvas.
-   * @param height the height of the canvas.
    */
-  public ViewCanvas(int width, int height) {
-    this.canvas = new Canvas(width, height);
+  public ViewCanvas() {
+    this.canvas = new Canvas();
     gc = canvas.getGraphicsContext2D();
-    gc.setFill(Color.BLACK);
-    gc.fillRect(0, 0, width, height);
   }
 
   /**

@@ -3,21 +3,12 @@ package edu.ntnu.idatt2003.view;
 import edu.ntnu.idatt2003.controller.ChaosGameController;
 import edu.ntnu.idatt2003.view.components.TopBar;
 import edu.ntnu.idatt2003.view.components.ViewCanvas;
-import java.io.File;
+import java.util.Objects;
+
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.concurrent.Service;
-import javafx.concurrent.Task;
-import javafx.concurrent.Worker;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 /**
@@ -26,22 +17,49 @@ import javafx.stage.Stage;
 public class ChaosGameApp extends Application {
   ChaosGameController controller;
   ViewCanvas viewCanvas;
+  Scene scene;
+  StackPane canvasContainer;
+  TopBar topBar;
 
   @Override
   public void start(Stage stage) throws Exception {
-    Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+    viewCanvas = new ViewCanvas();
+    controller = new ChaosGameController(viewCanvas, 680, 680);
+
+    canvasContainer = new StackPane();
+    canvasContainer.getChildren().add(viewCanvas.getCanvas());
+
+    topBar = new TopBar(controller);
+
     VBox root = new VBox();
-    viewCanvas = new ViewCanvas(800, 800);
-    controller = new ChaosGameController(viewCanvas, 800, 800);
-    StackPane topBar = new TopBar(controller);
     root.getChildren().addAll(
         topBar,
-        viewCanvas.getCanvas());
+        canvasContainer);
+    root.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/style.css")).toExternalForm());
 
-    Scene scene = new Scene(root, 1000, 860);
+    scene = new Scene(root, 900, 760);
+
+    scene.heightProperty().addListener((observable, oldValue, newValue) -> {
+      updateCanvasSize();
+      System.out.println("Height: " + newValue);
+    });
+    scene.widthProperty().addListener((observable, oldValue, newValue) -> {
+      updateCanvasSize();
+      System.out.println("Width: " + newValue);
+    });
 
     stage.setTitle("Chaos Game");
     stage.setScene(scene);
+    stage.setMinWidth(900);
+    stage.setMinHeight(800);
     stage.show();
   }
+
+  private void updateCanvasSize() {
+    int minSize = (scene.getWidth() <= scene.getHeight() - topBar.getHeight()) ? (int) scene.getWidth() : (int) scene.getHeight() - (int) topBar.getHeight();
+    canvasContainer.setMinSize(minSize, minSize);
+    viewCanvas.getCanvas().setWidth(minSize - 20);
+    viewCanvas.getCanvas().setHeight(minSize - 20);
+    // controller.rescaleCanvas();
+    }
 }

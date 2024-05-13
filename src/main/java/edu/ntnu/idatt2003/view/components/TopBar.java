@@ -15,22 +15,25 @@ public class TopBar extends StackPane {
     super();
     this.controller = controller;
 
-    Button juliaButton = new PrimaryButton("Julia Set");
+    Button juliaButton = new SecondaryButton("Julia Set");
     juliaButton.setOnAction(e -> {
+      this.controller.resetViewCanvas();
       this.controller.resetChaosGameWithDescription("Julia Set");
     });
 
-    Button sierpinskiButton = new PrimaryButton("Sierpinski");
+    Button sierpinskiButton = new SecondaryButton("Sierpinski");
     sierpinskiButton.setOnAction(e -> {
+      this.controller.resetViewCanvas();
       this.controller.resetChaosGameWithDescription("Sierpinski");
     });
 
-    Button barnsleyButton = new PrimaryButton("Barnsley");
+    Button barnsleyButton = new SecondaryButton("Barnsley");
     barnsleyButton.setOnAction(e -> {
+      this.controller.resetViewCanvas();
       this.controller.resetChaosGameWithDescription("Barnsley");
     });
 
-    Button readFileButton = new PrimaryButton("Read File");
+    Button readFileButton = new SecondaryButton("Read File");
     readFileButton.setOnAction(e -> {
       System.out.println("Read File");
     });
@@ -47,6 +50,7 @@ public class TopBar extends StackPane {
 
     TextField iterationsField = new InputBar();
     iterationsField.setPromptText("Iterations");
+    iterationsField.setText("100000");
 
     Button runButton = new PrimaryButton("Run");
     runButton.setOnAction(e -> {
@@ -63,19 +67,16 @@ public class TopBar extends StackPane {
     leftButtonBox.getChildren().addAll(writeFileButton, editButton);
     middleButtonBox.getChildren().addAll(juliaButton, sierpinskiButton, barnsleyButton, readFileButton);
     rightButtonBox.getChildren().addAll(iterationsField, runButton);
+
     leftButtonBox.setSpacing(8);
     middleButtonBox.setSpacing(8);
     rightButtonBox.setSpacing(8);
 
-    this.setStyle("-fx-background-color: #ff9af7;");
-    this.setPrefHeight(60);
-    this.setAlignment(javafx.geometry.Pos.CENTER);
-
     HBox buttonBox = new HBox();
-    buttonBox.setStyle("-fx-background-color: #98ff9d;");
-    buttonBox.setSpacing(20);
+    buttonBox.setSpacing(50);
     buttonBox.setMaxHeight(25);
-    buttonBox.setMaxWidth(960);
+    buttonBox.setMaxWidth(860);
+    buttonBox.setAlignment(javafx.geometry.Pos.CENTER);
 
     buttonBox.getChildren().addAll(
         leftButtonBox,
@@ -83,6 +84,9 @@ public class TopBar extends StackPane {
         rightButtonBox
     );
 
+    this.setMinHeight(60);
+    this.setMinWidth(900);
+    this.setAlignment(javafx.geometry.Pos.CENTER);
     this.getChildren().add(buttonBox);
   }
 }
