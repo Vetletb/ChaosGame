@@ -42,6 +42,7 @@ public class ChaosGame extends Subject {
    */
   private void setDescription(ChaosGameDescription description) {
     this.description = description;
+    canvas.setMinMaxCoords(description.getMinCoords(), description.getMaxCoords());
   }
 
   /**

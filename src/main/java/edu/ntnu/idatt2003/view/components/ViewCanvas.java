@@ -13,15 +13,10 @@ public class ViewCanvas {
 
   /**
    * Constructor for the ViewCanvas class.
-   *
-   * @param width the width of the canvas.
-   * @param height the height of the canvas.
    */
-  public ViewCanvas(int width, int height) {
-    this.canvas = new Canvas(width, height);
+  public ViewCanvas() {
+    this.canvas = new Canvas();
     gc = canvas.getGraphicsContext2D();
-    gc.setFill(Color.BLACK);
-    gc.fillRect(0, 0, width, height);
   }
 
   /**
@@ -38,6 +33,14 @@ public class ViewCanvas {
     Color color = Color.rgb(red, green, blue);
     gc.setFill(color);
     gc.fillOval(x, y, 2, 2);
+  }
+
+  /**
+   * Resets the canvas. Fills the canvas with black color.
+   */
+  public void reset() {
+    gc.setFill(Color.BLACK);
+    gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
   }
 
   public Canvas getCanvas() {
