@@ -41,11 +41,9 @@ public class ChaosGameApp extends Application {
 
     scene.heightProperty().addListener((observable, oldValue, newValue) -> {
       updateCanvasSize();
-      System.out.println("Height: " + newValue);
     });
     scene.widthProperty().addListener((observable, oldValue, newValue) -> {
       updateCanvasSize();
-      System.out.println("Width: " + newValue);
     });
 
     stage.setTitle("Chaos Game");

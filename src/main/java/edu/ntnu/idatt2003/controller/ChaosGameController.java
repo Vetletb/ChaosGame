@@ -84,8 +84,6 @@ public class ChaosGameController implements Observer {
    */
   private int[] scaleCoordinates(int x, int y) {
     int scaledX = (int) (x * viewCanvas.getCanvas().getWidth() / chaosGame.getCanvas().getWidth());
-    System.out.println(chaosGame.getCanvas().getWidth() + " " + viewCanvas.getCanvas().getWidth());
-    System.out.println(chaosGame.getCanvas().getHeight() + " " + viewCanvas.getCanvas().getHeight());
     int scaledY = (int) (y * viewCanvas.getCanvas().getHeight() / chaosGame.getCanvas().getHeight());
     return new int[]{scaledX, scaledY};
   }
@@ -96,12 +94,24 @@ public class ChaosGameController implements Observer {
   public void animateIterations(int iterations) {
     int runSeconds = 3;
     int fps = 60;
+
+    final int [] x = {0};
+    double k = 0.05;
+
+    final int [] totalSteps = {0};
+
     timeline = new Timeline();
     KeyFrame keyFrame = new KeyFrame(Duration.millis(1000.0 / fps), e -> {
-      chaosGame.runSteps(iterations / (fps * runSeconds));
+      int steps = (int) (iterations * k / Math.exp(fps * runSeconds * k) * Math.exp(k * x[0]));
+      chaosGame.runSteps(steps);
+      x[0]++;
+      totalSteps[0] += steps;
     });
     timeline.getKeyFrames().add(keyFrame);
     timeline.setCycleCount(fps * runSeconds);
+    timeline.setOnFinished(e -> {
+      chaosGame.runSteps(iterations - totalSteps[0]);
+    });
     timeline.play();
   }
 
