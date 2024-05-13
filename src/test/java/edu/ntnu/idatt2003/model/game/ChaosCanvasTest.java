@@ -78,7 +78,6 @@ class ChaosCanvasTest {
       @Test
       @DisplayName("Positive tests for the getPixel")
       public void getPixelReturnsCorrectValue() {
-        canvas.putPixel(new Vector2D(150, 50));
         assertEquals(1, canvas.getPixel(new Vector2D(150, 50)));
         assertEquals(0, canvas.getPixel(new Vector2D(50, 150)));
         assertEquals(0, canvas.getPixel(new Vector2D(50, 50)));

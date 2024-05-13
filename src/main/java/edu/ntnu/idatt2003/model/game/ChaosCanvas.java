@@ -145,4 +145,23 @@ public class ChaosCanvas {
   public int[] getNewPixel() {
     return newPixel;
   }
+
+  /**
+   * Returns the width of the canvas.
+   *
+   * @return the width of the canvas.
+   */
+  public int getWidth() {
+    return width;
+  }
+
+  /**
+   * Returns the height of the canvas.
+   *
+   * @return the height of the canvas.
+   */
+  public int getHeight() {
+    return height;
+  }
 }
+
