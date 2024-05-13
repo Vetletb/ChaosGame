@@ -5,7 +5,8 @@ import javafx.scene.control.Button;
 public class PrimaryButton extends Button {
     public PrimaryButton(String text) {
         super(text);
-        this.setPrefHeight(20);
-        this.setStyle("-fx-font-size: 18px; -fx-background-color: #7fd1ff; -fx-text-fill: #000000;-fx-background-radius: 10px");
+        this.setPrefHeight(18);
+        this.getStyleClass().add("primary-button");
+
     }
 }
