@@ -2,6 +2,7 @@ package edu.ntnu.idatt2003.view.components;
 
 import edu.ntnu.idatt2003.controller.ChaosGameController;
 import edu.ntnu.idatt2003.exceptions.ChaosGameDescriptionFactoryException;
+import edu.ntnu.idatt2003.exceptions.ChaosGameException;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -23,6 +24,8 @@ public class TopBar extends StackPane {
         this.controller.resetChaosGameWithDescription("Julia Set");
       } catch (ChaosGameDescriptionFactoryException ex) {
         ex.printStackTrace();
+      } catch (ChaosGameException ex) {
+        ex.printStackTrace();
       }
     });
 
@@ -33,6 +36,8 @@ public class TopBar extends StackPane {
         this.controller.resetChaosGameWithDescription("Sierpinski");
       } catch (ChaosGameDescriptionFactoryException ex) {
         ex.printStackTrace();
+      } catch (ChaosGameException ex) {
+        ex.printStackTrace();
       }
     });
 
@@ -42,6 +47,8 @@ public class TopBar extends StackPane {
       try {
         this.controller.resetChaosGameWithDescription("Barnsley");
       } catch (ChaosGameDescriptionFactoryException ex) {
+        ex.printStackTrace();
+      } catch (ChaosGameException ex) {
         ex.printStackTrace();
       }
     });

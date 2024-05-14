@@ -1,6 +1,8 @@
 package edu.ntnu.idatt2003.view;
 
+import edu.ntnu.idatt2003.exceptions.ChaosCanvasException;
 import edu.ntnu.idatt2003.exceptions.ChaosGameDescriptionException;
+import edu.ntnu.idatt2003.exceptions.ChaosGameException;
 import edu.ntnu.idatt2003.exceptions.ChaosGameFileHandlerException;
 import edu.ntnu.idatt2003.exceptions.WrongFileFormatException;
 import edu.ntnu.idatt2003.model.game.ChaosGame;
@@ -32,7 +34,8 @@ public class CommandLineInterface {
   /**
    * Starts the command line interface.
    */
-  public void start() throws ChaosGameFileHandlerException {
+  public void start() throws ChaosGameFileHandlerException, ChaosGameException,
+      ChaosCanvasException {
     boolean exit = false;
     while (!exit) {
       System.out.println("Welcome to the Chaos Game!");
@@ -113,7 +116,7 @@ public class CommandLineInterface {
   /**
    * Runs the chaos game and prints the result.
    */
-  private void runChaosGame() {
+  private void runChaosGame() throws ChaosGameException, ChaosCanvasException {
     ChaosGame chaosGame = new ChaosGame(description, width, height);
     System.out.println("Choose number of steps:");
     int steps = scanner.nextInt();
