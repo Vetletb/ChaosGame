@@ -25,7 +25,7 @@ public class ChaosGame extends Subject {
    * @param height the height of the canvas.
    */
   public ChaosGame(ChaosGameDescription description, int width, int height)
-      throws ChaosGameException, ChaosCanvasException {
+      throws ChaosGameException {
     try {
       InputValidation.validateNotNull(description, "description");
       this.canvas = new ChaosCanvas(
@@ -54,8 +54,8 @@ public class ChaosGame extends Subject {
    */
   private void setDescription(ChaosGameDescription description) throws ChaosGameException {
     try {
-      canvas.setMinMaxCoords(description.getMinCoords(), description.getMaxCoords());
       InputValidation.validateNotNull(description, "description");
+      canvas.setMinMaxCoords(description.getMinCoords(), description.getMaxCoords());
     } catch (IllegalArgumentException e) {
       throw new ChaosGameException("The description of the chaos game cannot be null.", e);
     } catch (ChaosCanvasException e) {
@@ -88,7 +88,12 @@ public class ChaosGame extends Subject {
    *
    * @param steps the number of steps to run the chaos game for.
    */
-  public void runSteps(int steps) {
+  public void runSteps(int steps) throws ChaosGameException {
+    try {
+      InputValidation.validatePositiveInt(steps, "steps");
+    } catch (IllegalArgumentException e) {
+      throw new ChaosGameException("The number of steps must be positive.", e);
+    }
     List<Transform2D> transforms = description.getTransforms();
     for (int i = 0; i < steps; i++) {
       Transform2D currentTransformation = transforms.get(random.nextInt(transforms.size()));
