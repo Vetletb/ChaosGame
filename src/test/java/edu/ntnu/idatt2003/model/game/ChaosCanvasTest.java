@@ -96,6 +96,36 @@ class ChaosCanvasTest {
         }
       }
     }
+
+    @Nested
+    @DisplayName("Tests for equals")
+    public class PositiveTestsForEquals {
+      @Test
+      @DisplayName("Equals returns true when two canvases are equal")
+      void equalsReturnsTrueWhenTwoCanvasesAreEqual() throws ChaosCanvasException {
+        ChaosCanvas canvas2 = new ChaosCanvas(100, 100, new Vector2D(0, 0), new Vector2D(200, 200));
+        assertEquals(canvas, canvas2);
+      }
+
+      @Test
+      @DisplayName("Equals returns false when two canvases are not equal")
+      void equalsReturnsFalseWhenTwoCanvasesAreNotEqual() throws ChaosCanvasException {
+        ChaosCanvas canvas2 = new ChaosCanvas(120, 120, new Vector2D(1, 1), new Vector2D(100, 100));
+        assertNotEquals(canvas, canvas2);
+      }
+
+      @Test
+      @DisplayName("Equals returns false when comparing a canvas to null")
+      void equalsReturnsFalseWhenComparingACanvasToNull() {
+        assertNotEquals(canvas, null);
+      }
+
+      @Test
+      @DisplayName("Equals returns false when comparing a canvas to a different object")
+      void equalsReturnsFalseWhenComparingACanvasToADifferentObject() {
+        assertNotEquals(canvas, new Object());
+      }
+    }
   }
 
   @Nested
