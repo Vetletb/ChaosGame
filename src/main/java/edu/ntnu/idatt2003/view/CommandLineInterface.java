@@ -1,8 +1,10 @@
 package edu.ntnu.idatt2003.view;
 
+import edu.ntnu.idatt2003.exceptions.WrongFileFormatException;
 import edu.ntnu.idatt2003.model.game.ChaosGame;
 import edu.ntnu.idatt2003.model.game.ChaosGameDescription;
 import edu.ntnu.idatt2003.model.io.ChaosGameFileHandler;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
@@ -69,10 +71,13 @@ public class CommandLineInterface {
       if (choice == 0) {
         found = true;
         try {
-          description = chaosGameFileHandler.readFromFile(path);
+          File file = new File(path);
+          description = chaosGameFileHandler.readFromFile(file);
           System.out.println("File read successfully!");
         } catch (FileNotFoundException e) {
           System.out.println("File not found. Please try again.");
+        } catch (WrongFileFormatException e) {
+          System.out.println("Wrong file format. Please try again.");
         }
         break;
       }
@@ -93,7 +98,8 @@ public class CommandLineInterface {
       }
       System.out.println("Enter the new name of the file:");
       String path = "src/main/resources/" + scanner.nextLine() + ".txt";
-      chaosGameFileHandler.writeToFile(description, path);
+      File file = new File(path);
+      chaosGameFileHandler.writeToFile(description, file);
       System.out.println("File written successfully!");
     } catch (IOException e) {
       System.out.println("An error occurred. Please try again.");
