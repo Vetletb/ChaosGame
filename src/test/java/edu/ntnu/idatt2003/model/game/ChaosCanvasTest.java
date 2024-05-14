@@ -2,6 +2,7 @@ package edu.ntnu.idatt2003.model.game;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import edu.ntnu.idatt2003.exceptions.ChaosCanvasException;
 import edu.ntnu.idatt2003.model.math.mathModel.Vector2D;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -19,7 +20,7 @@ class ChaosCanvasTest {
 
     ChaosCanvas canvas;
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws ChaosCanvasException {
       canvas = new ChaosCanvas(100, 100, new Vector2D(0, 0), new Vector2D(200, 200));
     }
 
@@ -103,10 +104,10 @@ class ChaosCanvasTest {
 
     @Test
     @DisplayName("Negative tests for setMinMaxCoords")
-    public void setMinMaxCoordsThrowsExceptionOnNull() {
+    public void setMinMaxCoordsThrowsExceptionOnNull() throws ChaosCanvasException {
       ChaosCanvas canvas = new ChaosCanvas(100, 100, new Vector2D(0, 0), new Vector2D(200, 200));
-      assertThrows(IllegalArgumentException.class, () -> canvas.setMinMaxCoords(null, new Vector2D(200, 200)));
-      assertThrows(IllegalArgumentException.class, () -> canvas.setMinMaxCoords(new Vector2D(0, 0), null));
+      assertThrows(ChaosCanvasException.class, () -> canvas.setMinMaxCoords(null, new Vector2D(200, 200)));
+      assertThrows(ChaosCanvasException.class, () -> canvas.setMinMaxCoords(new Vector2D(0, 0), null));
     }
 
     @Nested
@@ -116,13 +117,13 @@ class ChaosCanvasTest {
       @Test
       @DisplayName("Constructor throws exception on negative width")
       public void constructorThrowsExceptionOnNegativeWidth() {
-        assertThrows(IllegalArgumentException.class, () -> new ChaosCanvas(-100, 100, new Vector2D(0, 0), new Vector2D(200, 200)));
+        assertThrows(ChaosCanvasException.class, () -> new ChaosCanvas(-100, 100, new Vector2D(0, 0), new Vector2D(200, 200)));
       }
 
       @Test
       @DisplayName("Constructor throws exception on negative height")
       public void constructorThrowsExceptionOnNegativeHeight() {
-        assertThrows(IllegalArgumentException.class, () -> new ChaosCanvas(100, -100, new Vector2D(0, 0), new Vector2D(200, 200)));
+        assertThrows(ChaosCanvasException.class, () -> new ChaosCanvas(100, -100, new Vector2D(0, 0), new Vector2D(200, 200)));
       }
     }
   }

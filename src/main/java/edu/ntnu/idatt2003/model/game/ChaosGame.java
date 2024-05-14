@@ -1,7 +1,10 @@
 package edu.ntnu.idatt2003.model.game;
 
+import edu.ntnu.idatt2003.exceptions.ChaosCanvasException;
+import edu.ntnu.idatt2003.exceptions.ChaosGameException;
 import edu.ntnu.idatt2003.model.math.mathModel.Vector2D;
 import edu.ntnu.idatt2003.model.math.transformation.Transform2D;
+import edu.ntnu.idatt2003.util.InputValidation;
 import java.util.List;
 import java.util.Random;
 
@@ -21,9 +24,18 @@ public class ChaosGame extends Subject {
    * @param width the width of the canvas.
    * @param height the height of the canvas.
    */
-  public ChaosGame(ChaosGameDescription description, int width, int height) {
+  public ChaosGame(ChaosGameDescription description, int width, int height)
+      throws ChaosGameException, ChaosCanvasException {
+    try {
+      InputValidation.validateNotNull(description, "description");
+      this.canvas = new ChaosCanvas(
+          width, height, description.getMinCoords(), description.getMaxCoords());
+    } catch (IllegalArgumentException e) {
+      throw new ChaosGameException("The description of the chaos game cannot be null.", e);
+    } catch (ChaosCanvasException e) {
+      throw new ChaosGameException("An error occurred while creating the ChaosCanvas class.", e);
+    }
     this.description = description;
-    this.canvas = new ChaosCanvas(width, height, description.getMinCoords(), description.getMaxCoords());
     this.currentPoint = new Vector2D(0, 0);
     this.random = new Random();
   }
@@ -40,9 +52,17 @@ public class ChaosGame extends Subject {
   /**
    * Sets the description of the chaos game.
    */
-  private void setDescription(ChaosGameDescription description) {
+  private void setDescription(ChaosGameDescription description) throws ChaosGameException {
+    try {
+      canvas.setMinMaxCoords(description.getMinCoords(), description.getMaxCoords());
+      InputValidation.validateNotNull(description, "description");
+    } catch (IllegalArgumentException e) {
+      throw new ChaosGameException("The description of the chaos game cannot be null.", e);
+    } catch (ChaosCanvasException e) {
+      throw new ChaosGameException(
+          "An error occurred while setting the description of the chaos game.", e);
+    }
     this.description = description;
-    canvas.setMinMaxCoords(description.getMinCoords(), description.getMaxCoords());
   }
 
   /**
@@ -58,7 +78,7 @@ public class ChaosGame extends Subject {
    *
    * @param description the description to reset the chaos game with.
    */
-  public void resetGameWithDescription(ChaosGameDescription description) {
+  public void resetGameWithDescription(ChaosGameDescription description) throws ChaosGameException {
     setDescription(description);
     resetGame();
   }

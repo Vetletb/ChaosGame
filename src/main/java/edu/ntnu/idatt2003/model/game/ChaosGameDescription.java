@@ -1,5 +1,6 @@
 package edu.ntnu.idatt2003.model.game;
 
+import edu.ntnu.idatt2003.exceptions.ChaosGameDescriptionException;
 import edu.ntnu.idatt2003.model.math.mathModel.Vector2D;
 import edu.ntnu.idatt2003.model.math.transformation.Transform2D;
 import edu.ntnu.idatt2003.util.InputValidation;
@@ -20,19 +21,23 @@ public class ChaosGameDescription {
    * @param minCoords the minimum coordinates.
    * @param maxCoords the maximum coordinates.
    *
-   * @throws IllegalArgumentException if the list of transforms is null,
+   * @throws ChaosGameDescriptionException if the list of transforms is null,
    *                                  if the list of transforms is empty,
    *                                  if minCoords is null,
    *                                  if maxCoords is null,
    *                                  if minCoords is greater than or equal to maxCoords
    */
   public ChaosGameDescription(List<Transform2D> transforms, Vector2D minCoords, Vector2D maxCoords)
-      throws IllegalArgumentException {
-    InputValidation.validateNotNull(transforms, "transforms");
-    InputValidation.validateListNotEmpty(transforms, "transforms");
-    InputValidation.validateNotNull(minCoords, "minCoords");
-    InputValidation.validateNotNull(maxCoords, "maxCoords");
-    validateCoordinates(minCoords, maxCoords);
+      throws ChaosGameDescriptionException {
+    try {
+      InputValidation.validateNotNull(transforms, "transforms");
+      InputValidation.validateListNotEmpty(transforms, "transforms");
+      InputValidation.validateNotNull(minCoords, "minCoords");
+      InputValidation.validateNotNull(maxCoords, "maxCoords");
+      validateCoordinates(minCoords, maxCoords);
+    } catch (IllegalArgumentException e) {
+      throw new ChaosGameDescriptionException("Invalid ChaosGameDescription", e);
+    }
     this.transforms = transforms;
     this.minCoords = minCoords;
     this.maxCoords = maxCoords;
@@ -71,11 +76,12 @@ public class ChaosGameDescription {
    * @param minCoords the minimum coordinates.
    * @param maxCoords the maximum coordinates.
    *
-   * @throws IllegalArgumentException if minCoords is greater than or equal to maxCoords
+   * @throws ChaosGameDescriptionException if minCoords is greater than or equal to maxCoords
    */
-  private void validateCoordinates(Vector2D minCoords, Vector2D maxCoords) {
+  private void validateCoordinates(Vector2D minCoords, Vector2D maxCoords)
+      throws ChaosGameDescriptionException {
     if (minCoords.getX0() >= maxCoords.getX0() || minCoords.getX1() >= maxCoords.getX1()) {
-      throw new IllegalArgumentException("minCoords must be less than maxCoords");
+      throw new ChaosGameDescriptionException("minCoords must be less than maxCoords");
     }
   }
 }
