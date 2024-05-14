@@ -65,4 +65,12 @@ public class Vector2D {
     x1 = x1 * scalar;
     return new Vector2D(x0, x1);
   }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
+    return this.x0 == ((Vector2D) obj).getX0() && this.x1 == ((Vector2D) obj).getX1();
+  }
 }

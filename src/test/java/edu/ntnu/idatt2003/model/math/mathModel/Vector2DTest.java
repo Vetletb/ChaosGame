@@ -110,5 +110,39 @@ class Vector2DTest {
         assertEquals(0, vector2.getX1());
       }
     }
+
+    @Nested
+    @DisplayName("Tests for equals")
+    public class PositiveTestsForEquals {
+      @Test
+      @DisplayName("Equals returns true when two vectors are equal")
+      void equalsReturnsTrueWhenTwoVectorsAreEqual() {
+        Vector2D vector1 = new Vector2D(5, 2);
+        Vector2D vector2 = new Vector2D(5, 2);
+        assertEquals(vector1, vector2);
+      }
+
+      @Test
+      @DisplayName("Equals returns false when two vectors are not equal")
+      void equalsReturnsFalseWhenTwoVectorsAreNotEqual() {
+          Vector2D vector1 = new Vector2D(5, 2);
+          Vector2D vector2 = new Vector2D(4, 1);
+          assertNotEquals(vector1, vector2);
+      }
+
+      @Test
+      @DisplayName("Equals returns false when comparing a vector to null")
+      void equalsReturnsFalseWhenComparingAVectorToNull() {
+          Vector2D vector = new Vector2D(5, 2);
+          assertNotEquals(vector, null);
+      }
+
+      @Test
+      @DisplayName("Equals returns false when comparing a vector to a different object")
+      void equalsReturnsFalseWhenComparingAVectorToADifferentObject() {
+        Vector2D vector = new Vector2D(5, 2);
+        assertNotEquals(vector, new Object());
+      }
+    }
   }
 }
