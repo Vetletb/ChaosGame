@@ -51,7 +51,7 @@ public class ChaosGameController implements Observer {
   /**
    * Runs a given number of steps in the chaos game.
    */
-  public void runSteps(int steps) {
+  public void runSteps(int steps) throws ChaosGameException {
     chaosGame.runSteps(steps);
   }
 
@@ -108,14 +108,22 @@ public class ChaosGameController implements Observer {
     timeline = new Timeline();
     KeyFrame keyFrame = new KeyFrame(Duration.millis(1000.0 / fps), e -> {
       int steps = (int) (iterations * k / Math.exp(fps * runSeconds * k) * Math.exp(k * x[0]));
-      chaosGame.runSteps(steps);
+      try {
+        chaosGame.runSteps(steps);
+      } catch (ChaosGameException ex) {
+        ex.printStackTrace();
+      }
       x[0]++;
       totalSteps[0] += steps;
     });
     timeline.getKeyFrames().add(keyFrame);
     timeline.setCycleCount(fps * runSeconds);
     timeline.setOnFinished(e -> {
-      chaosGame.runSteps(iterations - totalSteps[0]);
+      try {
+        chaosGame.runSteps(iterations - totalSteps[0]);
+      } catch (ChaosGameException ex) {
+        ex.printStackTrace();
+      }
     });
     timeline.play();
   }
