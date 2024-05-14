@@ -1,5 +1,9 @@
 package edu.ntnu.idatt2003.view;
 
+import edu.ntnu.idatt2003.exceptions.ChaosCanvasException;
+import edu.ntnu.idatt2003.exceptions.ChaosGameDescriptionException;
+import edu.ntnu.idatt2003.exceptions.ChaosGameException;
+import edu.ntnu.idatt2003.exceptions.ChaosGameFileHandlerException;
 import edu.ntnu.idatt2003.exceptions.WrongFileFormatException;
 import edu.ntnu.idatt2003.model.game.ChaosGame;
 import edu.ntnu.idatt2003.model.game.ChaosGameDescription;
@@ -30,7 +34,8 @@ public class CommandLineInterface {
   /**
    * Starts the command line interface.
    */
-  public void start() {
+  public void start() throws ChaosGameFileHandlerException, ChaosGameException,
+      ChaosCanvasException {
     boolean exit = false;
     while (!exit) {
       System.out.println("Welcome to the Chaos Game!");
@@ -55,7 +60,7 @@ public class CommandLineInterface {
   /**
    * Chooses a file to construct a ChaosGameDescription from.
    */
-  private void chooseFile() {
+  private void chooseFile() throws ChaosGameFileHandlerException {
     System.out.println("Choose a file:");
     int i = 1;
     for (String path : chaosGameFileHandler.listFiles()) {
@@ -74,10 +79,12 @@ public class CommandLineInterface {
           File file = new File(path);
           description = chaosGameFileHandler.readFromFile(file);
           System.out.println("File read successfully!");
-        } catch (FileNotFoundException e) {
-          System.out.println("File not found. Please try again.");
         } catch (WrongFileFormatException e) {
           System.out.println("Wrong file format. Please try again.");
+        } catch (ChaosGameFileHandlerException e) {
+          System.out.println("File not found. Please try again.");
+        } catch (ChaosGameDescriptionException e) {
+          System.out.println("Failed to create ChaosGameDescription. Please try again.");
         }
         break;
       }
@@ -101,7 +108,7 @@ public class CommandLineInterface {
       File file = new File(path);
       chaosGameFileHandler.writeToFile(description, file);
       System.out.println("File written successfully!");
-    } catch (IOException e) {
+    } catch (ChaosGameFileHandlerException e) {
       System.out.println("An error occurred. Please try again.");
     }
   }
@@ -109,7 +116,7 @@ public class CommandLineInterface {
   /**
    * Runs the chaos game and prints the result.
    */
-  private void runChaosGame() {
+  private void runChaosGame() throws ChaosGameException, ChaosCanvasException {
     ChaosGame chaosGame = new ChaosGame(description, width, height);
     System.out.println("Choose number of steps:");
     int steps = scanner.nextInt();

@@ -4,10 +4,10 @@ package edu.ntnu.idatt2003.model.math.mathModel;
  * A class representing a 2x2 matrix.
  */
 public class Matrix2x2 {
-  private double a00;
-  private double a01;
-  private double a10;
-  private double a11;
+  private final double a00;
+  private final double a01;
+  private final double a10;
+  private final double a11;
 
   /**
    * Constructor for the Matrix2x2 class.

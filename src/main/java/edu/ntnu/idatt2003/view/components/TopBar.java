@@ -1,6 +1,8 @@
 package edu.ntnu.idatt2003.view.components;
 
 import edu.ntnu.idatt2003.controller.ChaosGameController;
+import edu.ntnu.idatt2003.exceptions.ChaosGameDescriptionFactoryException;
+import edu.ntnu.idatt2003.exceptions.ChaosGameException;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -18,19 +20,37 @@ public class TopBar extends StackPane {
     Button juliaButton = new SecondaryButton("Julia Set");
     juliaButton.setOnAction(e -> {
       this.controller.resetViewCanvas();
-      this.controller.resetChaosGameWithDescription("Julia Set");
+      try {
+        this.controller.resetChaosGameWithDescription("Julia Set");
+      } catch (ChaosGameDescriptionFactoryException ex) {
+        ex.printStackTrace();
+      } catch (ChaosGameException ex) {
+        ex.printStackTrace();
+      }
     });
 
     Button sierpinskiButton = new SecondaryButton("Sierpinski");
     sierpinskiButton.setOnAction(e -> {
       this.controller.resetViewCanvas();
-      this.controller.resetChaosGameWithDescription("Sierpinski");
+      try {
+        this.controller.resetChaosGameWithDescription("Sierpinski");
+      } catch (ChaosGameDescriptionFactoryException ex) {
+        ex.printStackTrace();
+      } catch (ChaosGameException ex) {
+        ex.printStackTrace();
+      }
     });
 
     Button barnsleyButton = new SecondaryButton("Barnsley");
     barnsleyButton.setOnAction(e -> {
       this.controller.resetViewCanvas();
-      this.controller.resetChaosGameWithDescription("Barnsley");
+      try {
+        this.controller.resetChaosGameWithDescription("Barnsley");
+      } catch (ChaosGameDescriptionFactoryException ex) {
+        ex.printStackTrace();
+      } catch (ChaosGameException ex) {
+        ex.printStackTrace();
+      }
     });
 
     Button readFileButton = new SecondaryButton("Read File");
