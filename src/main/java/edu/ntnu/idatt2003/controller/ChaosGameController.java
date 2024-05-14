@@ -16,9 +16,10 @@ import javafx.util.Duration;
  * The controller class for the chaos game.
  */
 public class ChaosGameController implements Observer {
-  ChaosGame chaosGame;
-  ViewCanvas viewCanvas;
-  Timeline timeline;
+  private final ChaosGame chaosGame;
+  private final ViewCanvas viewCanvas;
+  private Exception exceptionInTimeline;
+
 
   /**
    * Constructor for the ChaosGameController class.
@@ -102,7 +103,10 @@ public class ChaosGameController implements Observer {
   /**
    * Animates the chaos game by running a given number of iterations.
    */
-  public void animateIterations(int iterations) {
+  public void animateIterations(int iterations) throws ChaosGameException {
+    if (iterations <= 0) {
+      throw new ChaosGameException("Iterations must be a positive number");
+    }
     int runSeconds = 3;
     int fps = 60;
 
@@ -110,14 +114,16 @@ public class ChaosGameController implements Observer {
     double k = 0.05;
 
     final int [] totalSteps = {0};
-
-    timeline = new Timeline();
+    Timeline timeline = new Timeline();
     KeyFrame keyFrame = new KeyFrame(Duration.millis(1000.0 / fps), e -> {
       int steps = (int) (iterations * k / Math.exp(fps * runSeconds * k) * Math.exp(k * x[0]));
       try {
-        chaosGame.runSteps(steps);
+        if (steps != 0) {
+          chaosGame.runSteps(steps);
+        }
       } catch (ChaosGameException ex) {
-        ex.printStackTrace();
+        exceptionInTimeline = ex;
+        timeline.stop();
       }
       x[0]++;
       totalSteps[0] += steps;
@@ -126,12 +132,18 @@ public class ChaosGameController implements Observer {
     timeline.setCycleCount(fps * runSeconds);
     timeline.setOnFinished(e -> {
       try {
-        chaosGame.runSteps(iterations - totalSteps[0]);
+        if (iterations - totalSteps[0] != 0) {
+          chaosGame.runSteps(iterations - totalSteps[0]);
+        }
       } catch (ChaosGameException ex) {
-        ex.printStackTrace();
+        exceptionInTimeline = ex;
       }
     });
     timeline.play();
+
+    if (exceptionInTimeline != null) {
+      throw new ChaosGameException(exceptionInTimeline.getMessage(), exceptionInTimeline);
+    }
   }
 
   /**
@@ -145,6 +157,11 @@ public class ChaosGameController implements Observer {
         drawPixel(pixel);
       }
     }
+  }
+
+  public void writeChaosGameToFile(File file) throws ChaosGameFileHandlerException {
+    ChaosGameFileHandler fileHandler = new ChaosGameFileHandler();
+    fileHandler.writeToFile(chaosGame.getDescriptions(), file);
   }
 
   /**

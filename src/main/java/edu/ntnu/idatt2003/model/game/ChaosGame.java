@@ -50,6 +50,15 @@ public class ChaosGame extends Subject {
   }
 
   /**
+   * Gets the description of the chaos game.
+   *
+   * @return the description of the chaos game.
+   */
+  public ChaosGameDescription getDescriptions() {
+    return description;
+  }
+
+  /**
    * Sets the description of the chaos game.
    */
   private void setDescription(ChaosGameDescription description) throws ChaosGameException {
