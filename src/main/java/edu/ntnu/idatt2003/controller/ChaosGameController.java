@@ -1,5 +1,6 @@
 package edu.ntnu.idatt2003.controller;
 
+import edu.ntnu.idatt2003.exceptions.ChaosGameDescriptionFactoryException;
 import edu.ntnu.idatt2003.model.game.ChaosGame;
 import edu.ntnu.idatt2003.model.game.ChaosGameDescription;
 import edu.ntnu.idatt2003.model.game.ChaosGameDescriptionFactory;
@@ -24,13 +25,15 @@ public class ChaosGameController implements Observer {
    * @param width      the width of the canvas.
    * @param height     the height of the canvas.
    */
-  public ChaosGameController(ViewCanvas viewCanvas, int width, int height) {
+  public ChaosGameController(ViewCanvas viewCanvas, int width, int height)
+      throws ChaosGameDescriptionFactoryException {
     this.viewCanvas = viewCanvas;
     chaosGame = new ChaosGame(ChaosGameDescriptionFactory.get("Julia Set"), width, height);
     chaosGame.attach(this);
   }
 
-  public void resetChaosGameWithDescription(String description) {
+  public void resetChaosGameWithDescription(String description)
+      throws ChaosGameDescriptionFactoryException {
     ChaosGameDescription newDescription = ChaosGameDescriptionFactory.get(description);
     chaosGame.resetGameWithDescription(newDescription);
   }
