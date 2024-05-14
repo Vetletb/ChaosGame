@@ -15,6 +15,7 @@ import javafx.stage.FileChooser;
  */
 public class TopBar extends StackPane {
   private final ChaosGameController controller;
+  private int iterations;
 
   /**
    * Constructor for the TopBar class.
@@ -90,8 +91,18 @@ public class TopBar extends StackPane {
     runButton.setOnAction(e -> {
       this.controller.resetViewCanvas();
       this.controller.resetChaosGame();
-      int iterations = Integer.parseInt(iterationsField.getText());
-      this.controller.animateIterations(iterations);
+      try {
+        iterations = Integer.parseInt(iterationsField.getText());
+      } catch (NumberFormatException ex) {
+        new ErrorPopup("Iterations must be an integer", this.getScene().getWindow());
+        return;
+      }
+      try {
+        this.controller.animateIterations(iterations);
+      } catch (ChaosGameException ex) {
+        new ErrorPopup(ex.getMessage(), this.getScene().getWindow());
+      }
+
     });
 
     HBox leftButtonBox = new HBox();
