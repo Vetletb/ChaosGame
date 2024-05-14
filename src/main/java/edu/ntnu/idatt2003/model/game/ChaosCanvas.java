@@ -1,5 +1,6 @@
 package edu.ntnu.idatt2003.model.game;
 
+import edu.ntnu.idatt2003.exceptions.ChaosCanvasException;
 import edu.ntnu.idatt2003.model.math.mathModel.Matrix2x2;
 import edu.ntnu.idatt2003.model.math.mathModel.Vector2D;
 import edu.ntnu.idatt2003.model.math.transformation.AffineTransform2D;
@@ -31,10 +32,15 @@ public class ChaosCanvas {
    *                                  if minCoords is null,
    *                                  if maxCoords is null
    */
-  public ChaosCanvas(int width, int height, Vector2D minCoords, Vector2D maxCoords) {
-    InputValidation.validatePositiveInt(width, "width");
-    InputValidation.validatePositiveInt(height, "height");
-    setMinMaxCoords(minCoords, maxCoords);
+  public ChaosCanvas(int width, int height, Vector2D minCoords, Vector2D maxCoords)
+      throws ChaosCanvasException {
+    try {
+      InputValidation.validatePositiveInt(width, "width");
+      InputValidation.validatePositiveInt(height, "height");
+      setMinMaxCoords(minCoords, maxCoords);
+    } catch (IllegalArgumentException e) {
+      throw new ChaosCanvasException("An error occurred while creating the ChaosCanvas class", e);
+    }
     this.width = width;
     this.height = height;
     this.canvas = new int[width][height];
@@ -87,10 +93,15 @@ public class ChaosCanvas {
    * @throws IllegalArgumentException if minCoords is null,
    *                                  if maxCoords is null
    */
-  public void setMinMaxCoords(Vector2D minCoords, Vector2D maxCoords) {
-    setMinCoords(minCoords);
-    setMaxCoords(maxCoords);
-    setTransformCoordsToIndices();
+  public void setMinMaxCoords(Vector2D minCoords, Vector2D maxCoords) throws ChaosCanvasException {
+    try {
+      setMinCoords(minCoords);
+      setMaxCoords(maxCoords);
+      setTransformCoordsToIndices();
+    } catch (IllegalArgumentException e) {
+      throw new ChaosCanvasException(
+          "An error occurred while setting the min and max coordinates", e);
+    }
   }
 
   /**
