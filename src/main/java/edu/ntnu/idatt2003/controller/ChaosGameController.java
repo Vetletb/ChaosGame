@@ -1,13 +1,13 @@
 package edu.ntnu.idatt2003.controller;
 
-import edu.ntnu.idatt2003.exceptions.ChaosCanvasException;
-import edu.ntnu.idatt2003.exceptions.ChaosGameDescriptionFactoryException;
-import edu.ntnu.idatt2003.exceptions.ChaosGameException;
+import edu.ntnu.idatt2003.exceptions.*;
 import edu.ntnu.idatt2003.model.game.ChaosGame;
 import edu.ntnu.idatt2003.model.game.ChaosGameDescription;
 import edu.ntnu.idatt2003.model.game.ChaosGameDescriptionFactory;
 import edu.ntnu.idatt2003.model.game.Observer;
+import edu.ntnu.idatt2003.model.io.ChaosGameFileHandler;
 import edu.ntnu.idatt2003.view.components.ViewCanvas;
+import java.io.File;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
@@ -46,6 +46,12 @@ public class ChaosGameController implements Observer {
 
   public void resetViewCanvas() {
     viewCanvas.reset();
+  }
+
+  public void resetChaosGameWithFile(File file) throws ChaosGameFileHandlerException, ChaosGameDescriptionException, ChaosGameException {
+    ChaosGameFileHandler fileHandler = new ChaosGameFileHandler();
+    ChaosGameDescription newDescription = fileHandler.readFromFile(file);
+    chaosGame.resetGameWithDescription(newDescription);
   }
 
   /**
