@@ -159,6 +159,11 @@ public class ChaosGameController implements Observer {
     }
   }
 
+  public void writeChaosGameToFile(File file) throws ChaosGameFileHandlerException {
+    ChaosGameFileHandler fileHandler = new ChaosGameFileHandler();
+    fileHandler.writeToFile(chaosGame.getDescriptions(), file);
+  }
+
   /**
    * When the chaosGame runs a step, this method is called and
    * a pixel is drawn on the viewCanvas.
