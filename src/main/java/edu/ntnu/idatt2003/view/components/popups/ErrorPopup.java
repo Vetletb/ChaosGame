@@ -1,6 +1,4 @@
-package edu.ntnu.idatt2003.view.components;
-
-import javafx.stage.Window;
+package edu.ntnu.idatt2003.view.components.popups;
 
 /**
  * A popup that displays an error message.
@@ -12,8 +10,8 @@ public class ErrorPopup extends MessagePopup {
    * @param message     the message to display.
    * @param ownerWindow the window that owns the popup.
    */
-  public ErrorPopup(String message, Window ownerWindow) {
-    super(message, ownerWindow);
+  public ErrorPopup() {
+    super();
     setWrapperStyle();
   }
 
@@ -22,8 +20,7 @@ public class ErrorPopup extends MessagePopup {
    */
   @Override
   void setWrapperStyle() {
-    labelWrapper.setStyle("-fx-background-color: #ff9898;"
-        + "-fx-background-radius: 10px;");
+    messageWrapper.getStyleClass().add("error-popup");
   }
 }
 

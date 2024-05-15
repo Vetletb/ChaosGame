@@ -1,9 +1,12 @@
 package edu.ntnu.idatt2003.view;
 
 import edu.ntnu.idatt2003.controller.ChaosGameController;
-import edu.ntnu.idatt2003.view.components.TopBar;
-import edu.ntnu.idatt2003.view.components.ViewCanvas;
+import edu.ntnu.idatt2003.view.components.*;
 import java.util.Objects;
+
+import edu.ntnu.idatt2003.view.components.popups.EditPopup;
+import edu.ntnu.idatt2003.view.components.popups.ErrorPopup;
+import edu.ntnu.idatt2003.view.components.popups.SuccessPopup;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
@@ -28,19 +31,33 @@ public class ChaosGameApp extends Application {
   @Override
   public void start(Stage stage) throws Exception {
     viewCanvas = new ViewCanvas();
-    controller = new ChaosGameController(viewCanvas, 680, 680);
+    ErrorPopup errorPopup = new ErrorPopup();
+    SuccessPopup successPopup = new SuccessPopup();
+    EditPopup editPopup = new EditPopup(controller);
+    PopupHandler popupHandler = new PopupHandler(errorPopup, successPopup, editPopup);
+
+    controller = new ChaosGameController(viewCanvas, popupHandler);
 
     canvasContainer = new StackPane();
     canvasContainer.getChildren().add(viewCanvas.getCanvas());
 
     topBar = new TopBar(controller);
 
-    VBox root = new VBox();
-    root.getChildren().addAll(
+    VBox contentWrapper = new VBox();
+    contentWrapper.getChildren().addAll(
         topBar,
         canvasContainer);
-    root.getStylesheets().add(
-        Objects.requireNonNull(getClass().getResource("/style.css")).toExternalForm());
+
+
+
+    StackPane root = new StackPane();
+    root.getChildren().addAll(
+        contentWrapper,
+        errorPopup,
+        successPopup,
+        editPopup
+    );
+    root.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/style.css")).toExternalForm());
 
     scene = new Scene(root, 900, 760);
 

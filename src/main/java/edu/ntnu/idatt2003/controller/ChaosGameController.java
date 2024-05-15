@@ -1,6 +1,5 @@
 package edu.ntnu.idatt2003.controller;
 
-import edu.ntnu.idatt2003.exceptions.ChaosGameDescriptionException;
 import edu.ntnu.idatt2003.exceptions.ChaosGameDescriptionFactoryException;
 import edu.ntnu.idatt2003.exceptions.ChaosGameException;
 import edu.ntnu.idatt2003.exceptions.ChaosGameFileHandlerException;
@@ -10,6 +9,7 @@ import edu.ntnu.idatt2003.model.game.ChaosGameDescriptionFactory;
 import edu.ntnu.idatt2003.model.game.Observer;
 import edu.ntnu.idatt2003.model.io.ChaosGameFileHandler;
 import edu.ntnu.idatt2003.util.ExceptionLogger;
+import edu.ntnu.idatt2003.view.PopupHandler;
 import edu.ntnu.idatt2003.view.components.ViewCanvas;
 import java.io.File;
 import javafx.animation.KeyFrame;
@@ -20,23 +20,29 @@ import javafx.util.Duration;
  * The controller class for the chaos game.
  */
 public class ChaosGameController implements Observer {
-  private final ChaosGame chaosGame;
+  public static final int CHAOS_GAME_WIDTH = 680;
+  public static final int CHAOS_GAME_HEIGHT = 680;
+  public static final String START_DESCRIPTION = "Julia Set";
+
+  private ChaosGame chaosGame = null;
   private final ViewCanvas viewCanvas;
-  private Exception exceptionInTimeline;
+  private final PopupHandler popupHandler;
   private ExceptionLogger exceptionLogger;
 
   /**
    * Constructor for the ChaosGameController class.
    *
    * @param viewCanvas the view canvas to draw on.
-   * @param width      the width of the canvas.
-   * @param height     the height of the canvas.
    */
-  public ChaosGameController(ViewCanvas viewCanvas, int width, int height)
-      throws ChaosGameDescriptionFactoryException, ChaosGameException {
+  public ChaosGameController(ViewCanvas viewCanvas, PopupHandler popupHandler) {
     this.viewCanvas = viewCanvas;
-    chaosGame = new ChaosGame(ChaosGameDescriptionFactory.get("Julia Set"), width, height);
-    chaosGame.attach(this);
+    this.popupHandler = popupHandler;
+    try {
+      chaosGame = new ChaosGame(ChaosGameDescriptionFactory.get(START_DESCRIPTION), CHAOS_GAME_WIDTH, CHAOS_GAME_HEIGHT);
+      chaosGame.attach(this);
+    } catch (ChaosGameException | ChaosGameDescriptionFactoryException ex) {
+      popupHandler.showErrorPopup(ex.getMessage());
+    }
     exceptionLogger = new ExceptionLogger("ChaosGameController");
   }
 
@@ -44,13 +50,15 @@ public class ChaosGameController implements Observer {
    * Resets the chaos game with a new description.
    *
    * @param description the description to be set
-   * @throws ChaosGameDescriptionFactoryException if the description is invalid
-   * @throws ChaosGameException if the chaos game cannot be reset
    */
-  public void resetChaosGameWithDescription(String description)
-      throws ChaosGameDescriptionFactoryException, ChaosGameException {
-    ChaosGameDescription newDescription = ChaosGameDescriptionFactory.get(description);
-    chaosGame.resetGameWithDescription(newDescription);
+  public void resetChaosGameWithDescription(String description) {
+    try {
+      ChaosGameDescription newDescription = ChaosGameDescriptionFactory.get(description);
+      chaosGame.resetGameWithDescription(newDescription);
+      popupHandler.showSuccessPopup(description + " loaded successfully");
+    } catch (ChaosGameDescriptionFactoryException | ChaosGameException ex) {
+      popupHandler.showErrorPopup(ex.getMessage());
+    }
   }
 
   /**
@@ -65,28 +73,34 @@ public class ChaosGameController implements Observer {
    */
   public void resetViewCanvas() {
     viewCanvas.reset();
+
   }
 
   /**
    * Reads a description from a file and resets the chaos game with the new description.
    *
    * @param file the file to read the description from
-   * @throws ChaosGameFileHandlerException if the file cannot be read
-   * @throws ChaosGameDescriptionException if the description is invalid
-   * @throws ChaosGameException if the chaos game cannot be reset
    */
-  public void resetChaosGameWithFile(File file)
-      throws ChaosGameFileHandlerException, ChaosGameDescriptionException, ChaosGameException {
-    ChaosGameFileHandler fileHandler = new ChaosGameFileHandler();
-    ChaosGameDescription newDescription = fileHandler.readFromFile(file);
-    chaosGame.resetGameWithDescription(newDescription);
+  public void resetChaosGameWithFile(File file) {
+    try {
+      ChaosGameFileHandler fileHandler = new ChaosGameFileHandler();
+      ChaosGameDescription newDescription = fileHandler.readFromFile(file);
+      chaosGame.resetGameWithDescription(newDescription);
+      popupHandler.showSuccessPopup("File loaded successfully");
+    } catch (ChaosGameFileHandlerException | ChaosGameException ex) {
+      popupHandler.showErrorPopup(ex.getMessage());
+    }
   }
 
   /**
    * Runs a given number of steps in the chaos game.
    */
-  public void runSteps(int steps) throws ChaosGameException {
-    chaosGame.runSteps(steps);
+  public void runSteps(int steps) {
+    try {
+      chaosGame.runSteps(steps);
+    } catch (ChaosGameException ex) {
+      popupHandler.showErrorPopup(ex.getMessage());
+    }
   }
 
   /**
@@ -136,11 +150,11 @@ public class ChaosGameController implements Observer {
    * Animates the chaos game by running a given number of iterations.
    *
    * @param iterations the number of iterations to animate
-   * @throws ChaosGameException if the number of iterations is invalid
    */
-  public void animateIterations(int iterations) throws ChaosGameException {
+  public void animateIterations(int iterations)  {
     if (iterations <= 0) {
-      throw new ChaosGameException("Iterations must be a positive number");
+      popupHandler.showErrorPopup("Iterations must be a positive number");
+      return;
     }
     int runSeconds = 3;
     int fps = 60;
@@ -157,7 +171,7 @@ public class ChaosGameController implements Observer {
           chaosGame.runSteps(steps);
         }
       } catch (ChaosGameException ex) {
-        exceptionInTimeline = ex;
+        popupHandler.showErrorPopup(ex.getMessage());
         timeline.stop();
       }
       x[0]++;
@@ -171,14 +185,10 @@ public class ChaosGameController implements Observer {
           chaosGame.runSteps(iterations - totalSteps[0]);
         }
       } catch (ChaosGameException ex) {
-        exceptionInTimeline = ex;
+        popupHandler.showErrorPopup(ex.getMessage());
       }
     });
     timeline.play();
-
-    if (exceptionInTimeline != null) {
-      throw new ChaosGameException(exceptionInTimeline.getMessage(), exceptionInTimeline);
-    }
   }
 
   /**
@@ -200,11 +210,19 @@ public class ChaosGameController implements Observer {
    * Writes the set description of the chaos game to a file.
    *
    * @param file the file to write to
-   * @throws ChaosGameFileHandlerException if the file cannot be written to
    */
-  public void writeChaosGameToFile(File file) throws ChaosGameFileHandlerException {
+  public void writeChaosGameToFile(File file)  {
     ChaosGameFileHandler fileHandler = new ChaosGameFileHandler();
-    fileHandler.writeToFile(chaosGame.getDescriptions(), file);
+    try {
+      fileHandler.writeToFile(chaosGame.getDescriptions(), file);
+      popupHandler.showSuccessPopup("File written successfully");
+    } catch (ChaosGameFileHandlerException ex) {
+      popupHandler.showErrorPopup(ex.getMessage());
+    }
+  }
+
+  public PopupHandler getPopupHandler() {
+    return popupHandler;
   }
 
   /**

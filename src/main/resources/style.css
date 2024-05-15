@@ -35,3 +35,43 @@
     -fx-text-fill: #000000;
     -fx-background-radius: 10px;
 }
+
+.popup {
+    -fx-background-radius: 10px;
+}
+
+.popup-message {
+    -fx-font-size: 18px;
+    -fx-text-fill: #000000;
+}
+
+.success-popup {
+    -fx-background-color: #98ff98;
+}
+.error-popup {
+    -fx-background-color: #ff9898;
+}
+
+.edit-popup {
+    -fx-background-color: rgba(135, 135, 135, 0.5);
+}
+
+.edit-wrapper {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 10px;
+}
+
+.close-button {
+    -fx-background-color: #ff9898;
+    -fx-background-radius: 10px;
+}
+
+.close-button:hover {
+    -fx-background-color: #e48989;
+}
+
+.close-button:pressed {
+    -fx-effect: innershadow(gaussian, rgb(152, 93, 94), 5, 0.5, 0, 0);
+}
+
+
