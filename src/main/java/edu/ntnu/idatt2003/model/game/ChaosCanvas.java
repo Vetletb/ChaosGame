@@ -5,6 +5,7 @@ import edu.ntnu.idatt2003.model.math.mathModel.Matrix2x2;
 import edu.ntnu.idatt2003.model.math.mathModel.Vector2D;
 import edu.ntnu.idatt2003.model.math.transformation.AffineTransform2D;
 import edu.ntnu.idatt2003.util.InputValidation;
+import java.util.Arrays;
 
 /**
  * A class representing a canvas for drawing chaos games.
@@ -173,6 +174,20 @@ public class ChaosCanvas {
    */
   public int getHeight() {
     return height;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
+    return Arrays.deepEquals(canvas, ((ChaosCanvas) obj).getCanvasArray())
+        && width == ((ChaosCanvas) obj).getWidth()
+        && height == ((ChaosCanvas) obj).getHeight()
+        && maxCoords.equals(((ChaosCanvas) obj).maxCoords)
+        && minCoords.equals(((ChaosCanvas) obj).minCoords)
+        && transformCoordsToIndices.equals(((ChaosCanvas) obj).transformCoordsToIndices)
+        && Arrays.equals(newPixel, ((ChaosCanvas) obj).newPixel);
   }
 }
 

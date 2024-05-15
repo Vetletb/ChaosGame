@@ -3,16 +3,25 @@ package edu.ntnu.idatt2003.view.components;
 import edu.ntnu.idatt2003.controller.ChaosGameController;
 import edu.ntnu.idatt2003.exceptions.ChaosGameDescriptionFactoryException;
 import edu.ntnu.idatt2003.exceptions.ChaosGameException;
-import javafx.application.Platform;
+import java.io.File;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.stage.FileChooser;
 
+/**
+ * The top bar that contains buttons for choosing chaos game types, editing and running the chaos game.
+ */
 public class TopBar extends StackPane {
-  private ChaosGameController controller;
+  private final ChaosGameController controller;
+  private int iterations;
 
+  /**
+   * Constructor for the TopBar class.
+   *
+   * @param controller the controller for the chaos game.
+   */
   public TopBar(ChaosGameController controller) {
     super();
     this.controller = controller;
@@ -22,10 +31,9 @@ public class TopBar extends StackPane {
       this.controller.resetViewCanvas();
       try {
         this.controller.resetChaosGameWithDescription("Julia Set");
-      } catch (ChaosGameDescriptionFactoryException ex) {
-        ex.printStackTrace();
-      } catch (ChaosGameException ex) {
-        ex.printStackTrace();
+        new SuccessPopup("Julia Set loaded", this.getScene().getWindow());
+      } catch (ChaosGameDescriptionFactoryException | ChaosGameException ex) {
+        new ErrorPopup(ex.getMessage(), this.getScene().getWindow());
       }
     });
 
@@ -34,10 +42,9 @@ public class TopBar extends StackPane {
       this.controller.resetViewCanvas();
       try {
         this.controller.resetChaosGameWithDescription("Sierpinski");
-      } catch (ChaosGameDescriptionFactoryException ex) {
-        ex.printStackTrace();
-      } catch (ChaosGameException ex) {
-        ex.printStackTrace();
+        new SuccessPopup("Sierpinski loaded", this.getScene().getWindow());
+      } catch (ChaosGameDescriptionFactoryException | ChaosGameException ex) {
+        new ErrorPopup(ex.getMessage(), this.getScene().getWindow());
       }
     });
 
@@ -46,21 +53,45 @@ public class TopBar extends StackPane {
       this.controller.resetViewCanvas();
       try {
         this.controller.resetChaosGameWithDescription("Barnsley");
-      } catch (ChaosGameDescriptionFactoryException ex) {
-        ex.printStackTrace();
-      } catch (ChaosGameException ex) {
-        ex.printStackTrace();
+        new SuccessPopup("Barnsley loaded", this.getScene().getWindow());
+      } catch (ChaosGameDescriptionFactoryException | ChaosGameException ex) {
+        new ErrorPopup(ex.getMessage(), this.getScene().getWindow());
       }
     });
 
     Button readFileButton = new SecondaryButton("Read File");
     readFileButton.setOnAction(e -> {
-      System.out.println("Read File");
+      this.controller.resetViewCanvas();
+      FileChooser fileChooser = new FileChooser();
+      File file = fileChooser.showOpenDialog(this.getScene().getWindow());
+      try {
+        controller.resetChaosGameWithFile(file);
+        new SuccessPopup("File read successfully", this.getScene().getWindow());
+      } catch (Exception ex) {
+        if (ex.getMessage() != null) {
+          new ErrorPopup(ex.getMessage(), this.getScene().getWindow());
+        } else {
+          new ErrorPopup("No file selected", this.getScene().getWindow());
+        }
+      }
     });
 
     Button writeFileButton = new PrimaryButton("Write File");
     writeFileButton.setOnAction(e -> {
-      System.out.println("Write File");
+      FileChooser fileChooser = new FileChooser();
+      FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+      fileChooser.getExtensionFilters().add(extFilter);
+      File file = fileChooser.showSaveDialog(this.getScene().getWindow());
+      try {
+        controller.writeChaosGameToFile(file);
+        new SuccessPopup("File written successfully", this.getScene().getWindow());
+      } catch (Exception ex) {
+        if (ex.getMessage() != null) {
+          new ErrorPopup(ex.getMessage(), this.getScene().getWindow());
+        } else {
+          new ErrorPopup("No location selected", this.getScene().getWindow());
+        }
+      }
     });
 
     Button editButton = new PrimaryButton("Edit");
@@ -76,8 +107,18 @@ public class TopBar extends StackPane {
     runButton.setOnAction(e -> {
       this.controller.resetViewCanvas();
       this.controller.resetChaosGame();
-      int iterations = Integer.parseInt(iterationsField.getText());
-      this.controller.animateIterations(iterations);
+      try {
+        iterations = Integer.parseInt(iterationsField.getText());
+      } catch (NumberFormatException ex) {
+        new ErrorPopup("Iterations must be an integer", this.getScene().getWindow());
+        return;
+      }
+      try {
+        this.controller.animateIterations(iterations);
+      } catch (ChaosGameException ex) {
+        new ErrorPopup(ex.getMessage(), this.getScene().getWindow());
+      }
+
     });
 
     HBox leftButtonBox = new HBox();

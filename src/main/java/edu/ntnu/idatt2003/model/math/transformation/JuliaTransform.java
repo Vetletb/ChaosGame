@@ -50,4 +50,12 @@ public class JuliaTransform  implements Transform2D {
   public Complex getPoint() {
     return point;
   }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
+    return point.equals(((JuliaTransform) obj).getPoint()) && sign == ((JuliaTransform) obj).sign;
+  }
 }

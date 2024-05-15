@@ -84,4 +84,15 @@ public class ChaosGameDescription {
       throw new ChaosGameDescriptionException("minCoords must be less than maxCoords");
     }
   }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
+    boolean equal = transforms.equals(((ChaosGameDescription) obj).getTransforms())
+        && minCoords.equals(((ChaosGameDescription) obj).getMinCoords())
+        && maxCoords.equals(((ChaosGameDescription) obj).getMaxCoords());
+    return equal;
+  }
 }
