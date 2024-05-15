@@ -1,9 +1,8 @@
-package edu.ntnu.idatt2003.model.math.transfromation;
+package edu.ntnu.idatt2003.model.math.transformation;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import edu.ntnu.idatt2003.model.math.mathModel.Complex;
-import edu.ntnu.idatt2003.model.math.transformation.JuliaTransform;
 import edu.ntnu.idatt2003.model.math.mathModel.Vector2D;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -49,6 +48,45 @@ class JuliaTransformTest {
         assertEquals(-1.799, vector2.getX1(), 1e-3);
       }
     }
+
+    @Nested
+    @DisplayName("Tests for equals")
+    public class PositiveTestsForEquals {
+      @Test
+      @DisplayName("Equals returns true when two julia are equal")
+      void equalsReturnsTrueWhenTwoJuliaAreEqual() {
+        Complex complex = new Complex(3, 2);
+        JuliaTransform julia1 = new JuliaTransform(complex, 1);
+        JuliaTransform julia2 = new JuliaTransform(complex, 1);
+        assertEquals(julia1, julia2);
+      }
+
+      @Test
+      @DisplayName("Equals returns false when two julia are not equal")
+      void equalsReturnsFalseWhenTwoJuliaAreNotEqual() {
+        Complex complex1 = new Complex(3, 2);
+        Complex complex2 = new Complex(4, 1);
+        JuliaTransform julia1 = new JuliaTransform(complex1, 1);
+        JuliaTransform julia2 = new JuliaTransform(complex2, -1);
+        assertNotEquals(julia1, julia2);
+      }
+
+      @Test
+      @DisplayName("Equals returns false when comparing a vector to null")
+      void equalsReturnsFalseWhenComparingAVectorToNull() {
+        Complex complex = new Complex(3, 2);
+        JuliaTransform julia = new JuliaTransform(complex, 1);
+        assertNotEquals(julia, null);
+      }
+
+      @Test
+      @DisplayName("Equals returns false when comparing a vector to a different object")
+      void equalsReturnsFalseWhenComparingAVectorToADifferentObject() {
+        Complex complex = new Complex(3, 2);
+        JuliaTransform julia = new JuliaTransform(complex, 1);
+        assertNotEquals(julia, new Object());
+      }
+    }
   }
 
     @Nested
@@ -57,8 +95,8 @@ class JuliaTransformTest {
 
       @Test
       @DisplayName("Constructor throws IllegalArgumentException if sign is not 1 or -1")
-        void constructorThrowsIllegalArgumentException() {
-          assertThrows(IllegalArgumentException.class, () -> new JuliaTransform(new Complex(3, 2), 0));
-        }
+      void constructorThrowsIllegalArgumentException() {
+        assertThrows(IllegalArgumentException.class, () -> new JuliaTransform(new Complex(3, 2), 0));
+      }
     }
 }

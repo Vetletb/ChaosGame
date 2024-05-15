@@ -54,6 +54,42 @@ class ChaosGameDescriptionTest {
     public void testGetMaxCoordsMethod() {
       assertEquals(maxCoords, description.getMaxCoords());
     }
+
+    @Nested
+    @DisplayName("Tests for equals")
+    public class PositiveTestsForEquals {
+      @Test
+      @DisplayName("Equals returns true when two descriptions are equal")
+      void equalsReturnsTrueWhenTwoDescriptionsAreEqual() throws ChaosGameDescriptionException {
+        ChaosGameDescription description2 = new ChaosGameDescription(transforms, minCoords, maxCoords);
+        assertEquals(description, description2);
+      }
+
+      @Test
+      @DisplayName("Equals returns false when two descriptions are not equal")
+      void equalsReturnsFalseWhenTwoDescriptionsAreNotEqual() throws ChaosGameDescriptionException {
+        List<Transform2D> transforms2 = List.of(
+            new JuliaTransform(new Complex(-0.7, 0.301), 1),
+            new JuliaTransform(new Complex(-0.7, 0.301), -1)
+        );
+        Vector2D minCoords2 = new Vector2D(-2, -1);
+        Vector2D maxCoords2 = new Vector2D(2, 1);
+        ChaosGameDescription description2 = new ChaosGameDescription(transforms2, minCoords2, maxCoords2);
+        assertNotEquals(description, description2);
+      }
+
+      @Test
+      @DisplayName("Equals returns false when comparing a description to null")
+      void equalsReturnsFalseWhenComparingADescriptionToNull() {
+        assertNotEquals(description, null);
+      }
+
+      @Test
+      @DisplayName("Equals returns false when comparing a description to a different object")
+      void equalsReturnsFalseWhenComparingADescriptionToADifferentObject() {
+        assertNotEquals(description, new Object());
+      }
+    }
   }
 
   @Nested

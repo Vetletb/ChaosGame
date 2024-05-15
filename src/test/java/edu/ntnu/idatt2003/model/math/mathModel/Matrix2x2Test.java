@@ -46,6 +46,39 @@ class Matrix2x2Test {
         assertEquals(19, result.getX1());
       }
     }
-  }
 
+    @Nested
+    @DisplayName("Tests for equals")
+    public class PositiveTestsForEquals {
+      @Test
+      @DisplayName("Equals returns true when two matrix's are equal")
+      void equalsReturnsTrueWhenTwoMatrixsAreEqual() {
+        Matrix2x2 matrix1 = new Matrix2x2(1, 2, 3, 4);
+        Matrix2x2 matrix2 = new Matrix2x2(1, 2, 3, 4);
+        assertEquals(matrix1, matrix2);
+      }
+
+      @Test
+      @DisplayName("Equals returns false when two matrix's are not equal")
+      void equalsReturnsFalseWhenTwoMatrixsAreNotEqual() {
+        Matrix2x2 matrix1 = new Matrix2x2(1, 2, 3, 4);
+        Matrix2x2 matrix2 = new Matrix2x2(4, 3, 2, 1);
+        assertNotEquals(matrix1, matrix2);
+      }
+
+      @Test
+      @DisplayName("Equals returns false when comparing a matrix to null")
+      void equalsReturnsFalseWhenComparingAMatrixToNull() {
+        Matrix2x2 matrix = new Matrix2x2(1, 2, 3, 4);
+        assertNotEquals(matrix, null);
+      }
+
+      @Test
+      @DisplayName("Equals returns false when comparing a matrix to a different object")
+      void equalsReturnsFalseWhenComparingAMatrixToADifferentObject() {
+        Matrix2x2 matrix = new Matrix2x2(1, 2, 3, 4);
+        assertNotEquals(matrix, new Object());
+      }
+    }
+  }
 }

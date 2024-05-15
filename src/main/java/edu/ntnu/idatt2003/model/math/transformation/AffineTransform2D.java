@@ -49,4 +49,13 @@ public class AffineTransform2D implements Transform2D {
   public Vector2D getVector() {
     return vector;
   }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
+    return matrix.equals(((AffineTransform2D) obj).getMatrix())
+        && vector.equals(((AffineTransform2D) obj).getVector());
+  }
 }

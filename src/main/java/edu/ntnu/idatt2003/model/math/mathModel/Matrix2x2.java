@@ -63,4 +63,15 @@ public class Matrix2x2 {
   public double getA11() {
     return a11;
   }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
+    Matrix2x2 matrix = (Matrix2x2) obj;
+    return a00 == matrix.getA00() && a01 == matrix.getA01()
+        && a10 == matrix.getA10() && a11 == matrix.getA11();
+
+  }
 }
