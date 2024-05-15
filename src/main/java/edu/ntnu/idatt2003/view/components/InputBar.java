@@ -2,9 +2,15 @@ package edu.ntnu.idatt2003.view.components;
 
 import javafx.scene.control.TextField;
 
+/**
+ * A text field for input.
+ */
 public class InputBar extends TextField {
   private static final int MAX_CHARS = 10;
 
+  /**
+   * Constructor for the InputBar class.
+   */
   public InputBar() {
     super();
     this.setPrefWidth(150);

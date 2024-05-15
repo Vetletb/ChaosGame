@@ -21,6 +21,7 @@ public class ChaosGameDescriptionFactory {
    *
    * @param type the type of chaos game to create.
    * @return a ChaosGameDescription object.
+   * @throws ChaosGameDescriptionFactoryException if the type is invalid.
    */
   public static ChaosGameDescription get(String type) throws ChaosGameDescriptionFactoryException {
     return switch (type) {
@@ -35,6 +36,7 @@ public class ChaosGameDescriptionFactory {
    * Helper method for creating a chaos game description of the Julia set.
    *
    * @return a list of the available chaos game types.
+   * @throws ChaosGameDescriptionFactoryException if an error occurs while creating the chaos game
    */
   private static ChaosGameDescription createJuliaSet() throws ChaosGameDescriptionFactoryException {
     List<Transform2D> transforms = List.of(
@@ -55,6 +57,7 @@ public class ChaosGameDescriptionFactory {
    * Helper method for creating a chaos game description of the Barnsley fern.
    *
    * @return a list of the available chaos game types.
+   * @throws ChaosGameDescriptionFactoryException if an error occurs while creating the chaos game
    */
   private static ChaosGameDescription createBarnsleyFern()
       throws ChaosGameDescriptionFactoryException {
@@ -78,6 +81,7 @@ public class ChaosGameDescriptionFactory {
    * Helper method for creating a chaos game description of the Sierpinski triangle.
    *
    * @return a list of the available chaos game types.
+   * @throws ChaosGameDescriptionFactoryException if an error occurs while creating the chaos game
    */
   private static ChaosGameDescription createSierpinskiTriangle()
       throws ChaosGameDescriptionFactoryException {

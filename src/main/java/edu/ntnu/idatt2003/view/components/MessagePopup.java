@@ -50,5 +50,8 @@ public abstract class MessagePopup extends Popup {
     pause.play();
   }
 
+  /**
+   * Sets the style of the wrapper.
+   */
   abstract void setWrapperStyle();
 }

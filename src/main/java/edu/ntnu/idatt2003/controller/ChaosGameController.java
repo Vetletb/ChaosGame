@@ -1,6 +1,9 @@
 package edu.ntnu.idatt2003.controller;
 
-import edu.ntnu.idatt2003.exceptions.*;
+import edu.ntnu.idatt2003.exceptions.ChaosGameDescriptionException;
+import edu.ntnu.idatt2003.exceptions.ChaosGameDescriptionFactoryException;
+import edu.ntnu.idatt2003.exceptions.ChaosGameException;
+import edu.ntnu.idatt2003.exceptions.ChaosGameFileHandlerException;
 import edu.ntnu.idatt2003.model.game.ChaosGame;
 import edu.ntnu.idatt2003.model.game.ChaosGameDescription;
 import edu.ntnu.idatt2003.model.game.ChaosGameDescriptionFactory;
@@ -20,7 +23,6 @@ public class ChaosGameController implements Observer {
   private final ViewCanvas viewCanvas;
   private Exception exceptionInTimeline;
 
-
   /**
    * Constructor for the ChaosGameController class.
    *
@@ -29,26 +31,47 @@ public class ChaosGameController implements Observer {
    * @param height     the height of the canvas.
    */
   public ChaosGameController(ViewCanvas viewCanvas, int width, int height)
-      throws ChaosGameDescriptionFactoryException, ChaosGameException, ChaosCanvasException {
+      throws ChaosGameDescriptionFactoryException, ChaosGameException {
     this.viewCanvas = viewCanvas;
     chaosGame = new ChaosGame(ChaosGameDescriptionFactory.get("Julia Set"), width, height);
     chaosGame.attach(this);
   }
 
+  /**
+   * Resets the chaos game with a new description.
+   *
+   * @param description the description to be set
+   * @throws ChaosGameDescriptionFactoryException if the description is invalid
+   * @throws ChaosGameException if the chaos game cannot be reset
+   */
   public void resetChaosGameWithDescription(String description)
       throws ChaosGameDescriptionFactoryException, ChaosGameException {
     ChaosGameDescription newDescription = ChaosGameDescriptionFactory.get(description);
     chaosGame.resetGameWithDescription(newDescription);
   }
 
+  /**
+   * Resets the chaos game.
+   */
   public void resetChaosGame() {
     chaosGame.resetGame();
   }
 
+  /**
+   * Resets the gui canvas.
+   */
   public void resetViewCanvas() {
     viewCanvas.reset();
   }
 
+  /**
+   * Reads a description from a file and resets the chaos game with the new description.
+   *
+   * @param file the file to read the description from
+   * @throws ChaosGameFileHandlerException if the file cannot be read
+   * @throws ChaosGameDescriptionException if the description is invalid
+   * @throws ChaosGameException if the chaos game cannot be reset
+   */
   public void resetChaosGameWithFile(File file)
       throws ChaosGameFileHandlerException, ChaosGameDescriptionException, ChaosGameException {
     ChaosGameFileHandler fileHandler = new ChaosGameFileHandler();
@@ -84,6 +107,9 @@ public class ChaosGameController implements Observer {
     viewCanvas.drawPoint(scaledCoordinates[0], scaledCoordinates[1], rgbColor);
   }
 
+  /**
+   * Draws the current pixel on the viewCanvas.
+   */
   private void drawCurrentPixel() {
     drawPixel(chaosGame.getCanvas().getNewPixel());
   }
@@ -105,6 +131,9 @@ public class ChaosGameController implements Observer {
 
   /**
    * Animates the chaos game by running a given number of iterations.
+   *
+   * @param iterations the number of iterations to animate
+   * @throws ChaosGameException if the number of iterations is invalid
    */
   public void animateIterations(int iterations) throws ChaosGameException {
     if (iterations <= 0) {
@@ -164,14 +193,19 @@ public class ChaosGameController implements Observer {
     }
   }
 
+  /**
+   * Writes the set description of the chaos game to a file.
+   *
+   * @param file the file to write to
+   * @throws ChaosGameFileHandlerException if the file cannot be written to
+   */
   public void writeChaosGameToFile(File file) throws ChaosGameFileHandlerException {
     ChaosGameFileHandler fileHandler = new ChaosGameFileHandler();
     fileHandler.writeToFile(chaosGame.getDescriptions(), file);
   }
 
   /**
-   * When the chaosGame runs a step, this method is called and
-   * a pixel is drawn on the viewCanvas.
+   * When the chaosGame is updated, this method is called.
   */
   @Override
   public void update(String updated) {
