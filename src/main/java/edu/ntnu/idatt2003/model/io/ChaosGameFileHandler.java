@@ -34,9 +34,11 @@ public class ChaosGameFileHandler {
    *
    * @param file the file to be read.
    * @return the ChaosGameDescription read from the file.
+   * @throws ChaosGameFileHandlerException if the file is not found.
+   * @throws ChaosGameDescriptionException if the ChaosGameDescription could not be created.
    */
   public ChaosGameDescription readFromFile(File file)
-      throws ChaosGameFileHandlerException, ChaosGameDescriptionException {
+      throws ChaosGameFileHandlerException {
     List<List<String>> lines = divideFileToLines(file);
     if (lines.size() <= 3) {
       throw new WrongFileFormatException();
@@ -93,10 +95,17 @@ public class ChaosGameFileHandler {
       return new ChaosGameDescription(transforms, new Vector2D(minX, minY),
           new Vector2D(maxX, maxY));
     } catch (ChaosGameDescriptionException e) {
-      throw new ChaosGameDescriptionException("Could not create ChaosGameDescription", e);
+      throw new ChaosGameFileHandlerException("Could not create ChaosGameDescription", e);
     }
   }
 
+  /**
+   * Divides a file into lines.
+   *
+   * @param file the file to divide.
+   * @return a list of lines in the file.
+   * @throws ChaosGameFileHandlerException if the file is not found.
+   */
   private List<List<String>> divideFileToLines(File file)
       throws ChaosGameFileHandlerException {
     List<List<String>> lines = new ArrayList<>();
@@ -122,6 +131,13 @@ public class ChaosGameFileHandler {
     return lines;
   }
 
+  /**
+   * Packages the lines of a file into a list of AffineTransform2D.
+   *
+   * @param lines the lines of the file.
+   * @return a list of AffineTransform2D.
+   * @throws WrongFileFormatException if the file is not formatted correctly.
+   */
   private List<Transform2D> packageToAffineList(List<List<String>> lines)
       throws WrongFileFormatException {
     for (int i = 3; i < lines.size(); i++) {
@@ -156,6 +172,13 @@ public class ChaosGameFileHandler {
     return transforms;
   }
 
+  /**
+   * Packages the lines of a file into a list of JuliaTransform.
+   *
+   * @param lines the lines of the file.
+   * @return a list of JuliaTransform.
+   * @throws WrongFileFormatException if the file is not formatted correctly.
+   */
   private List<Transform2D> packageToJuliaList(List<List<String>> lines)
       throws WrongFileFormatException {
 
@@ -196,6 +219,7 @@ public class ChaosGameFileHandler {
    *
    * @param chaosGameDescription the ChaosGameDescription to write.
    * @param path the path to the file.
+   * @throws ChaosGameFileHandlerException if the file could not be written to.
    */
   public void writeToFile(ChaosGameDescription chaosGameDescription, File path)
       throws ChaosGameFileHandlerException {
@@ -226,6 +250,13 @@ public class ChaosGameFileHandler {
     }
   }
 
+  /**
+   * Writes an AffineTransform2D description to a file.
+   *
+   * @param writer the writer to write to.
+   * @param affineTransform the AffineTransform2D to write.
+   * @throws IOException if the AffineTransform2D could not be written to the file.
+   */
   private void writeAffineToFile(BufferedWriter writer, AffineTransform2D affineTransform)
       throws IOException {
     Matrix2x2 matrix = affineTransform.getMatrix();
@@ -241,6 +272,13 @@ public class ChaosGameFileHandler {
     writer.write(a00 + ", " + a01 + ", " + a10 + ", " + a11 + ", " + x0 + ", " + x1 + "\n");
   }
 
+    /**
+     * Writes a JuliaTransform description to a file.
+     *
+     * @param writer the writer to write to.
+     * @param juliaTransform the JuliaTransform to write.
+     * @throws IOException if the JuliaTransform could not be written to the file.
+     */
   private void writeJuliaToFile(BufferedWriter writer, JuliaTransform juliaTransform)
       throws IOException {
     Complex complex = juliaTransform.getPoint();
@@ -254,6 +292,7 @@ public class ChaosGameFileHandler {
    * Lists all files in the resources directory.
    *
    * @return a list of all files in the resources directory.
+   * @throws ChaosGameFileHandlerException if the files could not be listed.
    */
   public List<String> listFiles() throws ChaosGameFileHandlerException {
     List<String> fileList = new ArrayList<>();

@@ -43,6 +43,11 @@ public class ViewCanvas {
     gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
   }
 
+  /**
+   * Gets the canvas.
+   *
+   * @return the canvas.
+   */
   public Canvas getCanvas() {
     return canvas;
   }

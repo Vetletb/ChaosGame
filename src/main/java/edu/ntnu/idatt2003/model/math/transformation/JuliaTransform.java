@@ -51,6 +51,12 @@ public class JuliaTransform  implements Transform2D {
     return point;
   }
 
+  /**
+   * Compares this object to another object.
+   *
+   * @param obj the object to compare to.
+   * @return true if the objects are equal, false otherwise.
+   */
   @Override
   public boolean equals(Object obj) {
     if (obj == null || getClass() != obj.getClass()) {

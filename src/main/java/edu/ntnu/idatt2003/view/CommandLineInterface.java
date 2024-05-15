@@ -31,9 +31,11 @@ public class CommandLineInterface {
 
   /**
    * Starts the command line interface.
+   *
+   * @throws ChaosGameFileHandlerException if an error occurs while reading or writing to a file.
+   * @throws ChaosGameException if an error occurs while running the chaos game.
    */
-  public void start() throws ChaosGameFileHandlerException, ChaosGameException,
-      ChaosCanvasException {
+  public void start() throws ChaosGameFileHandlerException, ChaosGameException {
     boolean exit = false;
     while (!exit) {
       System.out.println("Welcome to the Chaos Game!");
@@ -57,6 +59,9 @@ public class CommandLineInterface {
 
   /**
    * Chooses a file to construct a ChaosGameDescription from.
+   *
+   * @throws ChaosGameFileHandlerException if an error occurs while getting the list of files
+   *      or reading from a file.
    */
   private void chooseFile() throws ChaosGameFileHandlerException {
     System.out.println("Choose a file:");
@@ -81,8 +86,6 @@ public class CommandLineInterface {
           System.out.println("Wrong file format. Please try again.");
         } catch (ChaosGameFileHandlerException e) {
           System.out.println("File not found. Please try again.");
-        } catch (ChaosGameDescriptionException e) {
-          System.out.println("Failed to create ChaosGameDescription. Please try again.");
         }
         break;
       }
@@ -113,6 +116,8 @@ public class CommandLineInterface {
 
   /**
    * Runs the chaos game and prints the result.
+   *
+   * @throws ChaosGameException if an error occurs while running the chaos game.
    */
   private void runChaosGame() throws ChaosGameException {
     ChaosGame chaosGame = new ChaosGame(description, width, height);
