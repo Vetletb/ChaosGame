@@ -174,8 +174,12 @@ public class ChaosGameController implements Observer {
    * a pixel is drawn on the viewCanvas.
   */
   @Override
-  public void update() {
-    drawCurrentPixel();
+  public void update(String updated) {
+    switch (updated) {
+      case "clearGame" -> viewCanvas.reset();
+      case "putPixel" -> drawCurrentPixel();
+      case "setDescription" -> System.out.println("description");
+    }
   }
 }
 

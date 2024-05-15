@@ -158,7 +158,6 @@ public class ChaosGameFileHandler {
 
   private List<Transform2D> packageToJuliaList(List<List<String>> lines)
       throws WrongFileFormatException {
-    List<Transform2D> transforms = new ArrayList<>();
 
     if (lines.size() != 4) {
       throw new WrongFileFormatException("The file should have one Julia transformation");
@@ -186,6 +185,7 @@ public class ChaosGameFileHandler {
     JuliaTransform juliaTransformPositive = new JuliaTransform(new Complex(real, imaginary), 1);
     JuliaTransform juliaTransformNegative = new JuliaTransform(new Complex(real, imaginary), -1);
 
+    List<Transform2D> transforms = new ArrayList<>();
     transforms.add(juliaTransformNegative);
     transforms.add(juliaTransformPositive);
     return transforms;

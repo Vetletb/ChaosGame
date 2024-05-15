@@ -16,5 +16,5 @@ public class InputBar extends TextField {
         this.setText(oldValue);
       }
     });
-    }
+  }
 }

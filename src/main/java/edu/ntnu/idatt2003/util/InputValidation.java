@@ -15,7 +15,8 @@ public class InputValidation {
    * @param parameterName the name of the object
    * @throws IllegalArgumentException if the object is null
    */
-  public static void validateNotNull(Object object, String parameterName) throws IllegalArgumentException {
+  public static void validateNotNull(Object object, String parameterName)
+      throws IllegalArgumentException {
     if (object == null) {
       throw new IllegalArgumentException("Object: " + parameterName + " cannot be null");
     }
@@ -28,7 +29,8 @@ public class InputValidation {
    * @param parameterName the name of the int
    * @throws IllegalArgumentException if the int is not positive
    */
-  public static void validatePositiveInt(int number, String parameterName) throws IllegalArgumentException {
+  public static void validatePositiveInt(int number, String parameterName)
+      throws IllegalArgumentException {
     if (number <= 0) {
       throw new IllegalArgumentException("Number: " + parameterName + " must be positive");
     }
@@ -41,7 +43,8 @@ public class InputValidation {
    * @param parameterName the name of the list
    * @throws IllegalArgumentException if the list is empty
    */
-  public static <T> void validateListNotEmpty(List<T> list, String parameterName) throws IllegalArgumentException {
+  public static <T> void validateListNotEmpty(List<T> list, String parameterName)
+      throws IllegalArgumentException {
     if (list.isEmpty()) {
       throw new IllegalArgumentException("List: " + parameterName + " must not be empty");
     }
