@@ -49,7 +49,8 @@ public class ChaosGameController implements Observer {
     viewCanvas.reset();
   }
 
-  public void resetChaosGameWithFile(File file) throws ChaosGameFileHandlerException, ChaosGameDescriptionException, ChaosGameException {
+  public void resetChaosGameWithFile(File file)
+      throws ChaosGameFileHandlerException, ChaosGameDescriptionException, ChaosGameException {
     ChaosGameFileHandler fileHandler = new ChaosGameFileHandler();
     ChaosGameDescription newDescription = fileHandler.readFromFile(file);
     chaosGame.resetGameWithDescription(newDescription);
@@ -95,8 +96,10 @@ public class ChaosGameController implements Observer {
    * @return the scaled coordinates.
    */
   private int[] scaleCoordinates(int x, int y) {
-    int scaledX = (int) (x * viewCanvas.getCanvas().getWidth() / chaosGame.getCanvas().getWidth());
-    int scaledY = (int) (y * viewCanvas.getCanvas().getHeight() / chaosGame.getCanvas().getHeight());
+    int scaledX = (int) (
+        x * viewCanvas.getCanvas().getWidth() / chaosGame.getCanvas().getWidth());
+    int scaledY = (int) (
+        y * viewCanvas.getCanvas().getHeight() / chaosGame.getCanvas().getHeight());
     return new int[]{scaledX, scaledY};
   }
 
@@ -154,7 +157,9 @@ public class ChaosGameController implements Observer {
     for (int i = 0; i < array.length; i++) {
       for (int j = 0; j < array[i].length; j++) {
         int[] pixel = {i, j, array[i][j]};
-        drawPixel(pixel);
+        if (pixel[2] != 0) {
+          drawPixel(pixel);
+        }
       }
     }
   }
@@ -169,7 +174,7 @@ public class ChaosGameController implements Observer {
    * a pixel is drawn on the viewCanvas.
   */
   @Override
-  public void update () {
+  public void update() {
     drawCurrentPixel();
   }
 }
