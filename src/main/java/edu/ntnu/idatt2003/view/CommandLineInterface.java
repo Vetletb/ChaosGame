@@ -9,8 +9,6 @@ import edu.ntnu.idatt2003.model.game.ChaosGame;
 import edu.ntnu.idatt2003.model.game.ChaosGameDescription;
 import edu.ntnu.idatt2003.model.io.ChaosGameFileHandler;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -116,7 +114,7 @@ public class CommandLineInterface {
   /**
    * Runs the chaos game and prints the result.
    */
-  private void runChaosGame() throws ChaosGameException, ChaosCanvasException {
+  private void runChaosGame() throws ChaosGameException {
     ChaosGame chaosGame = new ChaosGame(description, width, height);
     System.out.println("Choose number of steps:");
     int steps = scanner.nextInt();

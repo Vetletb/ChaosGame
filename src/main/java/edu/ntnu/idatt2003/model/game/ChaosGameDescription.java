@@ -90,9 +90,8 @@ public class ChaosGameDescription {
     if (obj == null || getClass() != obj.getClass()) {
       return false;
     }
-    boolean equal = transforms.equals(((ChaosGameDescription) obj).getTransforms())
+    return transforms.equals(((ChaosGameDescription) obj).getTransforms())
         && minCoords.equals(((ChaosGameDescription) obj).getMinCoords())
         && maxCoords.equals(((ChaosGameDescription) obj).getMaxCoords());
-    return equal;
   }
 }

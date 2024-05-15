@@ -10,5 +10,5 @@ public interface Transform2D {
   /**
    * Abstract method for transforming a 2D vector.
    */
-  public Vector2D transform(Vector2D point);
+  Vector2D transform(Vector2D point);
 }
