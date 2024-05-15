@@ -38,7 +38,7 @@ public abstract class Subject {
   /**
    * Notifies all observers.
    */
-  public void notifyObservers() {
-    observers.forEach(Observer::update);
-    }
+  public void notifyObservers(String updated) {
+    observers.forEach(observer -> observer.update(updated));
+  }
 }

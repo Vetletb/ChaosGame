@@ -11,7 +11,8 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 
 /**
- * The top bar that contains buttons for choosing chaos game types, editing and running the chaos game.
+ * The top bar that contains buttons for choosing chaos game types,
+ * editing and running the chaos game.
  */
 public class TopBar extends StackPane {
   private final ChaosGameController controller;
@@ -79,7 +80,8 @@ public class TopBar extends StackPane {
     Button writeFileButton = new PrimaryButton("Write File");
     writeFileButton.setOnAction(e -> {
       FileChooser fileChooser = new FileChooser();
-      FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+      FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
+          "TXT files (*.txt)", "*.txt");
       fileChooser.getExtensionFilters().add(extFilter);
       File file = fileChooser.showSaveDialog(this.getScene().getWindow());
       try {
@@ -95,9 +97,7 @@ public class TopBar extends StackPane {
     });
 
     Button editButton = new PrimaryButton("Edit");
-    editButton.setOnAction(e -> {
-      System.out.println("Edit");
-    });
+    editButton.setOnAction(e -> System.out.println("Edit"));
 
     TextField iterationsField = new InputBar();
     iterationsField.setPromptText("Iterations");
@@ -105,7 +105,6 @@ public class TopBar extends StackPane {
 
     Button runButton = new PrimaryButton("Run");
     runButton.setOnAction(e -> {
-      this.controller.resetViewCanvas();
       this.controller.resetChaosGame();
       try {
         iterations = Integer.parseInt(iterationsField.getText());
@@ -126,7 +125,8 @@ public class TopBar extends StackPane {
     HBox rightButtonBox = new HBox();
 
     leftButtonBox.getChildren().addAll(writeFileButton, editButton);
-    middleButtonBox.getChildren().addAll(juliaButton, sierpinskiButton, barnsleyButton, readFileButton);
+    middleButtonBox.getChildren().addAll(
+        juliaButton, sierpinskiButton, barnsleyButton, readFileButton);
     rightButtonBox.getChildren().addAll(iterationsField, runButton);
 
     leftButtonBox.setSpacing(8);
