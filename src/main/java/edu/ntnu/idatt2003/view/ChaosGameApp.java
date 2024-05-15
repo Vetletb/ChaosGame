@@ -4,7 +4,6 @@ import edu.ntnu.idatt2003.controller.ChaosGameController;
 import edu.ntnu.idatt2003.view.components.TopBar;
 import edu.ntnu.idatt2003.view.components.ViewCanvas;
 import java.util.Objects;
-
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
@@ -35,7 +34,8 @@ public class ChaosGameApp extends Application {
     root.getChildren().addAll(
         topBar,
         canvasContainer);
-    root.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/style.css")).toExternalForm());
+    root.getStylesheets().add(
+        Objects.requireNonNull(getClass().getResource("/style.css")).toExternalForm());
 
     scene = new Scene(root, 900, 760);
 
@@ -54,10 +54,12 @@ public class ChaosGameApp extends Application {
   }
 
   private void updateCanvasSize() {
-    int minSize = (scene.getWidth() <= scene.getHeight() - topBar.getHeight()) ? (int) scene.getWidth() : (int) scene.getHeight() - (int) topBar.getHeight();
+    int minSize = (scene.getWidth() <= scene.getHeight() - topBar.getHeight())
+        ? (int) scene.getWidth() : (int) scene.getHeight() - (int) topBar.getHeight();
     canvasContainer.setMinSize(minSize, minSize);
     viewCanvas.getCanvas().setWidth(minSize - 20);
     viewCanvas.getCanvas().setHeight(minSize - 20);
-    // controller.rescaleCanvas();
-    }
+    viewCanvas.reset();
+    controller.rescaleCanvas();
+  }
 }
