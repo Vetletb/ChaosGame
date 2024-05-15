@@ -81,8 +81,6 @@ public class CommandLineInterface {
           System.out.println("Wrong file format. Please try again.");
         } catch (ChaosGameFileHandlerException e) {
           System.out.println("File not found. Please try again.");
-        } catch (ChaosGameDescriptionException e) {
-          System.out.println("Failed to create ChaosGameDescription. Please try again.");
         }
         break;
       }

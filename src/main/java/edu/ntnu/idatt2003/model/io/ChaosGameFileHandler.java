@@ -36,7 +36,7 @@ public class ChaosGameFileHandler {
    * @return the ChaosGameDescription read from the file.
    */
   public ChaosGameDescription readFromFile(File file)
-      throws ChaosGameFileHandlerException, ChaosGameDescriptionException {
+      throws ChaosGameFileHandlerException {
     List<List<String>> lines = divideFileToLines(file);
     if (lines.size() <= 3) {
       throw new WrongFileFormatException();
@@ -93,7 +93,7 @@ public class ChaosGameFileHandler {
       return new ChaosGameDescription(transforms, new Vector2D(minX, minY),
           new Vector2D(maxX, maxY));
     } catch (ChaosGameDescriptionException e) {
-      throw new ChaosGameDescriptionException("Could not create ChaosGameDescription", e);
+      throw new ChaosGameFileHandlerException("Could not create ChaosGameDescription", e);
     }
   }
 
