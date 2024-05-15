@@ -9,6 +9,7 @@ import edu.ntnu.idatt2003.model.game.ChaosGameDescription;
 import edu.ntnu.idatt2003.model.game.ChaosGameDescriptionFactory;
 import edu.ntnu.idatt2003.model.game.Observer;
 import edu.ntnu.idatt2003.model.io.ChaosGameFileHandler;
+import edu.ntnu.idatt2003.util.ExceptionLogger;
 import edu.ntnu.idatt2003.view.components.ViewCanvas;
 import java.io.File;
 import javafx.animation.KeyFrame;
@@ -22,6 +23,7 @@ public class ChaosGameController implements Observer {
   private final ChaosGame chaosGame;
   private final ViewCanvas viewCanvas;
   private Exception exceptionInTimeline;
+  private ExceptionLogger exceptionLogger;
 
   /**
    * Constructor for the ChaosGameController class.
@@ -35,6 +37,7 @@ public class ChaosGameController implements Observer {
     this.viewCanvas = viewCanvas;
     chaosGame = new ChaosGame(ChaosGameDescriptionFactory.get("Julia Set"), width, height);
     chaosGame.attach(this);
+    exceptionLogger = new ExceptionLogger("ChaosGameController");
   }
 
   /**
