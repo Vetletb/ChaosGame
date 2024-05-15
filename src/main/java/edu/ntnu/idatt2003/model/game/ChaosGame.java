@@ -72,6 +72,7 @@ public class ChaosGame extends Subject {
           "An error occurred while setting the description of the chaos game.", e);
     }
     this.description = description;
+    notifyObservers("setDescription");
   }
 
   /**
@@ -80,6 +81,7 @@ public class ChaosGame extends Subject {
   public void resetGame() {
     canvas.clear();
     currentPoint = new Vector2D(0, 0);
+    super.notifyObservers("clearGame");
   }
 
   /**
@@ -108,7 +110,7 @@ public class ChaosGame extends Subject {
       Transform2D currentTransformation = transforms.get(random.nextInt(transforms.size()));
       currentPoint = currentTransformation.transform(currentPoint);
       canvas.putPixel(currentPoint);
-      super.notifyObservers();
+      super.notifyObservers("putPixel");
     }
   }
 }
