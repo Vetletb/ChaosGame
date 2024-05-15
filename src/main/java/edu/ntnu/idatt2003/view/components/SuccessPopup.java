@@ -11,6 +11,9 @@ public class SuccessPopup extends MessagePopup {
     setWrapperStyle();
   }
 
+  /**
+   * Sets the style of the wrapper.
+   */
   @Override
   void setWrapperStyle() {
     labelWrapper.setStyle("-fx-background-color: #98ff98;"

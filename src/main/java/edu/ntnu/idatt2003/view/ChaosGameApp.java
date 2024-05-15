@@ -20,6 +20,11 @@ public class ChaosGameApp extends Application {
   StackPane canvasContainer;
   TopBar topBar;
 
+  /**
+   * Starts the JavaFX application.
+   *
+   * @param stage the stage of the application.
+   */
   @Override
   public void start(Stage stage) throws Exception {
     viewCanvas = new ViewCanvas();
@@ -49,6 +54,9 @@ public class ChaosGameApp extends Application {
     stage.show();
   }
 
+  /**
+   * Updates the size of the canvas to the window.
+   */
   private void updateCanvasSize() {
     int minSize = (scene.getWidth() <= scene.getHeight() - topBar.getHeight())
         ? (int) scene.getWidth() : (int) scene.getHeight() - (int) topBar.getHeight();
