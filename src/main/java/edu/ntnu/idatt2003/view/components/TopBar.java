@@ -1,14 +1,18 @@
 package edu.ntnu.idatt2003.view.components;
 
 import edu.ntnu.idatt2003.controller.ChaosGameController;
-import edu.ntnu.idatt2003.exceptions.ChaosGameDescriptionFactoryException;
-import edu.ntnu.idatt2003.exceptions.ChaosGameException;
 import java.io.File;
+
+import edu.ntnu.idatt2003.view.components.buttons.PrimaryButton;
+import edu.ntnu.idatt2003.view.components.buttons.SecondaryButton;
+import edu.ntnu.idatt2003.view.components.popups.EditPopup;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
+import javafx.stage.Window;
 
 /**
  * The top bar that contains buttons for choosing chaos game types,
@@ -17,6 +21,8 @@ import javafx.stage.FileChooser;
 public class TopBar extends StackPane {
   private final ChaosGameController controller;
   private int iterations;
+  private EditPopup editPopup;
+  private Window ownerWindow;
 
   /**
    * Constructor for the TopBar class.
@@ -27,77 +33,60 @@ public class TopBar extends StackPane {
     super();
     this.controller = controller;
 
+    sceneProperty().addListener((observable, oldScene, newScene) -> {
+      if (newScene != null) {
+        newScene.windowProperty().addListener((observable1, oldWindow, newWindow) -> {
+          if (newWindow != null) {
+            ownerWindow = newWindow;
+          }
+        });
+      }
+    });
+
+
     Button juliaButton = new SecondaryButton("Julia Set");
     juliaButton.setOnAction(e -> {
       this.controller.resetViewCanvas();
-      try {
-        this.controller.resetChaosGameWithDescription("Julia Set");
-        new SuccessPopup("Julia Set loaded", this.getScene().getWindow());
-      } catch (ChaosGameDescriptionFactoryException | ChaosGameException ex) {
-        new ErrorPopup(ex.getMessage(), this.getScene().getWindow());
-      }
+      this.controller.resetChaosGameWithDescription("Julia Set");
     });
 
     Button sierpinskiButton = new SecondaryButton("Sierpinski");
     sierpinskiButton.setOnAction(e -> {
       this.controller.resetViewCanvas();
-      try {
-        this.controller.resetChaosGameWithDescription("Sierpinski");
-        new SuccessPopup("Sierpinski loaded", this.getScene().getWindow());
-      } catch (ChaosGameDescriptionFactoryException | ChaosGameException ex) {
-        new ErrorPopup(ex.getMessage(), this.getScene().getWindow());
-      }
+      this.controller.resetChaosGameWithDescription("Sierpinski");
     });
 
     Button barnsleyButton = new SecondaryButton("Barnsley");
     barnsleyButton.setOnAction(e -> {
       this.controller.resetViewCanvas();
-      try {
-        this.controller.resetChaosGameWithDescription("Barnsley");
-        new SuccessPopup("Barnsley loaded", this.getScene().getWindow());
-      } catch (ChaosGameDescriptionFactoryException | ChaosGameException ex) {
-        new ErrorPopup(ex.getMessage(), this.getScene().getWindow());
-      }
+      this.controller.resetChaosGameWithDescription("Barnsley");
     });
 
     Button readFileButton = new SecondaryButton("Read File");
     readFileButton.setOnAction(e -> {
       this.controller.resetViewCanvas();
       FileChooser fileChooser = new FileChooser();
-      File file = fileChooser.showOpenDialog(this.getScene().getWindow());
-      try {
-        controller.resetChaosGameWithFile(file);
-        new SuccessPopup("File read successfully", this.getScene().getWindow());
-      } catch (Exception ex) {
-        if (ex.getMessage() != null) {
-          new ErrorPopup(ex.getMessage(), this.getScene().getWindow());
-        } else {
-          new ErrorPopup("No file selected", this.getScene().getWindow());
-        }
+      File file = fileChooser.showOpenDialog(ownerWindow);
+      if (file != null) {
+        this.controller.resetChaosGameWithFile(file);
       }
     });
 
     Button writeFileButton = new PrimaryButton("Write File");
     writeFileButton.setOnAction(e -> {
       FileChooser fileChooser = new FileChooser();
-      FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
-          "TXT files (*.txt)", "*.txt");
+      FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
       fileChooser.getExtensionFilters().add(extFilter);
-      File file = fileChooser.showSaveDialog(this.getScene().getWindow());
-      try {
-        controller.writeChaosGameToFile(file);
-        new SuccessPopup("File written successfully", this.getScene().getWindow());
-      } catch (Exception ex) {
-        if (ex.getMessage() != null) {
-          new ErrorPopup(ex.getMessage(), this.getScene().getWindow());
-        } else {
-          new ErrorPopup("No location selected", this.getScene().getWindow());
-        }
+      File file = fileChooser.showSaveDialog(ownerWindow);
+      if (file != null) {
+        this.controller.writeChaosGameToFile(file);
       }
     });
 
     Button editButton = new PrimaryButton("Edit");
-    editButton.setOnAction(e -> System.out.println("Edit"));
+    editButton.setOnAction(e -> {
+      this.controller.getPopupHandler().showEditPopup();
+    });
 
     TextField iterationsField = new InputBar();
     iterationsField.setPromptText("Iterations");
@@ -105,19 +94,15 @@ public class TopBar extends StackPane {
 
     Button runButton = new PrimaryButton("Run");
     runButton.setOnAction(e -> {
+      this.controller.resetViewCanvas();
       this.controller.resetChaosGame();
       try {
         iterations = Integer.parseInt(iterationsField.getText());
       } catch (NumberFormatException ex) {
-        new ErrorPopup("Iterations must be an integer", this.getScene().getWindow());
+        this.controller.getPopupHandler().showErrorPopup("Iterations must be a number");
         return;
       }
-      try {
-        this.controller.animateIterations(iterations);
-      } catch (ChaosGameException ex) {
-        new ErrorPopup(ex.getMessage(), this.getScene().getWindow());
-      }
-
+      this.controller.animateIterations(iterations);
     });
 
     HBox leftButtonBox = new HBox();
@@ -125,8 +110,7 @@ public class TopBar extends StackPane {
     HBox rightButtonBox = new HBox();
 
     leftButtonBox.getChildren().addAll(writeFileButton, editButton);
-    middleButtonBox.getChildren().addAll(
-        juliaButton, sierpinskiButton, barnsleyButton, readFileButton);
+    middleButtonBox.getChildren().addAll(juliaButton, sierpinskiButton, barnsleyButton, readFileButton);
     rightButtonBox.getChildren().addAll(iterationsField, runButton);
 
     leftButtonBox.setSpacing(8);
@@ -137,7 +121,7 @@ public class TopBar extends StackPane {
     buttonBox.setSpacing(50);
     buttonBox.setMaxHeight(25);
     buttonBox.setMaxWidth(860);
-    buttonBox.setAlignment(javafx.geometry.Pos.CENTER);
+    buttonBox.setAlignment(Pos.CENTER);
 
     buttonBox.getChildren().addAll(
         leftButtonBox,
@@ -147,7 +131,7 @@ public class TopBar extends StackPane {
 
     this.setMinHeight(60);
     this.setMinWidth(900);
-    this.setAlignment(javafx.geometry.Pos.CENTER);
+    this.setAlignment(Pos.CENTER);
     this.getChildren().add(buttonBox);
   }
 }

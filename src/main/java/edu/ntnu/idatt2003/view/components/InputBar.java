@@ -13,8 +13,7 @@ public class InputBar extends TextField {
    */
   public InputBar() {
     super();
-    this.setPrefWidth(150);
-    this.setMaxHeight(18);
+    setMaxSize(150, 18);
     this.getStyleClass().add("input-bar");
 
     this.textProperty().addListener((observable, oldValue, newValue) -> {
