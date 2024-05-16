@@ -2,8 +2,11 @@ package edu.ntnu.idatt2003.model.io;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import edu.ntnu.idatt2003.exceptions.ChaosGameDescriptionException;
-import edu.ntnu.idatt2003.exceptions.ChaosGameFileHandlerException;
+import edu.ntnu.idatt2003.exceptions.CouldNotWriteException;
+import edu.ntnu.idatt2003.exceptions.EmptyListException;
+import edu.ntnu.idatt2003.exceptions.InvalidSignException;
+import edu.ntnu.idatt2003.exceptions.InvalidVectorRangeException;
+import edu.ntnu.idatt2003.exceptions.IsNullException;
 import edu.ntnu.idatt2003.exceptions.WrongFileFormatException;
 import edu.ntnu.idatt2003.model.game.ChaosGameDescription;
 import edu.ntnu.idatt2003.model.math.mathModel.Complex;
@@ -12,6 +15,7 @@ import edu.ntnu.idatt2003.model.math.mathModel.Vector2D;
 import edu.ntnu.idatt2003.model.math.transformation.AffineTransform2D;
 import edu.ntnu.idatt2003.model.math.transformation.JuliaTransform;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -37,7 +41,8 @@ class ChaosGameFileHandlerTest {
     ChaosGameDescription affine2DPositive;
 
     @BeforeEach
-    void setUp() throws ChaosGameDescriptionException {
+    void setUp() throws IsNullException, EmptyListException,
+        InvalidVectorRangeException, InvalidSignException {
       Vector2D vector1 = new Vector2D(0, 0);
       Vector2D vector2 = new Vector2D(0, 1.6);
       Vector2D vector3 = new Vector2D(0, 1.6);
@@ -63,7 +68,9 @@ class ChaosGameFileHandlerTest {
     @Test
     @DisplayName("Test if readFromFile reads affine transformations correctly")
     void testIfReadChaosGameFileReadsAffineTransformationsCorrectly()
-        throws ChaosGameFileHandlerException, ChaosGameDescriptionException {
+        throws InvalidSignException,
+        WrongFileFormatException, IsNullException, FileNotFoundException, EmptyListException,
+        InvalidVectorRangeException {
       File file = new File("src/test/resources/Affine2DReadPositive.txt");
       ChaosGameDescription chaosGameDescription = chaosGameFileHandler.readFromFile(file);
 
@@ -73,7 +80,8 @@ class ChaosGameFileHandlerTest {
     @Test
     @DisplayName("Test if readFromFile reads julia transformations correctly")
     void testIfReadChaosGameFileReadsJuliaTransformationsCorrectly()
-        throws ChaosGameFileHandlerException, ChaosGameDescriptionException {
+        throws InvalidSignException, WrongFileFormatException, IsNullException,
+        FileNotFoundException, EmptyListException, InvalidVectorRangeException {
       File file = new File("src/test/resources/JuliaReadPositive.txt");
       ChaosGameDescription chaosGameDescription = chaosGameFileHandler.readFromFile(file);
 
@@ -83,7 +91,8 @@ class ChaosGameFileHandlerTest {
     @Test
     @DisplayName("Test if writeToFile writes affine transformations correctly")
     void testIfWriteChaosGameFileWritesAffineTransformationsCorrectly()
-        throws ChaosGameFileHandlerException, ChaosGameDescriptionException {
+        throws CouldNotWriteException, InvalidSignException, WrongFileFormatException,
+        IsNullException, FileNotFoundException, EmptyListException, InvalidVectorRangeException {
       File file = new File("src/test/resources/Affine2DWritePositive.txt");
       chaosGameFileHandler.writeToFile(affine2DPositive, file);
       ChaosGameDescription chaosGameDescription = chaosGameFileHandler.readFromFile(file);
@@ -95,7 +104,8 @@ class ChaosGameFileHandlerTest {
     @Test
     @DisplayName("Test if writeToFile writes julia transformations correctly")
     void testIfWriteChaosGameFileWritesJuliaTransformationsCorrectly()
-        throws ChaosGameFileHandlerException, ChaosGameDescriptionException {
+        throws CouldNotWriteException, InvalidSignException, WrongFileFormatException, IsNullException,
+        FileNotFoundException, EmptyListException, InvalidVectorRangeException {
       File file = new File("src/test/resources/JuliaWritePositive.txt");
       chaosGameFileHandler.writeToFile(juliaPositive, file);
       ChaosGameDescription chaosGameDescription = chaosGameFileHandler.readFromFile(file);

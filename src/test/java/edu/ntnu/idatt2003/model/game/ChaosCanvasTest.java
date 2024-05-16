@@ -2,7 +2,9 @@ package edu.ntnu.idatt2003.model.game;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import edu.ntnu.idatt2003.exceptions.ChaosCanvasException;
+import edu.ntnu.idatt2003.exceptions.InvalidPositiveIntException;
+import edu.ntnu.idatt2003.exceptions.InvalidVectorRangeException;
+import edu.ntnu.idatt2003.exceptions.IsNullException;
 import edu.ntnu.idatt2003.model.math.mathModel.Vector2D;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -20,7 +22,8 @@ class ChaosCanvasTest {
 
     ChaosCanvas canvas;
     @BeforeEach
-    public void setUp() throws ChaosCanvasException {
+    public void setUp() throws InvalidPositiveIntException, IsNullException,
+        InvalidVectorRangeException {
       canvas = new ChaosCanvas(100, 100, new Vector2D(0, 0), new Vector2D(200, 200));
     }
 
@@ -102,14 +105,18 @@ class ChaosCanvasTest {
     public class PositiveTestsForEquals {
       @Test
       @DisplayName("Equals returns true when two canvases are equal")
-      void equalsReturnsTrueWhenTwoCanvasesAreEqual() throws ChaosCanvasException {
+      void equalsReturnsTrueWhenTwoCanvasesAreEqual()
+          throws InvalidPositiveIntException, IsNullException,
+          InvalidVectorRangeException {
         ChaosCanvas canvas2 = new ChaosCanvas(100, 100, new Vector2D(0, 0), new Vector2D(200, 200));
         assertEquals(canvas, canvas2);
       }
 
       @Test
       @DisplayName("Equals returns false when two canvases are not equal")
-      void equalsReturnsFalseWhenTwoCanvasesAreNotEqual() throws ChaosCanvasException {
+      void equalsReturnsFalseWhenTwoCanvasesAreNotEqual()
+          throws InvalidPositiveIntException, IsNullException,
+          InvalidVectorRangeException {
         ChaosCanvas canvas2 = new ChaosCanvas(120, 120, new Vector2D(1, 1), new Vector2D(100, 100));
         assertNotEquals(canvas, canvas2);
       }
@@ -134,10 +141,12 @@ class ChaosCanvasTest {
 
     @Test
     @DisplayName("Negative tests for setMinMaxCoords")
-    public void setMinMaxCoordsThrowsExceptionOnNull() throws ChaosCanvasException {
+    public void setMinMaxCoordsThrowsExceptionOnNull()
+        throws InvalidPositiveIntException, IsNullException,
+        InvalidVectorRangeException {
       ChaosCanvas canvas = new ChaosCanvas(100, 100, new Vector2D(0, 0), new Vector2D(200, 200));
-      assertThrows(ChaosCanvasException.class, () -> canvas.setMinMaxCoords(null, new Vector2D(200, 200)));
-      assertThrows(ChaosCanvasException.class, () -> canvas.setMinMaxCoords(new Vector2D(0, 0), null));
+      assertThrows(IsNullException.class, () -> canvas.setMinMaxCoords(null, new Vector2D(200, 200)));
+      assertThrows(IsNullException.class, () -> canvas.setMinMaxCoords(new Vector2D(0, 0), null));
     }
 
     @Nested
@@ -147,13 +156,13 @@ class ChaosCanvasTest {
       @Test
       @DisplayName("Constructor throws exception on negative width")
       public void constructorThrowsExceptionOnNegativeWidth() {
-        assertThrows(ChaosCanvasException.class, () -> new ChaosCanvas(-100, 100, new Vector2D(0, 0), new Vector2D(200, 200)));
+        assertThrows(InvalidPositiveIntException.class, () -> new ChaosCanvas(-100, 100, new Vector2D(0, 0), new Vector2D(200, 200)));
       }
 
       @Test
       @DisplayName("Constructor throws exception on negative height")
       public void constructorThrowsExceptionOnNegativeHeight() {
-        assertThrows(ChaosCanvasException.class, () -> new ChaosCanvas(100, -100, new Vector2D(0, 0), new Vector2D(200, 200)));
+        assertThrows(InvalidPositiveIntException.class, () -> new ChaosCanvas(100, -100, new Vector2D(0, 0), new Vector2D(200, 200)));
       }
     }
   }

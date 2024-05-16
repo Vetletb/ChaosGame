@@ -1,8 +1,12 @@
 package edu.ntnu.idatt2003.model.io;
 
-import edu.ntnu.idatt2003.exceptions.ChaosGameDescriptionException;
-import edu.ntnu.idatt2003.exceptions.ChaosGameFileHandlerException;
+import edu.ntnu.idatt2003.exceptions.CouldNotWriteException;
+import edu.ntnu.idatt2003.exceptions.EmptyListException;
+import edu.ntnu.idatt2003.exceptions.InvalidSignException;
+import edu.ntnu.idatt2003.exceptions.InvalidVectorRangeException;
+import edu.ntnu.idatt2003.exceptions.IsNullException;
 import edu.ntnu.idatt2003.exceptions.WrongFileFormatException;
+import edu.ntnu.idatt2003.exceptions.WrongLengthException;
 import edu.ntnu.idatt2003.model.game.ChaosGameDescription;
 import edu.ntnu.idatt2003.model.math.mathModel.Complex;
 import edu.ntnu.idatt2003.model.math.mathModel.Matrix2x2;
@@ -34,23 +38,30 @@ public class ChaosGameFileHandler {
    *
    * @param file the file to be read.
    * @return the ChaosGameDescription read from the file.
-   * @throws ChaosGameFileHandlerException if the file is not found.
-   * @throws ChaosGameDescriptionException if the ChaosGameDescription could not be created.
+   * @throws FileNotFoundException if the file is not found.
+   * @throws WrongFileFormatException if the ChaosGameDescription could not be created.
+   * @throws IsNullException if an object is null.
+   * @throws EmptyListException if a list is empty.
+   * @throws InvalidVectorRangeException if the vector range is invalid.
+   * @throws InvalidSignException if the sign is invalid.
    */
   public ChaosGameDescription readFromFile(File file)
-      throws ChaosGameFileHandlerException {
+      throws WrongFileFormatException, IsNullException, EmptyListException,
+      InvalidVectorRangeException, InvalidSignException, FileNotFoundException {
     List<List<String>> lines = divideFileToLines(file);
-    if (lines.size() <= 3) {
-      throw new WrongFileFormatException();
+
+    try {
+      InputValidation.validateListLessOrEqualThan(lines, 3, "lines");
+    } catch (WrongLengthException e) {
+      throw new WrongFileFormatException("The file should have at least three lines", e);
     }
+
     List<String> type = lines.getFirst();
     try {
       InputValidation.validateNotNull(type, "type");
-    } catch (IllegalArgumentException e) {
+      InputValidation.validateListLength(type, 1, "type");
+    } catch (IsNullException | WrongLengthException e) {
       throw new WrongFileFormatException("The file should have one transformation type", e);
-    }
-    if (type.size() != 1) {
-      throw new WrongFileFormatException("The file should have one transformation type");
     }
     if (!type.getFirst().equals("Affine2D") && !type.getFirst().equals("Julia")) {
       throw new WrongFileFormatException("The file has an unsupported transformation type");
@@ -61,11 +72,10 @@ public class ChaosGameFileHandler {
     try {
       InputValidation.validateNotNull(minCoords, "minCoords");
       InputValidation.validateNotNull(maxCoords, "maxCoords");
-    } catch (IllegalArgumentException e) {
+      InputValidation.validateListLength(minCoords, 2, "minCoords");
+      InputValidation.validateListLength(maxCoords, 2, "maxCoords");
+    } catch (IllegalArgumentException | WrongLengthException e) {
       throw new WrongFileFormatException("The file should have two min/max coordinates each", e);
-    }
-    if (minCoords.size() != 2 || maxCoords.size() != 2) {
-      throw new WrongFileFormatException("The file should have two min/max coordinates each");
     }
 
     double minX;
@@ -79,10 +89,7 @@ public class ChaosGameFileHandler {
       maxY = Double.parseDouble(maxCoords.get(1));
     } catch (NumberFormatException e) {
       throw new WrongFileFormatException("The min/max coordinates in the file are not numbers", e);
-    } catch (IndexOutOfBoundsException e) {
-      throw new WrongFileFormatException("The file is missing min/max coordinates", e);
     }
-
     if (minX >= maxX || minY >= maxY) {
       throw new WrongFileFormatException(
           "The min coordinates should be less than the max coordinates");
@@ -91,12 +98,9 @@ public class ChaosGameFileHandler {
     List<Transform2D> transforms =
         (type.getFirst().equals("Affine2D"))
             ? packageToAffineList(lines) : packageToJuliaList(lines);
-    try {
-      return new ChaosGameDescription(transforms, new Vector2D(minX, minY),
-          new Vector2D(maxX, maxY));
-    } catch (ChaosGameDescriptionException e) {
-      throw new ChaosGameFileHandlerException("Could not create ChaosGameDescription", e);
-    }
+
+    return new ChaosGameDescription(transforms, new Vector2D(minX, minY),
+        new Vector2D(maxX, maxY));
   }
 
   /**
@@ -104,10 +108,10 @@ public class ChaosGameFileHandler {
    *
    * @param file the file to divide.
    * @return a list of lines in the file.
-   * @throws ChaosGameFileHandlerException if the file is not found.
+   * @throws FileNotFoundException if the file is not found.
    */
   private List<List<String>> divideFileToLines(File file)
-      throws ChaosGameFileHandlerException {
+      throws FileNotFoundException {
     List<List<String>> lines = new ArrayList<>();
     try (Scanner scanner = new Scanner(file)) {
       scanner.useDelimiter("#.*|\n");
@@ -126,7 +130,7 @@ public class ChaosGameFileHandler {
         i++;
       }
     } catch (FileNotFoundException e) {
-      throw new ChaosGameFileHandlerException("File not found", e);
+      throw new FileNotFoundException("File not found");
     }
     return lines;
   }
@@ -141,9 +145,11 @@ public class ChaosGameFileHandler {
   private List<Transform2D> packageToAffineList(List<List<String>> lines)
       throws WrongFileFormatException {
     for (int i = 3; i < lines.size(); i++) {
-      if (lines.get(i).size() != 6) {
+      try {
+        InputValidation.validateListLength(lines.get(i), 6, "transformation");
+      } catch (WrongLengthException e) {
         throw new WrongFileFormatException(
-            "The file should have six values for each transformation");
+            "The file should have six values for each transformation", e);
       }
       for (String value : lines.get(i)) {
         try {
@@ -178,22 +184,28 @@ public class ChaosGameFileHandler {
    * @param lines the lines of the file.
    * @return a list of JuliaTransform.
    * @throws WrongFileFormatException if the file is not formatted correctly.
+   * @throws InvalidSignException if the sign is invalid.
    */
   private List<Transform2D> packageToJuliaList(List<List<String>> lines)
-      throws WrongFileFormatException {
+      throws WrongFileFormatException, InvalidSignException {
 
-    if (lines.size() != 4) {
-      throw new WrongFileFormatException("The file should have one Julia transformation");
-    }
-    List<String> julia = lines.get(3);
     try {
-      InputValidation.validateNotNull(julia, "Julia transformation");
-    } catch (IllegalArgumentException e) {
+      InputValidation.validateListLength(lines, 4, "Julia transformation");
+    } catch (WrongLengthException e) {
       throw new WrongFileFormatException("The file should have one Julia transformation", e);
     }
 
-    if (julia.size() != 2) {
-      throw new WrongFileFormatException("The Julia transformation should have two values");
+    List<String> julia = lines.get(3);
+    try {
+      InputValidation.validateNotNull(julia, "Julia transformation");
+    } catch (IsNullException e) {
+      throw new WrongFileFormatException("The file should have one Julia transformation", e);
+    }
+
+    try {
+      InputValidation.validateListLength(julia, 2, "Julia transformation");
+    } catch (WrongLengthException e) {
+      throw new WrongFileFormatException("The Julia transformation should have two values", e);
     }
 
     double real;
@@ -219,10 +231,10 @@ public class ChaosGameFileHandler {
    *
    * @param chaosGameDescription the ChaosGameDescription to write.
    * @param path the path to the file.
-   * @throws ChaosGameFileHandlerException if the file could not be written to.
+   * @throws CouldNotWriteException if the file could not be written to.
    */
   public void writeToFile(ChaosGameDescription chaosGameDescription, File path)
-      throws ChaosGameFileHandlerException {
+      throws CouldNotWriteException {
     try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {
       String type = chaosGameDescription.getTransforms().getFirst()
           instanceof AffineTransform2D ? "Affine2D" : "Julia";
@@ -246,7 +258,7 @@ public class ChaosGameFileHandler {
         writeJuliaToFile(writer, juliaTransform);
       }
     } catch (IOException e) {
-      throw new ChaosGameFileHandlerException("Could not write to file", e);
+      throw new CouldNotWriteException("Could not write to file", e);
     }
   }
 
@@ -255,10 +267,10 @@ public class ChaosGameFileHandler {
    *
    * @param writer the writer to write to.
    * @param affineTransform the AffineTransform2D to write.
-   * @throws IOException if the AffineTransform2D could not be written to the file.
+   * @throws CouldNotWriteException if the AffineTransform2D could not be written to the file.
    */
   private void writeAffineToFile(BufferedWriter writer, AffineTransform2D affineTransform)
-      throws IOException {
+      throws CouldNotWriteException {
     Matrix2x2 matrix = affineTransform.getMatrix();
     double a00 = matrix.getA00();
     double a01 = matrix.getA01();
@@ -269,7 +281,11 @@ public class ChaosGameFileHandler {
     double x0 = vector.getX0();
     double x1 = vector.getX1();
 
-    writer.write(a00 + ", " + a01 + ", " + a10 + ", " + a11 + ", " + x0 + ", " + x1 + "\n");
+    try {
+      writer.write(a00 + ", " + a01 + ", " + a10 + ", " + a11 + ", " + x0 + ", " + x1 + "\n");
+    } catch (IOException e) {
+      throw new CouldNotWriteException("Could not write to file", e);
+    }
   }
 
     /**
@@ -277,24 +293,28 @@ public class ChaosGameFileHandler {
      *
      * @param writer the writer to write to.
      * @param juliaTransform the JuliaTransform to write.
-     * @throws IOException if the JuliaTransform could not be written to the file.
+     * @throws CouldNotWriteException if the JuliaTransform could not be written to the file.
      */
   private void writeJuliaToFile(BufferedWriter writer, JuliaTransform juliaTransform)
-      throws IOException {
+      throws CouldNotWriteException {
     Complex complex = juliaTransform.getPoint();
     double real = complex.getX0();
     double imaginary = complex.getX1();
 
+    try {
     writer.write(real + ", " + imaginary + "\n");
+    } catch (IOException e) {
+      throw new CouldNotWriteException("Could not write to file", e);
+    }
   }
 
   /**
    * Lists all files in the resources directory.
    *
    * @return a list of all files in the resources directory.
-   * @throws ChaosGameFileHandlerException if the files could not be listed.
+   * @throws IOException if the files could not be listed.
    */
-  public List<String> listFiles() throws ChaosGameFileHandlerException {
+  public List<String> listFiles() throws IOException {
     List<String> fileList = new ArrayList<>();
     try {
       Path resourceDirectory = Paths.get("src/main/resources");
@@ -304,7 +324,7 @@ public class ChaosGameFileHandler {
             .forEach(path -> fileList.add(path.toString()));
       }
     } catch (IOException e) {
-      throw new ChaosGameFileHandlerException("Could not list files", e);
+      throw new IOException("Could not list files");
     }
     return fileList;
   }

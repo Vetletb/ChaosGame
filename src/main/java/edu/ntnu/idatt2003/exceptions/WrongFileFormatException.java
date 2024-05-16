@@ -1,9 +1,9 @@
 package edu.ntnu.idatt2003.exceptions;
 
 /**
- * Exception class for ChaosGameFileHandler.
+ * Exception class for wrongly formatted files.
  */
-public class WrongFileFormatException extends ChaosGameFileHandlerException {
+public class WrongFileFormatException extends Exception {
   /**
    * Constructs a new WrongFileFormatException with the default message.
    */

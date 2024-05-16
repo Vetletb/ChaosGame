@@ -2,7 +2,11 @@ package edu.ntnu.idatt2003.model.game;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import edu.ntnu.idatt2003.exceptions.ChaosGameDescriptionFactoryException;
+import edu.ntnu.idatt2003.exceptions.EmptyListException;
+import edu.ntnu.idatt2003.exceptions.InvalidSignException;
+import edu.ntnu.idatt2003.exceptions.InvalidTypeException;
+import edu.ntnu.idatt2003.exceptions.InvalidVectorRangeException;
+import edu.ntnu.idatt2003.exceptions.IsNullException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -18,7 +22,8 @@ class ChaosGameDescriptionFactoryTest {
     @Test
     @DisplayName("get Sierpinski returns a ChaosGameDescription object")
     public void getSierpinskiReturnsCorrectDescription()
-        throws ChaosGameDescriptionFactoryException {
+        throws InvalidSignException, IsNullException,
+        EmptyListException, InvalidVectorRangeException, InvalidTypeException {
       ChaosGameDescription chaosGameDescription = ChaosGameDescriptionFactory.get("Sierpinski");
       assertNotNull(chaosGameDescription);
     }
@@ -26,7 +31,8 @@ class ChaosGameDescriptionFactoryTest {
     @Test
     @DisplayName("get Barnsley returns a ChaosGameDescription object")
     public void getBarnsleyReturnsCorrectDescription()
-        throws ChaosGameDescriptionFactoryException {
+        throws InvalidSignException, IsNullException,
+        EmptyListException, InvalidVectorRangeException, InvalidTypeException {
       ChaosGameDescription chaosGameDescription = ChaosGameDescriptionFactory.get("Barnsley");
       assertNotNull(chaosGameDescription);
     }
@@ -34,7 +40,8 @@ class ChaosGameDescriptionFactoryTest {
     @Test
     @DisplayName("get Julia Set returns a ChaosGameDescription object")
     public void getJuliaSetReturnsCorrectDescription()
-        throws ChaosGameDescriptionFactoryException {
+        throws InvalidSignException, IsNullException,
+        EmptyListException, InvalidVectorRangeException, InvalidTypeException {
       ChaosGameDescription chaosGameDescription = ChaosGameDescriptionFactory.get("Julia Set");
       assertNotNull(chaosGameDescription);
     }
@@ -44,9 +51,9 @@ class ChaosGameDescriptionFactoryTest {
   @DisplayName("Negative tests")
   class MethodsThrowsException {
     @Test
-    @DisplayName("get with invalid type throws ChaosGameDescriptionFactoryException")
+    @DisplayName("get with invalid type throws InvalidTypeException")
     public void getWithInvalidTypeThrowsException() {
-      assertThrows(ChaosGameDescriptionFactoryException.class, () -> ChaosGameDescriptionFactory.get("Invalid"));
+      assertThrows(InvalidTypeException.class, () -> ChaosGameDescriptionFactory.get("Invalid"));
     }
   }
 }
