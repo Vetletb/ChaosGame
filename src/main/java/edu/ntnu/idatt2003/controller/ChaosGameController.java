@@ -25,6 +25,7 @@ public class ChaosGameController implements Observer {
   public static final String START_DESCRIPTION = "Julia Set";
 
   private ChaosGame chaosGame = null;
+  private Timeline timeline;
   private final ViewCanvas viewCanvas;
   private final PopupHandler popupHandler;
   private ExceptionLogger exceptionLogger;
@@ -55,6 +56,7 @@ public class ChaosGameController implements Observer {
     try {
       ChaosGameDescription newDescription = ChaosGameDescriptionFactory.get(description);
       chaosGame.resetGameWithDescription(newDescription);
+      stopTimeline();
       popupHandler.showSuccessPopup(description + " loaded successfully");
     } catch (ChaosGameDescriptionFactoryException | ChaosGameException ex) {
       popupHandler.showErrorPopup(ex.getMessage());
@@ -65,6 +67,7 @@ public class ChaosGameController implements Observer {
    * Resets the chaos game.
    */
   public void resetChaosGame() {
+    stopTimeline();
     chaosGame.resetGame();
   }
 
@@ -73,7 +76,6 @@ public class ChaosGameController implements Observer {
    */
   public void resetViewCanvas() {
     viewCanvas.reset();
-
   }
 
   /**
@@ -163,7 +165,7 @@ public class ChaosGameController implements Observer {
     double k = 0.05;
 
     final int [] totalSteps = {0};
-    Timeline timeline = new Timeline();
+    timeline = new Timeline();
     KeyFrame keyFrame = new KeyFrame(Duration.millis(1000.0 / fps), e -> {
       int steps = (int) (iterations * k / Math.exp(fps * runSeconds * k) * Math.exp(k * x[0]));
       try {
@@ -189,6 +191,15 @@ public class ChaosGameController implements Observer {
       }
     });
     timeline.play();
+  }
+
+  /**
+   * Stops the animation of the chaos game if it's currently running.
+   */
+  private void stopTimeline() {
+    if (timeline != null && timeline.getStatus() == Timeline.Status.RUNNING) {
+      timeline.stop();
+    }
   }
 
   /**
