@@ -3,6 +3,7 @@ package edu.ntnu.idatt2003.view.components;
 import edu.ntnu.idatt2003.controller.ChaosGameController;
 import java.io.File;
 
+import edu.ntnu.idatt2003.view.components.Input.InputBar;
 import edu.ntnu.idatt2003.view.components.buttons.PrimaryButton;
 import edu.ntnu.idatt2003.view.components.buttons.SecondaryButton;
 import edu.ntnu.idatt2003.view.components.popups.EditPopup;

@@ -11,8 +11,8 @@ import javafx.util.Duration;
  */
 public abstract class MessagePopup extends StackPane {
   StackPane messageWrapper;
-  StackPane popupWrapper;
   Label message;
+  PauseTransition pause;
 
   /**
    * Creates a new message popup with the given message and owner window.
@@ -26,6 +26,7 @@ public abstract class MessagePopup extends StackPane {
     messageWrapper.getStyleClass().add("popup");
 
     this.getChildren().add(messageWrapper);
+    this.setMaxHeight(50);
 
     this.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> this.setVisible(false));
     this.setVisible(false);
@@ -36,9 +37,12 @@ public abstract class MessagePopup extends StackPane {
     messageWrapper.setMaxSize(message.length() * 9, 50);
   }
 
+  /**
+   * Shows the popup for 3 seconds.
+   */
   public void show() {
     this.setVisible(true);
-    PauseTransition pause = new PauseTransition(Duration.seconds(3));
+    pause = new PauseTransition(Duration.seconds(3));
     pause.setOnFinished(e -> this.setVisible(false));
     pause.play();
   }
