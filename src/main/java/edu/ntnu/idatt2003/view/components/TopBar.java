@@ -46,25 +46,21 @@ public class TopBar extends StackPane {
 
     Button juliaButton = new SecondaryButton("Julia Set");
     juliaButton.setOnAction(e -> {
-      this.controller.resetViewCanvas();
       this.controller.resetChaosGameWithDescription("Julia Set");
     });
 
     Button sierpinskiButton = new SecondaryButton("Sierpinski");
     sierpinskiButton.setOnAction(e -> {
-      this.controller.resetViewCanvas();
       this.controller.resetChaosGameWithDescription("Sierpinski");
     });
 
     Button barnsleyButton = new SecondaryButton("Barnsley");
     barnsleyButton.setOnAction(e -> {
-      this.controller.resetViewCanvas();
       this.controller.resetChaosGameWithDescription("Barnsley");
     });
 
     Button readFileButton = new SecondaryButton("Read File");
     readFileButton.setOnAction(e -> {
-      this.controller.resetViewCanvas();
       FileChooser fileChooser = new FileChooser();
       File file = fileChooser.showOpenDialog(ownerWindow);
       if (file != null) {
@@ -94,7 +90,6 @@ public class TopBar extends StackPane {
 
     Button runButton = new PrimaryButton("Run");
     runButton.setOnAction(e -> {
-      this.controller.resetViewCanvas();
       this.controller.resetChaosGame();
       try {
         iterations = Integer.parseInt(iterationsField.getText());
