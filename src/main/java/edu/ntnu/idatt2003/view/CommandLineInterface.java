@@ -1,14 +1,19 @@
 package edu.ntnu.idatt2003.view;
 
-import edu.ntnu.idatt2003.exceptions.ChaosCanvasException;
-import edu.ntnu.idatt2003.exceptions.ChaosGameDescriptionException;
-import edu.ntnu.idatt2003.exceptions.ChaosGameException;
-import edu.ntnu.idatt2003.exceptions.ChaosGameFileHandlerException;
+import edu.ntnu.idatt2003.exceptions.CouldNotWriteException;
+import edu.ntnu.idatt2003.exceptions.EmptyListException;
+import edu.ntnu.idatt2003.exceptions.InvalidPositiveIntException;
+import edu.ntnu.idatt2003.exceptions.InvalidSignException;
+import edu.ntnu.idatt2003.exceptions.InvalidVectorRangeException;
+import edu.ntnu.idatt2003.exceptions.IsNullException;
 import edu.ntnu.idatt2003.exceptions.WrongFileFormatException;
 import edu.ntnu.idatt2003.model.game.ChaosGame;
 import edu.ntnu.idatt2003.model.game.ChaosGameDescription;
 import edu.ntnu.idatt2003.model.io.ChaosGameFileHandler;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -31,11 +36,8 @@ public class CommandLineInterface {
 
   /**
    * Starts the command line interface.
-   *
-   * @throws ChaosGameFileHandlerException if an error occurs while reading or writing to a file.
-   * @throws ChaosGameException if an error occurs while running the chaos game.
    */
-  public void start() throws ChaosGameFileHandlerException, ChaosGameException {
+  public void start() {
     boolean exit = false;
     while (!exit) {
       System.out.println("Welcome to the Chaos Game!");
@@ -59,14 +61,18 @@ public class CommandLineInterface {
 
   /**
    * Chooses a file to construct a ChaosGameDescription from.
-   *
-   * @throws ChaosGameFileHandlerException if an error occurs while getting the list of files
-   *      or reading from a file.
    */
-  private void chooseFile() throws ChaosGameFileHandlerException {
+  private void chooseFile() {
     System.out.println("Choose a file:");
     int i = 1;
-    for (String path : chaosGameFileHandler.listFiles()) {
+    List<String> files;
+    try {
+      files = chaosGameFileHandler.listFiles();
+    } catch (IOException e) {
+      System.out.println("An error occurred. Please try again.");
+      return;
+    }
+    for (String path : files) {
       String name = path.replace("src/main/resources/", "").replace(".txt", "");
       System.out.println(i + ". " + name);
       i++;
@@ -74,7 +80,7 @@ public class CommandLineInterface {
     int choice = scanner.nextInt();
     scanner.nextLine();
     boolean found = false;
-    for (String path : chaosGameFileHandler.listFiles()) {
+    for (String path : files) {
       choice--;
       if (choice == 0) {
         found = true;
@@ -84,8 +90,11 @@ public class CommandLineInterface {
           System.out.println("File read successfully!");
         } catch (WrongFileFormatException e) {
           System.out.println("Wrong file format. Please try again.");
-        } catch (ChaosGameFileHandlerException e) {
+        } catch (FileNotFoundException e) {
           System.out.println("File not found. Please try again.");
+        } catch (IsNullException | EmptyListException
+                 | InvalidVectorRangeException | InvalidSignException e) {
+          System.out.println("An error occurred. Please try again.");
         }
         break;
       }
@@ -109,21 +118,30 @@ public class CommandLineInterface {
       File file = new File(path);
       chaosGameFileHandler.writeToFile(description, file);
       System.out.println("File written successfully!");
-    } catch (ChaosGameFileHandlerException e) {
+    } catch (CouldNotWriteException e) {
       System.out.println("An error occurred. Please try again.");
     }
   }
 
   /**
    * Runs the chaos game and prints the result.
-   *
-   * @throws ChaosGameException if an error occurs while running the chaos game.
    */
-  private void runChaosGame() throws ChaosGameException {
-    ChaosGame chaosGame = new ChaosGame(description, width, height);
+  private void runChaosGame() {
+    ChaosGame chaosGame;
+    try {
+      chaosGame = new ChaosGame(description, width, height);
+    } catch (IsNullException | InvalidPositiveIntException | InvalidVectorRangeException e) {
+      System.out.println("An error occurred. Please try again.");
+      return;
+    }
     System.out.println("Choose number of steps:");
     int steps = scanner.nextInt();
-    chaosGame.runSteps(steps);
+    try {
+      chaosGame.runSteps(steps);
+    } catch (InvalidPositiveIntException e) {
+      System.out.println("Steps must be a positive number.");
+      return;
+    }
 
     StringBuilder sb = new StringBuilder();
     for (int i = 0; i < height; i++) {

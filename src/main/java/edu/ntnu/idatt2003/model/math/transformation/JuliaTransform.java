@@ -1,5 +1,6 @@
 package edu.ntnu.idatt2003.model.math.transformation;
 
+import edu.ntnu.idatt2003.exceptions.InvalidSignException;
 import edu.ntnu.idatt2003.model.math.mathModel.Complex;
 import edu.ntnu.idatt2003.model.math.mathModel.Vector2D;
 
@@ -17,12 +18,12 @@ public class JuliaTransform  implements Transform2D {
    * @param point the point to transform around.
    * @param sign the sign of the transformation.
    *
-   * @throws IllegalArgumentException if sign is not 1 or -1.
+   * @throws InvalidSignException if sign is not 1 or -1.
    */
-  public JuliaTransform(Complex point, int sign) {
+  public JuliaTransform(Complex point, int sign) throws InvalidSignException {
     this.point = point;
     if (sign != 1 && sign != -1) {
-      throw new IllegalArgumentException("Sign must be 1 or -1");
+      throw new InvalidSignException("Sign must be 1 or -1");
     }
     this.sign = sign;
   }

@@ -2,6 +2,7 @@ package edu.ntnu.idatt2003.model.math.transformation;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import edu.ntnu.idatt2003.exceptions.InvalidSignException;
 import edu.ntnu.idatt2003.model.math.mathModel.Complex;
 import edu.ntnu.idatt2003.model.math.mathModel.Vector2D;
 import org.junit.jupiter.api.DisplayName;
@@ -20,7 +21,7 @@ class JuliaTransformTest {
 
       @Test
       @DisplayName("Transform returns correct values, test 1")
-      void transformReturnsCorrectValues1() {
+      void transformReturnsCorrectValues1() throws InvalidSignException {
         JuliaTransform juliaTransform = new JuliaTransform(new Complex(3, 2), 1);
         Vector2D vector = new Vector2D(4, 1);
         Vector2D vector2 = juliaTransform.transform(vector);
@@ -30,7 +31,7 @@ class JuliaTransformTest {
 
       @Test
       @DisplayName("Transform returns correct values, test 2")
-      void transformReturnsCorrectValues2() {
+      void transformReturnsCorrectValues2() throws InvalidSignException {
         JuliaTransform juliaTransform = new JuliaTransform(new Complex(-2, 3), 1);
         Vector2D vector = new Vector2D(0, 3);
         Vector2D vector2 = juliaTransform.transform(vector);
@@ -40,7 +41,7 @@ class JuliaTransformTest {
 
       @Test
       @DisplayName("Transform returns correct values, test 3")
-      void transformReturnsCorrectValues3() {
+      void transformReturnsCorrectValues3() throws InvalidSignException {
         JuliaTransform juliaTransform = new JuliaTransform(new Complex(4, 5), 1);
         Vector2D vector = new Vector2D(2, 1);
         Vector2D vector2 = juliaTransform.transform(vector);
@@ -54,7 +55,7 @@ class JuliaTransformTest {
     public class PositiveTestsForEquals {
       @Test
       @DisplayName("Equals returns true when two julia are equal")
-      void equalsReturnsTrueWhenTwoJuliaAreEqual() {
+      void equalsReturnsTrueWhenTwoJuliaAreEqual() throws InvalidSignException {
         Complex complex = new Complex(3, 2);
         JuliaTransform julia1 = new JuliaTransform(complex, 1);
         JuliaTransform julia2 = new JuliaTransform(complex, 1);
@@ -63,7 +64,7 @@ class JuliaTransformTest {
 
       @Test
       @DisplayName("Equals returns false when two julia are not equal")
-      void equalsReturnsFalseWhenTwoJuliaAreNotEqual() {
+      void equalsReturnsFalseWhenTwoJuliaAreNotEqual() throws InvalidSignException {
         Complex complex1 = new Complex(3, 2);
         Complex complex2 = new Complex(4, 1);
         JuliaTransform julia1 = new JuliaTransform(complex1, 1);
@@ -73,7 +74,7 @@ class JuliaTransformTest {
 
       @Test
       @DisplayName("Equals returns false when comparing a vector to null")
-      void equalsReturnsFalseWhenComparingAVectorToNull() {
+      void equalsReturnsFalseWhenComparingAVectorToNull() throws InvalidSignException {
         Complex complex = new Complex(3, 2);
         JuliaTransform julia = new JuliaTransform(complex, 1);
         assertNotEquals(julia, null);
@@ -81,7 +82,7 @@ class JuliaTransformTest {
 
       @Test
       @DisplayName("Equals returns false when comparing a vector to a different object")
-      void equalsReturnsFalseWhenComparingAVectorToADifferentObject() {
+      void equalsReturnsFalseWhenComparingAVectorToADifferentObject() throws InvalidSignException {
         Complex complex = new Complex(3, 2);
         JuliaTransform julia = new JuliaTransform(complex, 1);
         assertNotEquals(julia, new Object());
@@ -94,9 +95,9 @@ class JuliaTransformTest {
     public class MethodsThrowsExceptions {
 
       @Test
-      @DisplayName("Constructor throws IllegalArgumentException if sign is not 1 or -1")
-      void constructorThrowsIllegalArgumentException() {
-        assertThrows(IllegalArgumentException.class, () -> new JuliaTransform(new Complex(3, 2), 0));
+      @DisplayName("Constructor throws InvalidSignException if sign is not 1 or -1")
+      void constructorThrowsInvalidSignException() {
+        assertThrows(InvalidSignException.class, () -> new JuliaTransform(new Complex(3, 2), 0));
       }
     }
 }

@@ -2,13 +2,12 @@ package edu.ntnu.idatt2003.model.game;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import edu.ntnu.idatt2003.exceptions.ChaosCanvasException;
-import edu.ntnu.idatt2003.exceptions.ChaosGameDescriptionException;
-import edu.ntnu.idatt2003.exceptions.ChaosGameDescriptionFactoryException;
-import edu.ntnu.idatt2003.exceptions.ChaosGameException;
-import edu.ntnu.idatt2003.model.math.transformation.AffineTransform2D;
-import edu.ntnu.idatt2003.model.math.transformation.Transform2D;
-import java.util.List;
+import edu.ntnu.idatt2003.exceptions.EmptyListException;
+import edu.ntnu.idatt2003.exceptions.InvalidPositiveIntException;
+import edu.ntnu.idatt2003.exceptions.InvalidSignException;
+import edu.ntnu.idatt2003.exceptions.InvalidTypeException;
+import edu.ntnu.idatt2003.exceptions.InvalidVectorRangeException;
+import edu.ntnu.idatt2003.exceptions.IsNullException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -26,8 +25,9 @@ class ChaosGameTest {
     @Test
     @DisplayName("Constructor creates a ChaosGame object")
     void constructorDoesNotThrowExceptionOnValidParameters()
-        throws ChaosGameDescriptionFactoryException, ChaosGameDescriptionException,
-        ChaosGameException, ChaosCanvasException {
+        throws InvalidSignException, IsNullException,
+        EmptyListException, InvalidVectorRangeException, InvalidTypeException,
+        InvalidPositiveIntException {
       ChaosGameDescription description = ChaosGameDescriptionFactory.get("Sierpinski");
       ChaosGame chaosGame = new ChaosGame(description, 100, 100);
       assertNotNull(chaosGame);
@@ -39,8 +39,9 @@ class ChaosGameTest {
       ChaosGame chaosGame;
 
       @BeforeEach
-      void setUp() throws ChaosGameDescriptionFactoryException, ChaosGameDescriptionException,
-        ChaosGameException, ChaosCanvasException {
+      void setUp() throws InvalidSignException, IsNullException,
+          EmptyListException, InvalidVectorRangeException, InvalidTypeException,
+          InvalidPositiveIntException {
         ChaosGameDescription description = ChaosGameDescriptionFactory.get("Sierpinski");
         chaosGame = new ChaosGame(description, 100, 100);
       }
@@ -54,7 +55,8 @@ class ChaosGameTest {
       @Test
       @DisplayName("resetGameWithNewDescription does not throw exception on valid parameters")
       void resetGameWithNewDescriptionDoesNotThrowException()
-        throws ChaosGameDescriptionFactoryException {
+          throws InvalidSignException, IsNullException,
+          EmptyListException, InvalidVectorRangeException, InvalidTypeException {
         ChaosGameDescription description = ChaosGameDescriptionFactory.get("Julia Set");
         assertDoesNotThrow(() -> chaosGame.resetGameWithDescription(description));
       }
@@ -72,28 +74,30 @@ class ChaosGameTest {
   class MethodsThrowsExceptionOnInvalidParameters {
 
     @Test
-    @DisplayName("Constructor throws ChaosGameException on null description")
-    void constructorThrowsChaosGameExceptionOnNullDescription() {
-      assertThrows(ChaosGameException.class, () -> new ChaosGame(null, 100, 100));
+    @DisplayName("Constructor throws IsNullException on null description")
+    void constructorThrowsIsNullExceptionOnNullDescription() {
+      assertThrows(IsNullException.class, () -> new ChaosGame(null, 100, 100));
     }
 
     @Test
-    @DisplayName("resetGameWithNewDescription throws ChaosGameException on null description")
-    void resetGameWithNewDescriptionThrowsChaosGameExceptionOnNullDescription()
-      throws ChaosGameDescriptionFactoryException, ChaosGameException {
+    @DisplayName("resetGameWithNewDescription throws IsNullException on null description")
+    void resetGameWithNewDescriptionThrowsIsNullExceptionOnNullDescription()
+        throws InvalidSignException,
+        IsNullException, EmptyListException, InvalidVectorRangeException, InvalidTypeException,
+        InvalidPositiveIntException {
       ChaosGameDescription description = ChaosGameDescriptionFactory.get("Sierpinski");
       ChaosGame chaosGame = new ChaosGame(description, 100, 100);
-      assertThrows(ChaosGameException.class, () -> chaosGame.resetGameWithDescription(null));
+      assertThrows(IsNullException.class, () -> chaosGame.resetGameWithDescription(null));
     }
 
     @Test
-    @DisplayName("runSteps throws ChaosGameException on negative steps")
-    void runStepsThrowsChaosGameExceptionOnNegativeSteps()
-      throws ChaosGameDescriptionFactoryException,
-      ChaosGameException {
+    @DisplayName("runSteps throws InvalidPositiveIntException on negative steps")
+    void runStepsThrowsInvalidPositiveIntExceptionOnNegativeSteps()
+        throws InvalidSignException, IsNullException, EmptyListException,
+        InvalidVectorRangeException, InvalidTypeException, InvalidPositiveIntException {
       ChaosGameDescription description = ChaosGameDescriptionFactory.get("Sierpinski");
       ChaosGame chaosGame = new ChaosGame(description, 100, 100);
-      assertThrows(ChaosGameException.class, () -> chaosGame.runSteps(0));
+      assertThrows(InvalidPositiveIntException.class, () -> chaosGame.runSteps(0));
     }
   }
 }

@@ -1,11 +1,10 @@
 package edu.ntnu.idatt2003.view.components;
 
 import edu.ntnu.idatt2003.controller.ChaosGameController;
-import java.io.File;
-
+import edu.ntnu.idatt2003.view.components.Input.InputBar;
 import edu.ntnu.idatt2003.view.components.buttons.PrimaryButton;
 import edu.ntnu.idatt2003.view.components.buttons.SecondaryButton;
-import edu.ntnu.idatt2003.view.components.popups.EditPopup;
+import java.io.File;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -21,7 +20,6 @@ import javafx.stage.Window;
 public class TopBar extends StackPane {
   private final ChaosGameController controller;
   private int iterations;
-  private EditPopup editPopup;
   private Window ownerWindow;
 
   /**
@@ -45,19 +43,13 @@ public class TopBar extends StackPane {
 
 
     Button juliaButton = new SecondaryButton("Julia Set");
-    juliaButton.setOnAction(e -> {
-      this.controller.resetChaosGameWithDescription("Julia Set");
-    });
+    juliaButton.setOnAction(e -> this.controller.resetChaosGameWithDescription("Julia Set"));
 
     Button sierpinskiButton = new SecondaryButton("Sierpinski");
-    sierpinskiButton.setOnAction(e -> {
-      this.controller.resetChaosGameWithDescription("Sierpinski");
-    });
+    sierpinskiButton.setOnAction(e -> this.controller.resetChaosGameWithDescription("Sierpinski"));
 
     Button barnsleyButton = new SecondaryButton("Barnsley");
-    barnsleyButton.setOnAction(e -> {
-      this.controller.resetChaosGameWithDescription("Barnsley");
-    });
+    barnsleyButton.setOnAction(e -> this.controller.resetChaosGameWithDescription("Barnsley"));
 
     Button readFileButton = new SecondaryButton("Read File");
     readFileButton.setOnAction(e -> {
@@ -71,7 +63,8 @@ public class TopBar extends StackPane {
     Button writeFileButton = new PrimaryButton("Write File");
     writeFileButton.setOnAction(e -> {
       FileChooser fileChooser = new FileChooser();
-      FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+      FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
+          "TXT files (*.txt)", "*.txt");
       fileChooser.getExtensionFilters().add(extFilter);
       File file = fileChooser.showSaveDialog(ownerWindow);
       if (file != null) {
@@ -80,9 +73,7 @@ public class TopBar extends StackPane {
     });
 
     Button editButton = new PrimaryButton("Edit");
-    editButton.setOnAction(e -> {
-      this.controller.getPopupHandler().showEditPopup();
-    });
+    editButton.setOnAction(e -> this.controller.getPopupHandler().showEditPopup());
 
     TextField iterationsField = new InputBar();
     iterationsField.setPromptText("Iterations");
@@ -94,6 +85,7 @@ public class TopBar extends StackPane {
       try {
         iterations = Integer.parseInt(iterationsField.getText());
       } catch (NumberFormatException ex) {
+        controller.logWarning(ex);
         this.controller.getPopupHandler().showErrorPopup("Iterations must be a number");
         return;
       }
@@ -105,7 +97,8 @@ public class TopBar extends StackPane {
     HBox rightButtonBox = new HBox();
 
     leftButtonBox.getChildren().addAll(writeFileButton, editButton);
-    middleButtonBox.getChildren().addAll(juliaButton, sierpinskiButton, barnsleyButton, readFileButton);
+    middleButtonBox.getChildren().addAll(
+        juliaButton, sierpinskiButton, barnsleyButton, readFileButton);
     rightButtonBox.getChildren().addAll(iterationsField, runButton);
 
     leftButtonBox.setSpacing(8);
