@@ -166,10 +166,10 @@ public class ChaosGameController {
     int blue = 100;
     int green = 0;
     int red = 0;
-    for (int i = 0; (i < value && i < 10); i++) {
+    for (int i = 0; i < value && i < 10; i++) {
       blue += 15;
-      green += 15;
-      red += 3;
+      green += 20;
+      red += 6;
     }
     int[] rgbColor = {red, green, blue};
     int[] scaledCoordinates = scaleCoordinates(x, y);
@@ -222,7 +222,14 @@ public class ChaosGameController {
       int steps = (int) (iterations * K / Math.exp(FPS * RUN_SECONDS * K) * Math.exp(K * x[0]));
       try {
         if (steps != 0) {
+          long startTime = System.currentTimeMillis();
           chaosGame.runSteps(steps);
+          long endTime = System.currentTimeMillis();
+          if (endTime - startTime  > 1000.0 / FPS * 1.5) {
+            messageController.showErrorPopup("The chaos game is taking too long to run, "
+                + "try decreasing the number of iterations.");
+            timeline.stop();
+          }
         }
       } catch (InvalidPositiveIntException ex) {
         exceptionLogger.logSevere(ex);
@@ -236,7 +243,7 @@ public class ChaosGameController {
     timeline.setCycleCount(FPS * RUN_SECONDS);
     timeline.setOnFinished(e -> {
       try {
-        if (iterations - totalSteps[0] != 0) {
+        if (iterations - totalSteps[0] > 0) {
           chaosGame.runSteps(iterations - totalSteps[0]);
         }
       } catch (InvalidPositiveIntException ex) {
