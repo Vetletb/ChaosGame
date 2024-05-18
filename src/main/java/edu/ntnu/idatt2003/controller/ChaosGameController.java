@@ -7,15 +7,13 @@ import edu.ntnu.idatt2003.exceptions.InvalidSignException;
 import edu.ntnu.idatt2003.exceptions.InvalidTypeException;
 import edu.ntnu.idatt2003.exceptions.InvalidVectorRangeException;
 import edu.ntnu.idatt2003.exceptions.IsNullException;
-import edu.ntnu.idatt2003.exceptions.ObservingException;
 import edu.ntnu.idatt2003.exceptions.WrongFileFormatException;
 import edu.ntnu.idatt2003.model.game.ChaosGame;
 import edu.ntnu.idatt2003.model.game.ChaosGameDescription;
 import edu.ntnu.idatt2003.model.game.ChaosGameDescriptionFactory;
-import edu.ntnu.idatt2003.model.game.Observer;
 import edu.ntnu.idatt2003.model.io.ChaosGameFileHandler;
 import edu.ntnu.idatt2003.util.ExceptionLogger;
-import edu.ntnu.idatt2003.view.PopupHandler;
+import edu.ntnu.idatt2003.view.components.TopBar;
 import edu.ntnu.idatt2003.view.components.ViewCanvas;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,11 +24,7 @@ import javafx.util.Duration;
 /**
  * The controller class for the chaos game.
  */
-public class ChaosGameController implements Observer {
-  //Constants for the chaos game.
-  public static final int CHAOS_GAME_WIDTH = 680;
-  public static final int CHAOS_GAME_HEIGHT = 680;
-  public static final String START_DESCRIPTION = "Julia Set";
+public class ChaosGameController {
 
   //Constants for the animation
   public static int RUN_SECONDS = 3;
@@ -41,30 +35,67 @@ public class ChaosGameController implements Observer {
   public static final String UNEXPECTED_EXCEPTION =
       "Something went wrong. Please try again or restart.";
 
-  private ChaosGame chaosGame = null;
+  private ChaosGame chaosGame;
   private Timeline timeline;
   private final ViewCanvas viewCanvas;
-  private final PopupHandler popupHandler;
-  private final ExceptionLogger exceptionLogger;
+  private final TopBar topBar;
+  private  ExceptionLogger exceptionLogger;
+  private MessageController messageController;
+  private EditController editController;
 
   /**
    * Constructor for the ChaosGameController class.
    *
    * @param viewCanvas the view canvas to draw on.
    */
-  public ChaosGameController(ViewCanvas viewCanvas, PopupHandler popupHandler) {
-    exceptionLogger = new ExceptionLogger("ChaosGameController");
+  public ChaosGameController(ViewCanvas viewCanvas, TopBar topBar) {
     this.viewCanvas = viewCanvas;
-    this.popupHandler = popupHandler;
-    try {
-      chaosGame = new ChaosGame(ChaosGameDescriptionFactory.get(
-          START_DESCRIPTION), CHAOS_GAME_WIDTH, CHAOS_GAME_HEIGHT);
-      chaosGame.attach(this);
-    } catch (EmptyListException | InvalidVectorRangeException | InvalidSignException
-             | IsNullException | InvalidTypeException | InvalidPositiveIntException e) {
-      exceptionLogger.logSevere(e);
-      popupHandler.showErrorPopup(UNEXPECTED_EXCEPTION);
-    }
+    this.topBar = topBar;
+  }
+
+  /**
+   * Sets the chaos game to a new chaos game.
+   *
+   * @param chaosGame the chaos game to be set
+   */
+  public void setChaosGame(ChaosGame chaosGame) {
+    this.chaosGame = chaosGame;
+  }
+
+  /**
+   * Sets the exception logger to a new exception logger.
+   *
+   * @param exceptionLogger the exception logger to be set
+   */
+  public void setLogger(ExceptionLogger exceptionLogger) {
+    this.exceptionLogger = exceptionLogger;
+  }
+
+  /**
+   * Sets the message controller to a new message controller.
+   *
+   * @param messageController the message controller to be set
+   */
+  public void setMessageController(MessageController messageController) {
+    this.messageController = messageController;
+  }
+
+  /**
+   * Sets the edit controller to a new edit controller.
+   *
+   * @param editController the edit controller to be set
+   */
+  public void setEditController(EditController editController) {
+    this.editController = editController;
+  }
+
+  /**
+   * Gets the edit controller.
+   *
+   * @return the edit controller
+   */
+  public EditController getEditController() {
+    return editController;
   }
 
   /**
@@ -77,11 +108,11 @@ public class ChaosGameController implements Observer {
       ChaosGameDescription newDescription = ChaosGameDescriptionFactory.get(description);
       chaosGame.resetGameWithDescription(newDescription);
       stopTimeline();
-      popupHandler.showSuccessPopup(description + " loaded successfully");
+      messageController.showSuccessPopup(description + " loaded successfully");
     } catch (IsNullException | InvalidVectorRangeException | EmptyListException
              | InvalidSignException | InvalidTypeException e) {
       exceptionLogger.logSevere(e);
-      popupHandler.showErrorPopup(UNEXPECTED_EXCEPTION);
+      messageController.showErrorPopup(UNEXPECTED_EXCEPTION);
     }
   }
 
@@ -110,29 +141,17 @@ public class ChaosGameController implements Observer {
       ChaosGameFileHandler fileHandler = new ChaosGameFileHandler();
       ChaosGameDescription newDescription = fileHandler.readFromFile(file);
       chaosGame.resetGameWithDescription(newDescription);
-      popupHandler.showSuccessPopup("File loaded successfully");
+      messageController.showSuccessPopup("File loaded successfully");
     } catch (IsNullException | InvalidVectorRangeException
              | EmptyListException | InvalidSignException e) {
       exceptionLogger.logSevere(e);
-      popupHandler.showErrorPopup(e.getMessage());
+      messageController.showErrorPopup(e.getMessage());
     } catch (FileNotFoundException e) {
       exceptionLogger.logWarning(e);
-      popupHandler.showErrorPopup("File not found");
+      messageController.showErrorPopup("File not found");
     } catch (WrongFileFormatException e) {
       exceptionLogger.logWarning(e);
-      popupHandler.showErrorPopup(e.getMessage());
-    }
-  }
-
-  /**
-   * Runs a given number of steps in the chaos game.
-   */
-  public void runSteps(int steps) {
-    try {
-      chaosGame.runSteps(steps);
-    } catch (InvalidPositiveIntException e) {
-      exceptionLogger.logWarning(e);
-      popupHandler.showErrorPopup(e.getMessage());
+      messageController.showErrorPopup(e.getMessage());
     }
   }
 
@@ -160,7 +179,7 @@ public class ChaosGameController implements Observer {
   /**
    * Draws the current pixel on the viewCanvas.
    */
-  private void drawCurrentPixel() {
+  void drawCurrentPixel() {
     drawPixel(chaosGame.getCanvas().getNewPixel());
   }
 
@@ -190,7 +209,7 @@ public class ChaosGameController implements Observer {
         throw new InvalidPositiveIntException("Iterations must be a positive number");
       } catch (InvalidPositiveIntException e) {
         exceptionLogger.logWarning(e);
-        popupHandler.showErrorPopup(e.getMessage());
+        messageController.showErrorPopup(e.getMessage());
       }
       return;
     }
@@ -207,7 +226,7 @@ public class ChaosGameController implements Observer {
         }
       } catch (InvalidPositiveIntException ex) {
         exceptionLogger.logSevere(ex);
-        popupHandler.showErrorPopup(UNEXPECTED_EXCEPTION);
+        messageController.showErrorPopup(UNEXPECTED_EXCEPTION);
         timeline.stop();
       }
       x[0]++;
@@ -222,7 +241,7 @@ public class ChaosGameController implements Observer {
         }
       } catch (InvalidPositiveIntException ex) {
         exceptionLogger.logSevere(ex);
-        popupHandler.showErrorPopup(UNEXPECTED_EXCEPTION);
+        messageController.showErrorPopup(UNEXPECTED_EXCEPTION);
       }
     });
     timeline.play();
@@ -234,6 +253,20 @@ public class ChaosGameController implements Observer {
   private void stopTimeline() {
     if (timeline != null && timeline.getStatus() == Timeline.Status.RUNNING) {
       timeline.stop();
+    }
+  }
+
+  /**
+   * Method for running the animation with a given number of iterations
+   * from the top bar.
+   */
+  public void runAnimation() {
+    try {
+      int iterations = Integer.parseInt(topBar.getIterations());
+      animateIterations(iterations);
+    } catch (NumberFormatException e) {
+      exceptionLogger.logWarning(e);
+      messageController.showErrorPopup("Input must be a number");
     }
   }
 
@@ -261,41 +294,10 @@ public class ChaosGameController implements Observer {
     ChaosGameFileHandler fileHandler = new ChaosGameFileHandler();
     try {
       fileHandler.writeToFile(chaosGame.getDescriptions(), file);
-      popupHandler.showSuccessPopup("File written successfully");
+      messageController.showSuccessPopup("File written successfully");
     } catch (CouldNotWriteException e) {
       exceptionLogger.logSevere(e);
-      popupHandler.showErrorPopup(UNEXPECTED_EXCEPTION);
-    }
-  }
-
-  public PopupHandler getPopupHandler() {
-    return popupHandler;
-  }
-
-  /**
-   * logs a warning exception.
-   */
-  public void logWarning(Exception e) {
-    exceptionLogger.logWarning(e);
-  }
-
-  /**
-   * When the chaosGame is updated, this method is called.
-  */
-  @Override
-  public void update(String updated) {
-    switch (updated) {
-      case "clearGame" -> viewCanvas.reset();
-      case "putPixel" -> drawCurrentPixel();
-      case "setDescription" -> System.out.println("description");
-      default -> {
-        try {
-          throw new ObservingException(updated + " is not being observed.");
-        } catch (ObservingException e) {
-          exceptionLogger.logSevere(e);
-          popupHandler.showErrorPopup(UNEXPECTED_EXCEPTION);
-        }
-      }
+      messageController.showErrorPopup(UNEXPECTED_EXCEPTION);
     }
   }
 }
