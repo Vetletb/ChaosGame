@@ -1,4 +1,4 @@
-package edu.ntnu.idatt2003.view.components.Input;
+package edu.ntnu.idatt2003.view.components.input;
 
 import javafx.scene.control.TextField;
 

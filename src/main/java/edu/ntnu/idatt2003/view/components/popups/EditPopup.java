@@ -1,11 +1,13 @@
 package edu.ntnu.idatt2003.view.components.popups;
 
-import edu.ntnu.idatt2003.controller.ChaosGameController;
-import edu.ntnu.idatt2003.view.components.Input.PopupInputBar;
+import edu.ntnu.idatt2003.controller.EditController;
 import edu.ntnu.idatt2003.view.components.buttons.CloseButton;
 import edu.ntnu.idatt2003.view.components.buttons.NextButton;
 import edu.ntnu.idatt2003.view.components.buttons.PrevButton;
 import edu.ntnu.idatt2003.view.components.buttons.PrimaryButton;
+import edu.ntnu.idatt2003.view.components.buttons.SecondaryButton;
+import edu.ntnu.idatt2003.view.components.input.PopupInputBar;
+import java.util.List;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
@@ -13,23 +15,29 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
+
 /**
  * Popup for editing the description of a chaos game.
-
  */
-public class EditPopup extends StackPane {
-  VBox juliaWrapper;
-  VBox affineWrapper;
-  Button juliaButton;
-  Button affineButton;
-  StackPane transformWrapper;
+public class EditPopup extends StackPane  {
+  private EditController editController;
+  private final VBox juliaWrapper;
+  private final VBox affineWrapper;
+  private final Button juliaButton;
+  private final Button affineButton;
+  private final PopupInputBar minXinput;
+  private final PopupInputBar minYinput;
+  private final PopupInputBar maxXinput;
+  private final PopupInputBar maxYinput;
+  private final PopupInputBar juliaRealInput;
+  private final PopupInputBar juliaImaginaryInput;
+  private final PopupInputBar[] affineInputBars;
+  private final Label transformInputText;
 
   /**
    * Constructor for the EditPopup class.
-   *
-   * @param controller the controller for the chaos game.
    */
-  public EditPopup(ChaosGameController controller) {
+  public EditPopup() {
     super();
     CloseButton closeButton = new CloseButton();
     closeButton.setOnAction(e -> this.setVisible(false));
@@ -46,24 +54,10 @@ public class EditPopup extends StackPane {
 
     juliaButton = new Button("Julia");
     juliaButton.getStyleClass().add("secondary-button");
-    juliaButton.setOnAction(e -> {
-      affineButton.getStyleClass().remove("active-secondary-button");
-      affineWrapper.setVisible(false);
-      affineButton.setDisable(false);
-      juliaButton.getStyleClass().add("active-secondary-button");
-      juliaWrapper.setVisible(true);
-      juliaButton.setDisable(true);
-    });
+    juliaButton.setOnAction(e -> chooseJulia());
     affineButton = new Button("Affine");
     affineButton.getStyleClass().add("secondary-button");
-    affineButton.setOnAction(e -> {
-      juliaButton.getStyleClass().remove("active-secondary-button");
-      juliaWrapper.setVisible(false);
-      juliaButton.setDisable(false);
-      affineButton.getStyleClass().add("active-secondary-button");
-      affineWrapper.setVisible(true);
-      affineButton.setDisable(true);
-    });
+    affineButton.setOnAction(e -> chooseAffine());
     HBox transformButtonsWrapper = new HBox();
     transformButtonsWrapper.getChildren().addAll(juliaButton, affineButton);
     transformButtonsWrapper.setAlignment(javafx.geometry.Pos.CENTER);
@@ -75,18 +69,25 @@ public class EditPopup extends StackPane {
     coordinateTextWrapper.getChildren().add(coordinateText);
     coordinateTextWrapper.setAlignment(javafx.geometry.Pos.CENTER);
 
-    PopupInputBar minInput = new PopupInputBar();
-    minInput.getStyleClass().add("input-bar");
-    minInput.setPromptText("Min");
-    minInput.setMaxSize(100, 18);
-    PopupInputBar maxInput = new PopupInputBar();
-    maxInput.getStyleClass().add("input-bar");
-    maxInput.setPromptText("Max");
-    maxInput.setMaxSize(100, 18);
+    minXinput = new PopupInputBar();
+    minXinput.getStyleClass().add("input-bar");
+    minXinput.setPromptText("Min x");
+    minYinput = new PopupInputBar();
+    minYinput.getStyleClass().add("input-bar");
+    minYinput.setPromptText("Min y");
+    maxXinput = new PopupInputBar();
+    maxXinput.getStyleClass().add("input-bar");
+    maxXinput.setPromptText("Max x");
+    maxYinput = new PopupInputBar();
+    maxYinput.getStyleClass().add("input-bar");
+    maxYinput.setPromptText("Max y");
     HBox coordinateInputWrapper = new HBox();
-    coordinateInputWrapper.getChildren().addAll(minInput, maxInput);
+    coordinateInputWrapper.getChildren().addAll(minXinput, minYinput, maxXinput, maxYinput);
     coordinateInputWrapper.setAlignment(javafx.geometry.Pos.CENTER);
     coordinateInputWrapper.setSpacing(10);
+    coordinateInputWrapper.setMaxWidth(380);
+    StackPane coordinateWrapper = new StackPane();
+    coordinateWrapper.getChildren().add(coordinateInputWrapper);
 
     Label juliaInputText = new Label("Constant c");
     juliaInputText.getStyleClass().add("popup-text");
@@ -94,10 +95,10 @@ public class EditPopup extends StackPane {
     juliaInputTextWrapper.getChildren().add(juliaInputText);
     juliaInputTextWrapper.setAlignment(javafx.geometry.Pos.CENTER);
 
-    PopupInputBar juliaRealInput = new PopupInputBar();
+    juliaRealInput = new PopupInputBar();
     juliaRealInput.getStyleClass().add("input-bar");
     juliaRealInput.setPromptText("Real");
-    PopupInputBar juliaImaginaryInput = new PopupInputBar();
+    juliaImaginaryInput = new PopupInputBar();
     juliaImaginaryInput.getStyleClass().add("input-bar");
     juliaImaginaryInput.setPromptText("Imaginary");
     HBox juliaInputWrapper = new HBox();
@@ -118,24 +119,24 @@ public class EditPopup extends StackPane {
     affineInputTextWrapper.setAlignment(javafx.geometry.Pos.CENTER);
 
     PrevButton prevButton = new PrevButton();
-    prevButton.setOnAction(e -> System.out.println("prev"));
+    prevButton.setOnAction(e -> editController.previousAffineTransform());
     HBox prevButtonWrapper = new HBox();
     prevButtonWrapper.getChildren().add(prevButton);
     prevButtonWrapper.setAlignment(javafx.geometry.Pos.CENTER);
 
     NextButton nextButton = new NextButton();
-    nextButton.setOnAction(e -> System.out.println("next"));
+    nextButton.setOnAction(e -> editController.nextAffineTransform());
     HBox nextButtonWrapper = new HBox();
     nextButtonWrapper.getChildren().add(nextButton);
     nextButtonWrapper.setAlignment(javafx.geometry.Pos.CENTER);
 
-    Label transformInputText = new Label("Transformation 1");
+    transformInputText = new Label("Transformation 1");
     transformInputText.getStyleClass().add("popup-text");
     HBox transformInputTextWrapper = new HBox();
     transformInputTextWrapper.getChildren().add(transformInputText);
     transformInputTextWrapper.setAlignment(javafx.geometry.Pos.CENTER);
 
-    PopupInputBar[] affineInputBars = new PopupInputBar[6];
+    affineInputBars = new PopupInputBar[6];
     for (int i = 0; i < 6; i++) {
       affineInputBars[i] = new PopupInputBar();
       affineInputBars[i].getStyleClass().add("input-bar");
@@ -150,25 +151,34 @@ public class EditPopup extends StackPane {
     affineInputWrapper.setAlignment(javafx.geometry.Pos.CENTER);
     affineInputWrapper.setSpacing(10);
 
+    SecondaryButton addTransformButton = new SecondaryButton("Add Transform");
+    addTransformButton.setOnAction(e -> editController.addAffineTransform());
+
+    SecondaryButton removeTransformButton = new SecondaryButton("Remove Transform");
+    removeTransformButton.setOnAction(e -> editController.removeAffineTransform());
+
+    HBox transformAmountButtonsWrapper = new HBox();
+    transformAmountButtonsWrapper.getChildren().addAll(addTransformButton, removeTransformButton);
+    transformAmountButtonsWrapper.setAlignment(javafx.geometry.Pos.CENTER);
+    transformAmountButtonsWrapper.setSpacing(10);
+
     affineWrapper = new VBox();
     affineWrapper.getChildren().addAll(
         affineInputTextWrapper,
         prevButtonWrapper,
         transformInputTextWrapper,
         affineInputWrapper,
-        nextButtonWrapper);
+        nextButtonWrapper,
+        transformAmountButtonsWrapper);
     affineWrapper.setSpacing(5);
     affineWrapper.setMaxWidth(380);
     affineWrapper.setVisible(false);
 
-    transformWrapper = new StackPane();
+    StackPane transformWrapper = new StackPane();
     transformWrapper.getChildren().addAll(juliaWrapper, affineWrapper);
 
     PrimaryButton saveButton = new PrimaryButton("Save");
-    saveButton.setOnAction(e -> {
-      this.setVisible(false);
-      System.out.println("save");
-    });
+    saveButton.setOnAction(e -> editController.saveEdit());
     AnchorPane saveButtonWrapper = new AnchorPane();
     saveButtonWrapper.getChildren().add(saveButton);
     AnchorPane.setBottomAnchor(saveButton, 10.0);
@@ -180,9 +190,9 @@ public class EditPopup extends StackPane {
     editWrapper.getChildren().addAll(
         closeButtonWrapper,
         transformTitleWrapper,
-        transformButtonsWrapper,
         coordinateTextWrapper,
-        coordinateInputWrapper,
+        coordinateWrapper,
+        transformButtonsWrapper,
         transformWrapper,
         saveButtonWrapper);
     editWrapper.setSpacing(10);
@@ -190,11 +200,181 @@ public class EditPopup extends StackPane {
     this.getStyleClass().add("edit-popup");
     this.getChildren().add(editWrapper);
     this.setVisible(false);
-    juliaButton.fire();
   }
 
+  /**
+   * Helper method for choosing the affine description.
+   */
+  private void chooseAffine() {
+    juliaButton.getStyleClass().remove("active-secondary-button");
+    juliaWrapper.setVisible(false);
+    juliaButton.setDisable(false);
+    affineButton.getStyleClass().add("active-secondary-button");
+    affineWrapper.setVisible(true);
+    affineButton.setDisable(true);
+    if (editController != null) {
+      editController.setChosenDescription("Affine");
+    }
+
+  }
+
+  /**
+   * Helper method for choosing the Julia description.
+   */
+  private void chooseJulia() {
+    affineButton.getStyleClass().remove("active-secondary-button");
+    affineWrapper.setVisible(false);
+    affineButton.setDisable(false);
+    juliaButton.getStyleClass().add("active-secondary-button");
+    juliaWrapper.setVisible(true);
+    juliaButton.setDisable(true);
+    if (editController != null) {
+      editController.setChosenDescription("JuliaTransform");
+    }
+  }
+
+  /**
+   * Shows this edit popup.
+   */
   public void show() {
     this.toFront();
     this.setVisible(true);
+  }
+
+  /**
+   * Hides this edit popup.
+   */
+  public void hide() {
+    this.setVisible(false);
+  }
+
+  /**
+   * Sets the description in the popup by pressing the corresponding button,
+   * by getting the description from the controller.
+   *
+   * @param description the description to be set
+   */
+  public void setDescription(String description) {
+    if (description.equals("JuliaTransform")) {
+      juliaButton.fire();
+    } else {
+      affineButton.fire();
+    }
+  }
+
+  /**
+   * Sets the coordinates in the input fields from the controller.
+   *
+   * @param minX the minimum x value
+   * @param minY the minimum y value
+   * @param maxX the maximum x value
+   * @param maxY the maximum y value
+   */
+  public void setCoordinateInput(String minX, String minY, String maxX, String maxY) {
+    minXinput.setText(minX);
+    minYinput.setText(minY);
+    maxXinput.setText(maxX);
+    maxYinput.setText(maxY);
+  }
+
+  /**
+   * Sets the constant c in the input fields from the controller.
+   *
+   * @param real the real part of the constant c
+   * @param imaginary the imaginary part of the constant c
+   */
+  public void setJuliaInput(String real, String imaginary) {
+    juliaRealInput.setText(real);
+    juliaImaginaryInput.setText(imaginary);
+  }
+
+  /**
+   * Sets the affine input fields from the controller. Only one affine transform is shown at a time.
+   * The currentTransformIndex is used to show which affine transform is being shown.
+   *
+   * @param affineTransform the affine transform
+   * @param currentTransformIndex the index of the current affine transform
+   */
+  public void setAffineInput(List<String> affineTransform, int currentTransformIndex) {
+    for (int i = 0; i < 6; i++) {
+      affineInputBars[i].setText(affineTransform.get(i));
+      transformInputText.setText("Transformation " + (currentTransformIndex + 1));
+    }
+  }
+
+  /**
+   * Sets the controller for this popup.
+   *
+   * @param editController the controller to be set
+   */
+  public void setPopupController(EditController editController) {
+    this.editController = editController;
+  }
+
+  /**
+   * Gets the minimum x value from the input field.
+   *
+   * @return the minimum x value
+   */
+  public String getMinX() {
+    return minXinput.getText();
+  }
+
+  /**
+   * Gets the minimum y value from the input field.
+   *
+   * @return the minimum y value
+   */
+  public String getMinY() {
+    return minYinput.getText();
+  }
+
+  /**
+   * Gets the maximum x value from the input field.
+   *
+   * @return the maximum x value
+   */
+  public String getMaxX() {
+    return maxXinput.getText();
+  }
+
+  /**
+   * Gets the maximum y value from the input field.
+   *
+   * @return the maximum y value
+   */
+  public String getMaxY() {
+    return maxYinput.getText();
+  }
+
+  /**
+   * Gets the real part of the constant c from the input field.
+   *
+   * @return the real part of the constant c
+   */
+  public String getJuliaReal() {
+    return juliaRealInput.getText();
+  }
+
+  /**
+   * Gets the imaginary part of the constant c from the input field.
+   *
+   * @return the imaginary part of the constant c
+   */
+  public String getJuliaImaginary() {
+    return juliaImaginaryInput.getText();
+  }
+
+  /**
+   * Gets the affine input from the input fields.
+   *
+   * @return the affine input
+   */
+  public String[] getAffineInput() {
+    String[] affineInput = new String[6];
+    for (int i = 0; i < 6; i++) {
+      affineInput[i] = affineInputBars[i].getText();
+    }
+    return affineInput;
   }
 }
