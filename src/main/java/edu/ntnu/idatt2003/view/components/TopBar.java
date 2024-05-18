@@ -1,13 +1,12 @@
 package edu.ntnu.idatt2003.view.components;
 
 import edu.ntnu.idatt2003.controller.ChaosGameController;
-import edu.ntnu.idatt2003.view.components.Input.InputBar;
 import edu.ntnu.idatt2003.view.components.buttons.PrimaryButton;
 import edu.ntnu.idatt2003.view.components.buttons.SecondaryButton;
+import edu.ntnu.idatt2003.view.components.input.InputBar;
 import java.io.File;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
@@ -18,18 +17,15 @@ import javafx.stage.Window;
  * editing and running the chaos game.
  */
 public class TopBar extends StackPane {
-  private final ChaosGameController controller;
-  private int iterations;
+  private ChaosGameController controller;
   private Window ownerWindow;
+  private final InputBar iterationsField;
 
   /**
    * Constructor for the TopBar class.
-   *
-   * @param controller the controller for the chaos game.
    */
-  public TopBar(ChaosGameController controller) {
+  public TopBar() {
     super();
-    this.controller = controller;
 
     sceneProperty().addListener((observable, oldScene, newScene) -> {
       if (newScene != null) {
@@ -40,7 +36,6 @@ public class TopBar extends StackPane {
         });
       }
     });
-
 
     Button juliaButton = new SecondaryButton("Julia Set");
     juliaButton.setOnAction(e -> this.controller.resetChaosGameWithDescription("Julia Set"));
@@ -73,23 +68,19 @@ public class TopBar extends StackPane {
     });
 
     Button editButton = new PrimaryButton("Edit");
-    editButton.setOnAction(e -> this.controller.getPopupHandler().showEditPopup());
+    editButton.setOnAction(e -> {
+      this.controller.getEditController().showEditPopup();
+      this.controller.getEditController().updateEditPopup();
+    });
 
-    TextField iterationsField = new InputBar();
+    iterationsField = new InputBar();
     iterationsField.setPromptText("Iterations");
     iterationsField.setText("100000");
 
     Button runButton = new PrimaryButton("Run");
     runButton.setOnAction(e -> {
       this.controller.resetChaosGame();
-      try {
-        iterations = Integer.parseInt(iterationsField.getText());
-      } catch (NumberFormatException ex) {
-        controller.logWarning(ex);
-        this.controller.getPopupHandler().showErrorPopup("Iterations must be a number");
-        return;
-      }
-      this.controller.animateIterations(iterations);
+      this.controller.runAnimation();
     });
 
     HBox leftButtonBox = new HBox();
@@ -122,4 +113,23 @@ public class TopBar extends StackPane {
     this.setAlignment(Pos.CENTER);
     this.getChildren().add(buttonBox);
   }
+
+  /**
+   * Sets the chaos game controller.
+   *
+   * @param chaosGameController the chaos game controller to be set
+   */
+  public void setChaosGameController(ChaosGameController chaosGameController) {
+    this.controller = chaosGameController;
+  }
+
+  /**
+   * Gets the iterations from the input field.
+   *
+   * @return the iterations
+   */
+  public String getIterations() {
+    return iterationsField.getText();
+  }
+
 }
