@@ -41,6 +41,7 @@ public abstract class MessagePopup extends StackPane {
    * Shows the popup for 3 seconds.
    */
   public void show() {
+    this.toFront();
     this.setVisible(true);
     pause = new PauseTransition(Duration.seconds(3));
     pause.setOnFinished(e -> this.setVisible(false));

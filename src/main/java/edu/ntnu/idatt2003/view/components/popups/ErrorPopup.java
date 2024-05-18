@@ -6,9 +6,6 @@ package edu.ntnu.idatt2003.view.components.popups;
 public class ErrorPopup extends MessagePopup {
   /**
    * Constructor for the ErrorPopup class.
-   *
-   * @param message     the message to display.
-   * @param ownerWindow the window that owns the popup.
    */
   public ErrorPopup() {
     super();
