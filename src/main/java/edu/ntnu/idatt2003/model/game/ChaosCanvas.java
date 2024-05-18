@@ -3,6 +3,7 @@ package edu.ntnu.idatt2003.model.game;
 import edu.ntnu.idatt2003.exceptions.InvalidPositiveIntException;
 import edu.ntnu.idatt2003.exceptions.InvalidVectorRangeException;
 import edu.ntnu.idatt2003.exceptions.IsNullException;
+import edu.ntnu.idatt2003.exceptions.PixelOutOfBoundsException;
 import edu.ntnu.idatt2003.model.math.mathModel.Matrix2x2;
 import edu.ntnu.idatt2003.model.math.mathModel.Vector2D;
 import edu.ntnu.idatt2003.model.math.transformation.AffineTransform2D;
@@ -126,14 +127,19 @@ public class ChaosCanvas {
    * Puts a pixel at the given point.
    *
    * @param point the point to put the pixel at.
+   * @throws PixelOutOfBoundsException if the point is outside the canvas.
    */
-  public void putPixel(Vector2D point) {
-    Vector2D pixel = transformCoordsToIndices.transform(point);
-    int x = (int) pixel.getX0();
-    int y = (int) pixel.getX1();
-    canvas[x][y] += 1;
-    int value = canvas[x][y];
-    newPixel = new int[]{x, y, value};
+  public void putPixel(Vector2D point) throws PixelOutOfBoundsException {
+    try {
+      Vector2D pixel = transformCoordsToIndices.transform(point);
+      int x = (int) pixel.getX0();
+      int y = (int) pixel.getX1();
+      canvas[x][y] += 1;
+      int value = canvas[x][y];
+      newPixel = new int[]{x, y, value};
+    } catch (ArrayIndexOutOfBoundsException e) {
+      throw new PixelOutOfBoundsException();
+    }
   }
 
   /**

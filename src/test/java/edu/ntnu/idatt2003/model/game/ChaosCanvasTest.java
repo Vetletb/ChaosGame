@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import edu.ntnu.idatt2003.exceptions.InvalidPositiveIntException;
 import edu.ntnu.idatt2003.exceptions.InvalidVectorRangeException;
 import edu.ntnu.idatt2003.exceptions.IsNullException;
+import edu.ntnu.idatt2003.exceptions.PixelOutOfBoundsException;
 import edu.ntnu.idatt2003.model.math.mathModel.Vector2D;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -57,7 +58,7 @@ class ChaosCanvasTest {
 
     @Test
     @DisplayName("Positive tests for the putPixel")
-    public void setPixelSetsCorrectPixel() {
+    public void setPixelSetsCorrectPixel() throws PixelOutOfBoundsException {
       canvas.putPixel(new Vector2D(150, 50));
       int[][] canvasArray = canvas.getCanvasArray();
       for (int i = 0; i < canvasArray.length; i++) {
@@ -75,7 +76,7 @@ class ChaosCanvasTest {
     @DisplayName("Sets up a canvas")
     class SetUpCanvas {
       @BeforeEach
-      public void setUp() {
+      public void setUp() throws PixelOutOfBoundsException {
         canvas.putPixel(new Vector2D(150, 50));
       }
 
@@ -140,13 +141,22 @@ class ChaosCanvasTest {
   class MethodsThrowsException {
 
     @Test
-    @DisplayName("Negative tests for setMinMaxCoords")
+    @DisplayName("setMinMaxCoords throws exception on parameter null")
     public void setMinMaxCoordsThrowsExceptionOnNull()
         throws InvalidPositiveIntException, IsNullException,
         InvalidVectorRangeException {
       ChaosCanvas canvas = new ChaosCanvas(100, 100, new Vector2D(0, 0), new Vector2D(200, 200));
       assertThrows(IsNullException.class, () -> canvas.setMinMaxCoords(null, new Vector2D(200, 200)));
       assertThrows(IsNullException.class, () -> canvas.setMinMaxCoords(new Vector2D(0, 0), null));
+    }
+
+    @Test
+    @DisplayName("putPixel throws exception on pixel out of bounds")
+    public void putPixelThrowsExceptionOnPixelOutOfBounds()
+        throws InvalidPositiveIntException, IsNullException,
+        InvalidVectorRangeException {
+      ChaosCanvas canvas = new ChaosCanvas(100, 100, new Vector2D(0, 0), new Vector2D(200, 200));
+      assertThrows(PixelOutOfBoundsException.class, () -> canvas.putPixel(new Vector2D(300, 300)));
     }
 
     @Nested
