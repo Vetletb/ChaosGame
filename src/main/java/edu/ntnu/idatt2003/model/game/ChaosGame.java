@@ -3,19 +3,23 @@ package edu.ntnu.idatt2003.model.game;
 import edu.ntnu.idatt2003.exceptions.InvalidPositiveIntException;
 import edu.ntnu.idatt2003.exceptions.InvalidVectorRangeException;
 import edu.ntnu.idatt2003.exceptions.IsNullException;
+import edu.ntnu.idatt2003.exceptions.PixelOutOfBoundsException;
 import edu.ntnu.idatt2003.model.math.mathModel.Vector2D;
 import edu.ntnu.idatt2003.model.math.transformation.Transform2D;
 import edu.ntnu.idatt2003.util.InputValidation;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
 /**
- * A class representing a chaos game.
+ * A class representing a chaos game. Utilized a canvas to draw points on, and a description of the
+ * game to run the game.
  */
 public class ChaosGame extends Subject {
   private final ChaosCanvas canvas;
   private ChaosGameDescription description;
   private Vector2D currentPoint;
+  private int[] transformationProbabilities;
   private final Random random;
 
   /**
@@ -39,6 +43,7 @@ public class ChaosGame extends Subject {
     this.description = description;
     this.currentPoint = new Vector2D(0, 0);
     this.random = new Random();
+    setTransformationProbabilities();
   }
 
   /**
@@ -82,6 +87,7 @@ public class ChaosGame extends Subject {
   public void resetGame() {
     canvas.clear();
     currentPoint = new Vector2D(0, 0);
+    setTransformationProbabilities();
     super.notifyObservers("clearGame");
   }
 
@@ -107,12 +113,45 @@ public class ChaosGame extends Subject {
   public void runSteps(int steps) throws InvalidPositiveIntException {
     InputValidation.validatePositiveInt(steps, "steps");
 
-    List<Transform2D> transforms = description.getTransforms();
     for (int i = 0; i < steps; i++) {
-      Transform2D currentTransformation = transforms.get(random.nextInt(transforms.size()));
+      Transform2D currentTransformation = selectRandomTransformation();
       currentPoint = currentTransformation.transform(currentPoint);
-      canvas.putPixel(currentPoint);
-      super.notifyObservers("putPixel");
+      try {
+        canvas.putPixel(currentPoint);
+        super.notifyObservers("putPixel");
+      } catch (PixelOutOfBoundsException e) {
+        // Do nothing
+      }
+    }
+  }
+
+  /**
+   * Selects a random transformation from the description based on the probabilities of each
+   * transformation.
+   *
+   * @return the selected transformation.
+   */
+  private Transform2D selectRandomTransformation() {
+    int choice = random.nextInt(101);
+    int currentTransformationIndex = 0;
+    for (int i = 0; i < transformationProbabilities.length; i++) {
+      int difference = Math.abs(transformationProbabilities[i] - choice);
+      if (difference < Math.abs(transformationProbabilities[currentTransformationIndex] - choice)) {
+        currentTransformationIndex = i;
+      }
+    }
+    return description.getTransforms().get(currentTransformationIndex);
+  }
+
+  /**
+   * Selects a random number between 1 and 100 for each transformation in the description,
+   * determining their likelihood of being chosen.
+   */
+  private void setTransformationProbabilities() {
+    int numTransforms = description.getTransforms().size();
+    transformationProbabilities = new int[numTransforms];
+    for (int i = 0; i < numTransforms; i++) {
+      transformationProbabilities[i] = random.nextInt(100) + 1;
     }
   }
 }
