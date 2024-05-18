@@ -288,13 +288,13 @@ public class ChaosGameFileHandler {
     }
   }
 
-    /**
-     * Writes a JuliaTransform description to a file.
-     *
-     * @param writer the writer to write to.
-     * @param juliaTransform the JuliaTransform to write.
-     * @throws CouldNotWriteException if the JuliaTransform could not be written to the file.
-     */
+  /**
+   * Writes a JuliaTransform description to a file.
+   *
+   * @param writer the writer to write to.
+   * @param juliaTransform the JuliaTransform to write.
+   * @throws CouldNotWriteException if the JuliaTransform could not be written to the file.
+   */
   private void writeJuliaToFile(BufferedWriter writer, JuliaTransform juliaTransform)
       throws CouldNotWriteException {
     Complex complex = juliaTransform.getPoint();
@@ -302,7 +302,7 @@ public class ChaosGameFileHandler {
     double imaginary = complex.getX1();
 
     try {
-    writer.write(real + ", " + imaginary + "\n");
+      writer.write(real + ", " + imaginary + "\n");
     } catch (IOException e) {
       throw new CouldNotWriteException("Could not write to file", e);
     }
