@@ -56,11 +56,11 @@ public class ChaosGameDescriptionFactory {
       throws EmptyListException, InvalidVectorRangeException, InvalidSignException,
       IsNullException {
     List<Transform2D> transforms = List.of(
-        new JuliaTransform(new Complex(0, 0.8), 1),
-        new JuliaTransform(new Complex(0, 0.8), -1)
+        new JuliaTransform(new Complex(-0.74543, 0.11301), 1),
+        new JuliaTransform(new Complex(-0.74543, 0.11301), -1)
     );
-    Vector2D minCoords = new Vector2D(-1.4, -1.4);
-    Vector2D maxCoords = new Vector2D(1.4, 1.4);
+    Vector2D minCoords = new Vector2D(-1.6, -1);
+    Vector2D maxCoords = new Vector2D(1.6, 1);
 
     return new ChaosGameDescription(transforms, minCoords, maxCoords);
   }
