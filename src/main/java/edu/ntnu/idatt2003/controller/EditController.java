@@ -267,7 +267,8 @@ public class EditController {
    */
   public void addAffineTransform() {
     affineTransforms.add(List.of("0", "0", "0", "0", "0", "0"));
-    currentTransformIndex = (currentTransformIndex + 1) % affineTransforms.size();
+    updateAffineTransformsFromInput();
+    currentTransformIndex = affineTransforms.size() - 1;
     updateTransformInputText();
   }
 
