@@ -32,7 +32,7 @@ public class ViewCanvas {
     int blue = rgbColor[2];
     Color color = Color.rgb(red, green, blue);
     gc.setFill(color);
-    gc.fillOval(x, y, 2, 2);
+    gc.fillOval(x, y, 1, 1);
   }
 
   /**

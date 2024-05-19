@@ -18,8 +18,8 @@ import edu.ntnu.idatt2003.util.ExceptionLogger;
  */
 public class MainController implements Observer {
   //Constants for the chaos game.
-  public static final int CHAOS_GAME_WIDTH = 680;
-  public static final int CHAOS_GAME_HEIGHT = 680;
+  public static final int CHAOS_GAME_WIDTH = 1000;
+  public static final int CHAOS_GAME_HEIGHT = 1000;
   public static final String START_DESCRIPTION = "Barnsley";
 
   //Constant for unexpected exceptions not caused by the user
