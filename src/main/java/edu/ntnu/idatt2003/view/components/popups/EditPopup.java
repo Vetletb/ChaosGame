@@ -10,7 +10,12 @@ import edu.ntnu.idatt2003.view.components.input.PopupInputBar;
 import java.util.List;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+
 
 
 /**
@@ -177,7 +182,10 @@ public class EditPopup extends StackPane  {
     Label vectorInputText = new Label("Vector");
     vectorInputText.getStyleClass().add("popup-text-small");
     VBox vectorInputWrapper = new VBox();
-    vectorInputWrapper.getChildren().addAll(vectorInputText, affineInputBars[4], affineInputBars[5]);
+    vectorInputWrapper.getChildren().addAll(
+        vectorInputText,
+        affineInputBars[4],
+        affineInputBars[5]);
     vectorInputWrapper.setAlignment(javafx.geometry.Pos.CENTER);
     vectorInputWrapper.setSpacing(10);
 
