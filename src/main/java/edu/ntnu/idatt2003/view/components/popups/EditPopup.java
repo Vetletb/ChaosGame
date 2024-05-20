@@ -11,9 +11,11 @@ import java.util.List;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+
 
 
 /**
@@ -69,23 +71,36 @@ public class EditPopup extends StackPane  {
     coordinateTextWrapper.getChildren().add(coordinateText);
     coordinateTextWrapper.setAlignment(javafx.geometry.Pos.CENTER);
 
+    Label minText = new Label("Min");
+    minText.getStyleClass().add("popup-text-small");
     minXinput = new PopupInputBar();
     minXinput.getStyleClass().add("input-bar");
     minXinput.setPromptText("Min x");
     minYinput = new PopupInputBar();
     minYinput.getStyleClass().add("input-bar");
     minYinput.setPromptText("Min y");
+    VBox minCoordinateWrapper = new VBox();
+    minCoordinateWrapper.getChildren().addAll(minText, minXinput, minYinput);
+    minCoordinateWrapper.setAlignment(javafx.geometry.Pos.CENTER);
+    minCoordinateWrapper.setSpacing(10);
+
+    Label maxText = new Label("Max");
+    maxText.getStyleClass().add("popup-text-small");
     maxXinput = new PopupInputBar();
     maxXinput.getStyleClass().add("input-bar");
     maxXinput.setPromptText("Max x");
     maxYinput = new PopupInputBar();
     maxYinput.getStyleClass().add("input-bar");
     maxYinput.setPromptText("Max y");
+    VBox maxCoordinateWrapper = new VBox();
+    maxCoordinateWrapper.getChildren().addAll(maxText, maxXinput, maxYinput);
+    maxCoordinateWrapper.setAlignment(javafx.geometry.Pos.CENTER);
+    maxCoordinateWrapper.setSpacing(10);
+
     HBox coordinateInputWrapper = new HBox();
-    coordinateInputWrapper.getChildren().addAll(minXinput, minYinput, maxXinput, maxYinput);
+    coordinateInputWrapper.getChildren().addAll(minCoordinateWrapper, maxCoordinateWrapper);
     coordinateInputWrapper.setAlignment(javafx.geometry.Pos.CENTER);
     coordinateInputWrapper.setSpacing(10);
-    coordinateInputWrapper.setMaxWidth(380);
     StackPane coordinateWrapper = new StackPane();
     coordinateWrapper.getChildren().add(coordinateInputWrapper);
 
@@ -146,10 +161,38 @@ public class EditPopup extends StackPane  {
         affineInputBars[i].setPromptText("vec" + (i - 3));
       }
     }
+
+    GridPane matrixInput = new GridPane();
+    matrixInput.add(affineInputBars[0], 0, 0);
+    matrixInput.add(affineInputBars[1], 1, 0);
+    matrixInput.add(affineInputBars[2], 0, 1);
+    matrixInput.add(affineInputBars[3], 1, 1);
+    matrixInput.setHgap(10);
+    matrixInput.setVgap(10);
+    matrixInput.setAlignment(javafx.geometry.Pos.CENTER);
+
+
+    Label matrixInputText = new Label("Matrix");
+    matrixInputText.getStyleClass().add("popup-text-small");
+    VBox matrixInputWrapper = new VBox();
+    matrixInputWrapper.getChildren().addAll(matrixInputText, matrixInput);
+    matrixInputWrapper.setAlignment(javafx.geometry.Pos.CENTER);
+    matrixInputWrapper.setSpacing(10);
+
+    Label vectorInputText = new Label("Vector");
+    vectorInputText.getStyleClass().add("popup-text-small");
+    VBox vectorInputWrapper = new VBox();
+    vectorInputWrapper.getChildren().addAll(
+        vectorInputText,
+        affineInputBars[4],
+        affineInputBars[5]);
+    vectorInputWrapper.setAlignment(javafx.geometry.Pos.CENTER);
+    vectorInputWrapper.setSpacing(10);
+
     HBox affineInputWrapper = new HBox();
-    affineInputWrapper.getChildren().addAll(affineInputBars);
+    affineInputWrapper.getChildren().addAll(matrixInputWrapper, vectorInputWrapper);
     affineInputWrapper.setAlignment(javafx.geometry.Pos.CENTER);
-    affineInputWrapper.setSpacing(10);
+    affineInputWrapper.setSpacing(30);
 
     SecondaryButton addTransformButton = new SecondaryButton("Add Transform");
     addTransformButton.setOnAction(e -> editController.addAffineTransform());
@@ -164,9 +207,8 @@ public class EditPopup extends StackPane  {
 
     affineWrapper = new VBox();
     affineWrapper.getChildren().addAll(
-        affineInputTextWrapper,
-        prevButtonWrapper,
         transformInputTextWrapper,
+        prevButtonWrapper,
         affineInputWrapper,
         nextButtonWrapper,
         transformAmountButtonsWrapper);
@@ -181,6 +223,7 @@ public class EditPopup extends StackPane  {
     saveButton.setOnAction(e -> editController.saveEdit());
     AnchorPane saveButtonWrapper = new AnchorPane();
     saveButtonWrapper.getChildren().add(saveButton);
+    saveButtonWrapper.setMinHeight(50);
     AnchorPane.setBottomAnchor(saveButton, 10.0);
     AnchorPane.setRightAnchor(saveButton, 10.0);
 
@@ -195,7 +238,7 @@ public class EditPopup extends StackPane  {
         transformButtonsWrapper,
         transformWrapper,
         saveButtonWrapper);
-    editWrapper.setSpacing(10);
+    editWrapper.setSpacing(15);
 
     this.getStyleClass().add("edit-popup");
     this.getChildren().add(editWrapper);
