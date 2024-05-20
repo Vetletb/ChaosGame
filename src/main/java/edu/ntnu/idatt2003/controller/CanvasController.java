@@ -1,56 +1,31 @@
 package edu.ntnu.idatt2003.controller;
 
-import edu.ntnu.idatt2003.exceptions.CouldNotWriteException;
-import edu.ntnu.idatt2003.exceptions.EmptyListException;
 import edu.ntnu.idatt2003.exceptions.InvalidPositiveIntException;
-import edu.ntnu.idatt2003.exceptions.InvalidSignException;
-import edu.ntnu.idatt2003.exceptions.InvalidTypeException;
-import edu.ntnu.idatt2003.exceptions.InvalidVectorRangeException;
-import edu.ntnu.idatt2003.exceptions.IsNullException;
-import edu.ntnu.idatt2003.exceptions.WrongFileFormatException;
 import edu.ntnu.idatt2003.model.game.ChaosGame;
-import edu.ntnu.idatt2003.model.game.ChaosGameDescription;
-import edu.ntnu.idatt2003.model.game.ChaosGameDescriptionFactory;
-import edu.ntnu.idatt2003.model.io.ChaosGameFileHandler;
 import edu.ntnu.idatt2003.util.ExceptionLogger;
-import edu.ntnu.idatt2003.view.components.TopBar;
 import edu.ntnu.idatt2003.view.components.ViewCanvas;
-import java.io.File;
-import java.io.FileNotFoundException;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 
 /**
- * The controller class for the chaos game.
+ * The controller for the canvas in the chaos game.
  */
-public class ChaosGameController {
+public class CanvasController {
 
   //Constants for the animation
   public static int RUN_SECONDS = 3;
   public static int FPS = 60;
   public static double K = 0.05;
 
-  //Constant for unexpected exceptions not caused by the user
-  public static final String UNEXPECTED_EXCEPTION =
-      "Something went wrong. Please try again or restart.";
-
   private ChaosGame chaosGame;
-  private Timeline timeline;
   private final ViewCanvas viewCanvas;
-  private final TopBar topBar;
-  private  ExceptionLogger exceptionLogger;
+  private Timeline timeline;
+  private ExceptionLogger exceptionLogger;
   private MessageController messageController;
-  private EditController editController;
 
-  /**
-   * Constructor for the ChaosGameController class.
-   *
-   * @param viewCanvas the view canvas to draw on.
-   */
-  public ChaosGameController(ViewCanvas viewCanvas, TopBar topBar) {
+  public CanvasController(ViewCanvas viewCanvas) {
     this.viewCanvas = viewCanvas;
-    this.topBar = topBar;
   }
 
   /**
@@ -81,78 +56,11 @@ public class ChaosGameController {
   }
 
   /**
-   * Sets the edit controller to a new edit controller.
-   *
-   * @param editController the edit controller to be set
-   */
-  public void setEditController(EditController editController) {
-    this.editController = editController;
-  }
-
-  /**
-   * Gets the edit controller.
-   *
-   * @return the edit controller
-   */
-  public EditController getEditController() {
-    return editController;
-  }
-
-  /**
-   * Resets the chaos game with a new description.
-   *
-   * @param description the description to be set
-   */
-  public void resetChaosGameWithDescription(String description) {
-    try {
-      ChaosGameDescription newDescription = ChaosGameDescriptionFactory.get(description);
-      chaosGame.resetGameWithDescription(newDescription);
-      stopTimeline();
-      messageController.showSuccessPopup(description + " loaded successfully");
-    } catch (IsNullException | InvalidVectorRangeException | EmptyListException
-             | InvalidSignException | InvalidTypeException e) {
-      exceptionLogger.logSevere(e);
-      messageController.showErrorPopup(UNEXPECTED_EXCEPTION);
-    }
-  }
-
-  /**
-   * Resets the chaos game.
-   */
-  public void resetChaosGame() {
-    stopTimeline();
-    chaosGame.resetGame();
-  }
-
-  /**
    * Resets the gui canvas.
    */
   public void resetViewCanvas() {
+    stopTimeline();
     viewCanvas.reset();
-  }
-
-  /**
-   * Reads a description from a file and resets the chaos game with the new description.
-   *
-   * @param file the file to read the description from
-   */
-  public void resetChaosGameWithFile(File file) {
-    try {
-      ChaosGameFileHandler fileHandler = new ChaosGameFileHandler();
-      ChaosGameDescription newDescription = fileHandler.readFromFile(file);
-      chaosGame.resetGameWithDescription(newDescription);
-      messageController.showSuccessPopup("File loaded successfully");
-    } catch (IsNullException | InvalidVectorRangeException
-             | EmptyListException | InvalidSignException e) {
-      exceptionLogger.logSevere(e);
-      messageController.showErrorPopup(e.getMessage());
-    } catch (FileNotFoundException e) {
-      exceptionLogger.logWarning(e);
-      messageController.showErrorPopup("File not found");
-    } catch (WrongFileFormatException e) {
-      exceptionLogger.logWarning(e);
-      messageController.showErrorPopup(e.getMessage());
-    }
   }
 
   /**
@@ -179,7 +87,7 @@ public class ChaosGameController {
   /**
    * Draws the current pixel on the viewCanvas.
    */
-  void drawCurrentPixel() {
+  public void drawCurrentPixel() {
     drawPixel(chaosGame.getCanvas().getNewPixel());
   }
 
@@ -219,7 +127,8 @@ public class ChaosGameController {
     final int [] totalSteps = {0};
     timeline = new Timeline();
     KeyFrame keyFrame = new KeyFrame(Duration.millis(1000.0 / FPS), e -> {
-      int steps = (int) (iterations * K / Math.exp(FPS * RUN_SECONDS * K) * Math.exp(K * x[0]));
+      int steps = (int)
+          (iterations * K / (Math.exp(FPS * RUN_SECONDS * K) - 1) * Math.exp(K * x[0]));
       try {
         if (steps != 0) {
           long startTime = System.currentTimeMillis();
@@ -233,7 +142,7 @@ public class ChaosGameController {
         }
       } catch (InvalidPositiveIntException ex) {
         exceptionLogger.logSevere(ex);
-        messageController.showErrorPopup(UNEXPECTED_EXCEPTION);
+        messageController.showErrorPopup(MainController.UNEXPECTED_EXCEPTION);
         timeline.stop();
       }
       x[0]++;
@@ -248,7 +157,7 @@ public class ChaosGameController {
         }
       } catch (InvalidPositiveIntException ex) {
         exceptionLogger.logSevere(ex);
-        messageController.showErrorPopup(UNEXPECTED_EXCEPTION);
+        messageController.showErrorPopup(MainController.UNEXPECTED_EXCEPTION);
       }
     });
     timeline.play();
@@ -260,20 +169,6 @@ public class ChaosGameController {
   private void stopTimeline() {
     if (timeline != null && timeline.getStatus() == Timeline.Status.RUNNING) {
       timeline.stop();
-    }
-  }
-
-  /**
-   * Method for running the animation with a given number of iterations
-   * from the top bar.
-   */
-  public void runAnimation() {
-    try {
-      int iterations = Integer.parseInt(topBar.getIterations());
-      animateIterations(iterations);
-    } catch (NumberFormatException e) {
-      exceptionLogger.logWarning(e);
-      messageController.showErrorPopup("Input must be a number");
     }
   }
 
@@ -291,21 +186,4 @@ public class ChaosGameController {
       }
     }
   }
-
-  /**
-   * Writes the set description of the chaos game to a file.
-   *
-   * @param file the file to write to
-   */
-  public void writeChaosGameToFile(File file)  {
-    ChaosGameFileHandler fileHandler = new ChaosGameFileHandler();
-    try {
-      fileHandler.writeToFile(chaosGame.getDescriptions(), file);
-      messageController.showSuccessPopup("File written successfully");
-    } catch (CouldNotWriteException e) {
-      exceptionLogger.logSevere(e);
-      messageController.showErrorPopup(UNEXPECTED_EXCEPTION);
-    }
-  }
 }
-

@@ -15,5 +15,5 @@ public class CloseButton extends Button {
     this.getStyleClass().add("close-button");
     this.setMinSize(30, 30);
     this.setMaxSize(30, 30);
-    }
+  }
 }

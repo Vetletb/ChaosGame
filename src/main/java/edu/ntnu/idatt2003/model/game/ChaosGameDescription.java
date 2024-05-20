@@ -69,21 +69,6 @@ public class ChaosGameDescription {
   }
 
   /**
-   * Validates if the minimum coordinates are less than the maximum coordinates.
-   *
-   * @param minCoords the minimum coordinates.
-   * @param maxCoords the maximum coordinates.
-   *
-   * @throws InvalidVectorRangeException if minCoords is greater than or equal to maxCoords
-   */
-  private void validateCoordinates(Vector2D minCoords, Vector2D maxCoords)
-      throws InvalidVectorRangeException {
-    if (minCoords.getX0() >= maxCoords.getX0() || minCoords.getX1() >= maxCoords.getX1()) {
-      throw new InvalidVectorRangeException("minCoords must be less than maxCoords");
-    }
-  }
-
-  /**
    * Compares this object to another object.
    *
    * @param obj the object to compare to.

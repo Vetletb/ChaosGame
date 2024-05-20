@@ -26,41 +26,47 @@ public class MainController implements Observer {
   public static final String UNEXPECTED_EXCEPTION =
       "Something went wrong. Please try again or restart.";
 
-  private final ChaosGameController chaosGameController;
+  private final TopBarController topBarController;
   private final EditController editController;
+  private final CanvasController canvasController;
   private final MessageController messageController;
   private final ExceptionLogger exceptionLogger;
 
   /**
    * Constructor for the MainController class.
    *
-   * @param chaosGameController the chaos game controller
+   * @param topBarController the chaos game controller
    * @param editController the edit controller
    * @param messageController the message controller
    */
-  public MainController(ChaosGameController chaosGameController, EditController editController,
-                        MessageController messageController) {
-    this.chaosGameController = chaosGameController;
+  public MainController(TopBarController topBarController, EditController editController,
+                        MessageController messageController, CanvasController canvasController) {
+    this.topBarController = topBarController;
     this.editController = editController;
+    this.canvasController = canvasController;
     this.messageController = messageController;
     exceptionLogger = new ExceptionLogger("ChaosGameController");
     try {
       ChaosGame chaosGame = new ChaosGame(ChaosGameDescriptionFactory.get(
           START_DESCRIPTION), CHAOS_GAME_WIDTH, CHAOS_GAME_HEIGHT);
       chaosGame.attach(this);
-      this.chaosGameController.setChaosGame(chaosGame);
+      this.topBarController.setChaosGame(chaosGame);
       this.editController.setChaosGame(chaosGame);
+      this.canvasController.setChaosGame(chaosGame);
       this.editController.updateEditPopup();
     } catch (EmptyListException | InvalidVectorRangeException | InvalidSignException
              | IsNullException | InvalidTypeException | InvalidPositiveIntException e) {
       exceptionLogger.logSevere(e);
       messageController.showErrorPopup(UNEXPECTED_EXCEPTION);
     }
-    this.chaosGameController.setLogger(exceptionLogger);
-    this.chaosGameController.setMessageController(messageController);
-    this.chaosGameController.setEditController(editController);
+    this.topBarController.setLogger(exceptionLogger);
+    this.topBarController.setMessageController(messageController);
+    this.topBarController.setEditController(editController);
+    this.topBarController.setCanvasController(canvasController);
     this.editController.setLogger(exceptionLogger);
     this.editController.setMessageController(messageController);
+    this.canvasController.setLogger(exceptionLogger);
+    this.canvasController.setMessageController(messageController);
   }
 
   /**
@@ -72,8 +78,8 @@ public class MainController implements Observer {
   @Override
   public void update(String updated) {
     switch (updated) {
-      case "clearGame" -> chaosGameController.resetViewCanvas();
-      case "putPixel" -> chaosGameController.drawCurrentPixel();
+      case "clearGame" -> canvasController.resetViewCanvas();
+      case "putPixel" -> canvasController.drawCurrentPixel();
       case "setDescription" -> editController.updateEditPopup();
       default -> {
         try {

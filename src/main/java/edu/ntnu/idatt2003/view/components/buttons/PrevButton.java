@@ -13,5 +13,5 @@ public class PrevButton extends Button {
   public PrevButton() {
     super();
     this.getStyleClass().add("prev-button");
-    }
+  }
 }

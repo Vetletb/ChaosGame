@@ -7,8 +7,6 @@ import edu.ntnu.idatt2003.exceptions.PixelOutOfBoundsException;
 import edu.ntnu.idatt2003.model.math.mathModel.Vector2D;
 import edu.ntnu.idatt2003.model.math.transformation.Transform2D;
 import edu.ntnu.idatt2003.util.InputValidation;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 /**

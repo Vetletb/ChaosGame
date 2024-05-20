@@ -1,6 +1,6 @@
 package edu.ntnu.idatt2003.view.components;
 
-import edu.ntnu.idatt2003.controller.ChaosGameController;
+import edu.ntnu.idatt2003.controller.TopBarController;
 import edu.ntnu.idatt2003.view.components.buttons.PrimaryButton;
 import edu.ntnu.idatt2003.view.components.buttons.SecondaryButton;
 import edu.ntnu.idatt2003.view.components.input.InputBar;
@@ -17,7 +17,7 @@ import javafx.stage.Window;
  * editing and running the chaos game.
  */
 public class TopBar extends StackPane {
-  private ChaosGameController controller;
+  private TopBarController controller;
   private Window ownerWindow;
   private final InputBar iterationsField;
 
@@ -75,7 +75,6 @@ public class TopBar extends StackPane {
 
     iterationsField = new InputBar();
     iterationsField.setPromptText("Iterations");
-    iterationsField.setText("100000");
 
     Button runButton = new PrimaryButton("Run");
     runButton.setOnAction(e -> {
@@ -117,10 +116,10 @@ public class TopBar extends StackPane {
   /**
    * Sets the chaos game controller.
    *
-   * @param chaosGameController the chaos game controller to be set
+   * @param topBarController the chaos game controller to be set
    */
-  public void setChaosGameController(ChaosGameController chaosGameController) {
-    this.controller = chaosGameController;
+  public void setChaosGameController(TopBarController topBarController) {
+    this.controller = topBarController;
   }
 
   /**

@@ -13,5 +13,5 @@ public class NextButton extends Button {
   public NextButton() {
     super();
     this.getStyleClass().add("next-button");
-    }
+  }
 }
