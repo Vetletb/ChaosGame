@@ -75,7 +75,6 @@ public class TopBar extends StackPane {
 
     iterationsField = new InputBar();
     iterationsField.setPromptText("Iterations");
-    iterationsField.setText("100000");
 
     Button runButton = new PrimaryButton("Run");
     runButton.setOnAction(e -> {
