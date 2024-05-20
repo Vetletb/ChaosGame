@@ -99,7 +99,8 @@ public class InputValidation {
   public static void validateVectorRange(Vector2D minCoords, Vector2D maxCoords)
       throws InvalidVectorRangeException {
     if (minCoords.getX0() >= maxCoords.getX0() || minCoords.getX1() >= maxCoords.getX1()) {
-      throw new InvalidVectorRangeException("Minimum coordinates must be less than maximum coordinates");
+      throw new InvalidVectorRangeException(
+          "Minimum coordinates must be less than maximum coordinates");
     }
   }
 }

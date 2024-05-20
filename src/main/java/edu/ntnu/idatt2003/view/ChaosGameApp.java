@@ -1,9 +1,10 @@
 package edu.ntnu.idatt2003.view;
 
-import edu.ntnu.idatt2003.controller.ChaosGameController;
+import edu.ntnu.idatt2003.controller.CanvasController;
 import edu.ntnu.idatt2003.controller.EditController;
 import edu.ntnu.idatt2003.controller.MainController;
 import edu.ntnu.idatt2003.controller.MessageController;
+import edu.ntnu.idatt2003.controller.TopBarController;
 import edu.ntnu.idatt2003.view.components.TopBar;
 import edu.ntnu.idatt2003.view.components.ViewCanvas;
 import edu.ntnu.idatt2003.view.components.popups.EditPopup;
@@ -27,8 +28,9 @@ public class ChaosGameApp extends Application {
   ErrorPopup errorPopup;
   SuccessPopup successPopup;
   EditPopup editPopup;
-  ChaosGameController chaosGameController;
+  TopBarController topBarController;
   EditController editController;
+  CanvasController canvasController;
   MessageController messageController;
 
   /**
@@ -44,13 +46,14 @@ public class ChaosGameApp extends Application {
     editPopup = new EditPopup();
     topBar = new TopBar();
 
-    chaosGameController = new ChaosGameController(viewCanvas, topBar);
+    topBarController = new TopBarController(topBar);
     editController = new EditController(editPopup);
+    canvasController = new CanvasController(viewCanvas);
     messageController = new MessageController(successPopup, errorPopup);
-    new MainController(chaosGameController, editController, messageController);
+    new MainController(topBarController, editController, messageController, canvasController);
 
     editPopup.setPopupController(editController);
-    topBar.setChaosGameController(chaosGameController);
+    topBar.setChaosGameController(topBarController);
 
     canvasWrapper = new StackPane();
     canvasWrapper.getChildren().add(viewCanvas.getCanvas());
@@ -92,6 +95,6 @@ public class ChaosGameApp extends Application {
     viewCanvas.getCanvas().setWidth(minSize - 20);
     viewCanvas.getCanvas().setHeight(minSize - 20);
     viewCanvas.reset();
-    chaosGameController.rescaleCanvas();
+    canvasController.rescaleCanvas();
   }
 }
