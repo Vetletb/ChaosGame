@@ -151,7 +151,6 @@ public class CanvasController {
     timeline.getKeyFrames().add(keyFrame);
     timeline.setCycleCount(FPS * RUN_SECONDS);
     timeline.setOnFinished(e -> {
-      System.out.println("Total steps: " + totalSteps[0]);
       try {
         if (iterations - totalSteps[0] > 0) {
           chaosGame.runSteps(iterations - totalSteps[0]);
