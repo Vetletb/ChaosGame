@@ -28,8 +28,8 @@ public class AffineTransform2D implements Transform2D {
   @Override
   public Vector2D transform(Vector2D point) {
     Vector2D ax = matrix.multiply(point);
-    Vector2D vector = new Vector2D(this.vector.getX0(), this.vector.getX1());
-    return vector.add(ax);
+    Vector2D vector2 = new Vector2D(this.vector.getX0(), this.vector.getX1());
+    return vector2.add(ax);
   }
 
   /**

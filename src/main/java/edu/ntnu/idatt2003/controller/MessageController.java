@@ -1,14 +1,13 @@
 package edu.ntnu.idatt2003.controller;
 
-import edu.ntnu.idatt2003.view.components.popups.ErrorPopup;
-import edu.ntnu.idatt2003.view.components.popups.SuccessPopup;
+import edu.ntnu.idatt2003.view.components.popups.MessagePopup;
 
 /**
  * A controller for displaying messages to the user. Shows error and success popups.
  */
 public class MessageController {
-  private final SuccessPopup successPopup;
-  private final ErrorPopup errorPopup;
+  private final MessagePopup successPopup;
+  private final MessagePopup errorPopup;
 
   /**
    * Constructor for the MessageController class.
@@ -16,7 +15,7 @@ public class MessageController {
    * @param successPopup the success popup to be shown
    * @param errorPopup the error popup to be shown
    */
-  public MessageController(SuccessPopup successPopup, ErrorPopup errorPopup) {
+  public MessageController(MessagePopup successPopup, MessagePopup errorPopup) {
     this.successPopup = successPopup;
     this.errorPopup = errorPopup;
   }

@@ -20,6 +20,12 @@ import java.util.List;
 public class ChaosGameDescriptionFactory {
 
   /**
+   * Private constructor to prevent instantiation of the class.
+   */
+  private ChaosGameDescriptionFactory() {
+  }
+
+  /**
    * Returns a ChaosGameDescription object based on the given type.
    *
    * @param type the type of chaos game to create.

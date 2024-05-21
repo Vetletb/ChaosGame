@@ -8,8 +8,8 @@ import javafx.scene.paint.Color;
  * A class for the canvas in the view.
  */
 public class ViewCanvas {
-  Canvas canvas;
-  GraphicsContext gc;
+  private final Canvas canvas;
+  private final GraphicsContext gc;
 
   /**
    * Constructor for the ViewCanvas class.

@@ -17,7 +17,7 @@ public class ErrorPopup extends MessagePopup {
    */
   @Override
   void setWrapperStyle() {
-    messageWrapper.getStyleClass().add("error-popup");
+    getMessageWrapper().getStyleClass().add("error-popup");
   }
 }
 

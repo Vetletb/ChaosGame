@@ -6,7 +6,7 @@ import javafx.scene.control.TextField;
  * A text field for input.
  */
 public class InputBar extends TextField {
-  private static final int MAX_CHARS = 10;
+  private static final int MAX_CHARS = 9;
 
   /**
    * Constructor for the InputBar class.

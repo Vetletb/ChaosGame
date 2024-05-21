@@ -122,12 +122,13 @@ public class ChaosGameFileHandler {
           continue;
         }
         lines.add(new ArrayList<>());
-        Scanner lineScanner = new Scanner(line);
-        while (lineScanner.hasNext()) {
-          lineScanner.useDelimiter(", ");
-          lines.get(i).add(lineScanner.next());
+        try (Scanner lineScanner = new Scanner(line)) {
+          while (lineScanner.hasNext()) {
+            lineScanner.useDelimiter(", ");
+            lines.get(i).add(lineScanner.next());
+          }
+          i++;
         }
-        i++;
       }
     } catch (FileNotFoundException e) {
       throw new FileNotFoundException("File not found");
