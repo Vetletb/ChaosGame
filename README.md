@@ -10,3 +10,11 @@ Clone the repository to your local computer and make sure you have Java JDK inst
 Either run the program in an IDE with integrated maven support or install maven to your computer.  
 Then run the following command in the terminal in the project root directory or IDE terminal:  
 mvn javafx:run
+
+## Examples of fractals
+
+![Barnsley.png](src/main/resources/Images/Barnsley.png)
+
+![Julia.png](src/main/resources/Images/Julia.png)
+
+![Sierpinski.png](src/main/resources/Images/Sierpinski.png)
