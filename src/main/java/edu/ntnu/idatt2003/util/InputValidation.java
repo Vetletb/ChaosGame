@@ -15,6 +15,12 @@ import java.util.List;
 public class InputValidation {
 
   /**
+   * Private constructor to prevent instantiation of the class.
+   */
+  private InputValidation() {
+  }
+
+  /**
    * Validates that an object is not null.
    *
    * @param object to be validated

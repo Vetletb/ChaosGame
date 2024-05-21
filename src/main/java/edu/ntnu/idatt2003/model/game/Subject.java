@@ -8,12 +8,12 @@ import java.util.List;
  */
 public abstract class Subject {
 
-  List<Observer> observers;
+  private final List<Observer> observers;
 
   /**
    * Constructor for the Subject class.
    */
-  public Subject() {
+  protected Subject() {
     observers = new ArrayList<>();
   }
 

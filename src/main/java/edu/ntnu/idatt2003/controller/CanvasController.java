@@ -14,9 +14,9 @@ import javafx.util.Duration;
 public class CanvasController {
 
   //Constants for the animation
-  public static int RUN_SECONDS = 3;
-  public static int FPS = 60;
-  public static double K = 0.05;
+  public static final int RUN_SECONDS = 3;
+  public static final int FPS = 60;
+  public static final double K = 0.05;
 
   private ChaosGame chaosGame;
   private final ViewCanvas viewCanvas;

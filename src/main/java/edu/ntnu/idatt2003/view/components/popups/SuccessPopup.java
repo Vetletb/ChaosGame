@@ -14,6 +14,6 @@ public class SuccessPopup extends MessagePopup {
    */
   @Override
   void setWrapperStyle() {
-    messageWrapper.getStyleClass().add("success-popup");
+    getMessageWrapper().getStyleClass().add("success-popup");
   }
 }

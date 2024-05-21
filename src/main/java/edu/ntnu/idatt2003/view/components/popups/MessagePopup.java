@@ -10,14 +10,14 @@ import javafx.util.Duration;
  * A popup that displays a message to the user.
  */
 public abstract class MessagePopup extends StackPane {
-  StackPane messageWrapper;
-  Label message;
-  PauseTransition pause;
+  private final StackPane messageWrapper;
+  private final Label message;
+  private PauseTransition pause;
 
   /**
    * Creates a new message popup with the given message and owner window.
    */
-  public MessagePopup() {
+  protected MessagePopup() {
     super();
     message = new Label();
     message.getStyleClass().add("popup-message");
@@ -32,9 +32,18 @@ public abstract class MessagePopup extends StackPane {
     this.setVisible(false);
   }
 
+  public StackPane getMessageWrapper() {
+    return messageWrapper;
+  }
+
+  /**
+   * Sets the text of the popup.
+   *
+   * @param message the message to be shown
+   */
   public void setText(String message) {
     this.message.setText(message);
-    messageWrapper.setMaxSize(message.length() * 9, 50);
+    messageWrapper.setMaxSize(message.length() * 9.0, 50);
   }
 
   /**

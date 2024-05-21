@@ -92,8 +92,8 @@ public class ChaosGameApp extends Application {
     int minSize = (scene.getWidth() <= scene.getHeight() - topBar.getHeight())
         ? (int) scene.getWidth() : (int) scene.getHeight() - (int) topBar.getHeight();
     canvasWrapper.setMinSize(minSize, minSize);
-    viewCanvas.getCanvas().setWidth(minSize - 20);
-    viewCanvas.getCanvas().setHeight(minSize - 20);
+    viewCanvas.getCanvas().setWidth(minSize - 20.0);
+    viewCanvas.getCanvas().setHeight(minSize - 20.0);
     viewCanvas.reset();
     canvasController.rescaleCanvas();
   }
